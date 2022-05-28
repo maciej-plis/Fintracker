@@ -1,0 +1,1 @@
+export { isNonNull } from './functions';

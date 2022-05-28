@@ -1,0 +1,39 @@
+:host {
+  display: contents;
+}
+
+main {
+  height: 100%;
+  padding: 4em;
+}
+
+form {
+  height: 100%;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+
+  height: 98%;
+  padding: 2em;
+}
+
+.row:nth-child(1) {
+  height: 15%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+
+  margin-bottom: 2em;
+
+  & > .group {
+    display: flex;
+    gap: 2em;
+  }
+}
+
+.row:nth-child(2) {
+  height: 70%;
+}

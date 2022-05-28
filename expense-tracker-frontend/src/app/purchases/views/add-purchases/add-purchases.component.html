@@ -1,0 +1,35 @@
+<main>
+  <form #form="ngForm" (ngSubmit)="onPurchasesSave()" [formGroup]="purchasesForm">
+    <div class="row">
+      <div class="group purchases-details">
+        <mat-form-field class="purchase-shop" appearance="fill">
+          <mat-label>Purchase shop</mat-label>
+          <mat-select #purchaseShop formControlName="shop" (selectionChange)="openAddShopDialog($event)">
+            <mat-option *ngFor="let shop of shops" [value]="shop">
+              {{shop.name}}
+            </mat-option>
+            <mat-option value="ADD_SHOP">Add Shop</mat-option>
+          </mat-select>
+          <mat-error *ngIf="purchasesForm.controls['shop'].hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="purchases-date" appearance="fill">
+          <mat-label>Purchase date</mat-label>
+          <input #purchaseDate matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" formControlName="date" autocomplete="off">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="purchasesForm.controls['date'].hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+        <mat-error *ngIf="purchasesForm.controls['purchases'].hasError('notEmpty') && purchasesForm.controls['purchases'].touched">At least one purchase is required</mat-error>
+        <mat-error *ngIf="purchasesForm.controls['purchases'].hasError('unfilled') && form.submitted">Please fill all required columns</mat-error>
+      </div>
+      <div class="group">
+        <button type="submit" class="save-purchases" mat-raised-button tabindex="1">
+          Save Expenses
+        </button>
+      </div>
+    </div>
+    <div class="row input-table">
+      <app-purchases-input-table #purchasesTable formControlName="purchases"></app-purchases-input-table>
+    </div>
+  </form>
+</main>

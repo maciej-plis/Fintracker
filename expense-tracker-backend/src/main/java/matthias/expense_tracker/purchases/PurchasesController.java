@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin("*")
@@ -19,12 +21,12 @@ class PurchasesController implements PurchasesApi {
     @Override
     @PostMapping
     public ResponseEntity<PurchaseGroupDto> addPurchaseGroup(PurchaseGroupDto purchaseGroupDto) {
-        return ResponseEntity.ok(purchasesService.addPurchases(purchaseGroupDto));
+        return ok(purchasesService.addPurchases(purchaseGroupDto));
     }
 
     @Override
     @GetMapping("query-names")
     public ResponseEntity<List<String>> queryPurchaseNames(@RequestParam String query) {
-        return ResponseEntity.ok(purchasesService.queryPurchaseNames(query));
+        return ok(purchasesService.queryPurchaseNames(query));
     }
 }

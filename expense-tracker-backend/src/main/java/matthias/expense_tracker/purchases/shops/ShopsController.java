@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin("*")
@@ -19,12 +21,12 @@ class ShopsController implements ShopsApi {
     @Override
     @GetMapping
     public ResponseEntity<List<ShopDto>> getPurchaseShops() {
-        return ResponseEntity.ok(shopsService.getPurchaseShops());
+        return ok(shopsService.getPurchaseShops());
     }
 
     @Override
     @PostMapping
     public ResponseEntity<ShopDto> addPurchaseShop(@RequestBody ShopDto shop) {
-        return ResponseEntity.ok(shopsService.addPurchaseShop(shop));
+        return ok(shopsService.addPurchaseShop(shop));
     }
 }

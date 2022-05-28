@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin("*")
@@ -19,13 +21,13 @@ class CategoriesController implements CategoriesApi {
     @Override
     @GetMapping
     public ResponseEntity<List<CategoryDto>> getPurchaseCategories() {
-        return ResponseEntity.ok(expensesService.getPurchaseCategories());
+        return ok(expensesService.getPurchaseCategories());
     }
 
     @Override
     @PostMapping
     public ResponseEntity<CategoryDto> addPurchaseCategory(@RequestBody CategoryDto categoryDto) {
-        return ResponseEntity.ok(expensesService.addPurchaseCategory(categoryDto));
+        return ok(expensesService.addPurchaseCategory(categoryDto));
     }
 }
 

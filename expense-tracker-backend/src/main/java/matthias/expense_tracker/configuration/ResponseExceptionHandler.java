@@ -15,7 +15,7 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityExistsException.class)
-    ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
+    ResponseEntity<Object> handleConflict(EntityExistsException ex, WebRequest request) {
         return handleExceptionInternal(ex, "Conflict (403)", new HttpHeaders(), CONFLICT, request);
     }
 }

@@ -2,19 +2,19 @@ openapi: '3.0.3'
 
 servers:
   - url: http://localhost:8080
-    description: "Local instance"
+    description: "Url used for development"
   - url: http://localhost:8081
-    description: "Production instance"
+    description: "Url used for production"
 
 info:
   version: 0.0.5-SNAPSHOT
-  title: Expense Tracker API
+  title: Expense Tracker API Contract
 
 paths:
   /purchases:
     $ref: './paths/purchases/purchases.yaml'
-  /purchases/query-names:
-    $ref: './paths/purchases/QueryPurchaseNames.yaml'
+  /purchases/products/names:
+    $ref: './paths/purchases/products/names.yaml'
   /purchases/shops:
     $ref: './paths/purchases/shops/shops.yaml'
   /purchases/categories:
@@ -22,10 +22,14 @@ paths:
 
 components:
   schemas:
-    PurchaseGroupDto:
-      $ref: './schemas/purchases/PurchaseGroupDto.yaml'
     PurchaseDto:
       $ref: './schemas/purchases/PurchaseDto.yaml'
+    ProductsList:
+      $ref: './schemas/purchases/products/ProductsList.yaml'
+    ProductNamesList:
+      $ref: './schemas/purchases/products/ProductNamesList.yaml'
+    ProductDto:
+      $ref: './schemas/purchases/products/ProductDto.yaml'
     ShopsList:
       $ref: './schemas/purchases/shops/ShopsList.yaml'
     ShopDto:
@@ -34,3 +38,7 @@ components:
       $ref: './schemas/purchases/categories/CategoriesList.yaml'
     CategoryDto:
       $ref: './schemas/purchases/categories/CategoryDto.yaml'
+    ErrorMessage:
+      $ref: './schemas/common/ErrorMessage.yaml'
+    ValidationError:
+      $ref: './schemas/common/ValidationError.yaml'

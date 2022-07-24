@@ -40,13 +40,13 @@ clean {
 }
 
 openApiValidate {
-    inputSpec = "$rootDir/api/apiSchema.yaml"
+    inputSpec = "$rootDir/openApi/schema.yaml"
 }
 
 openApiGenerate {
     generatorName = "spring"
     library = "spring-boot"
-    inputSpec = "$rootDir/api/apiSchema.yaml"
+    inputSpec = "$rootDir/openApi/schema.yaml"
     outputDir = "$projectDir"
     globalProperties = [
             modelDocs      : "false",

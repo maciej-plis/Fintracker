@@ -1,0 +1,24 @@
+get:
+  summary: Get list of distinct product names
+  tags: [ products ]
+  operationId: getProductNames
+  parameters:
+    - in: query
+      required: true
+      name: query
+      schema:
+        type: string
+      description: RSQL query string to filter products
+  responses:
+    200:
+      description: (OK) Success response containing list of distinct product names
+      content:
+        application/json:
+          schema:
+            $ref: '../../../schemas/purchases/products/ProductNamesList.yaml'
+    400:
+      description: (BAD_REQUEST) Failure response when query string is invalid
+      content:
+        application/json:
+          schema:
+            $ref: '../../../schemas/common/ErrorMessage.yaml'

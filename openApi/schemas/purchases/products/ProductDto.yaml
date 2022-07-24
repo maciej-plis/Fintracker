@@ -1,5 +1,3 @@
-openapi: '3.0.3'
-
 required:
   - id
   - name
@@ -23,4 +21,4 @@ properties:
     type: number
     format: double
   category:
-    $ref: './categories/CategoryDto.yaml'
+    $ref: '../categories/CategoryDto.yaml'

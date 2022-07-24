@@ -2,7 +2,7 @@
   "name": "expense-tracker",
   "version": "0.0.5-SNAPSHOT",
   "scripts": {
-    "generate-api": "openapi-generator-cli generate -g typescript-angular -i ../api/apiSchema.yaml -o ./build/expense-tracker-frontend-api",
+    "generate-api": "openapi-generator-cli generate -g typescript-angular -i ../openApi/schema.yaml -o ./build/expense-tracker-frontend-api",
     "ng": "ng",
     "prestart": "npm run generate-api",
     "start": "ng serve",

@@ -1,0 +1,24 @@
+post:
+  summary: Add new purchase
+  tags: [ purchases ]
+  operationId: addPurchase
+  requestBody:
+    description: Request containing new purchase to be added
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../schemas/purchases/PurchaseDto.yaml'
+  responses:
+    200:
+      description: (OK) Success response containing added purchase
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/purchases/PurchaseDto.yaml'
+    400:
+      description: (BAD_REQUEST) Failure response when request body is invalid
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/common/ValidationError.yaml'

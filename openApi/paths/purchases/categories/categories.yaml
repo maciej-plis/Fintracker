@@ -1,0 +1,36 @@
+get:
+  summary: Get list of product categories
+  tags: [ categories ]
+  operationId: getProductCategories
+  responses:
+    200:
+      description: (OK) Success response containing product categories
+      content:
+        application/json:
+          schema:
+            $ref: '../../../schemas/purchases/categories/CategoriesList.yaml'
+
+post:
+  summary:  Add new product category
+  tags: [ categories ]
+  operationId: addProductCategory
+  requestBody:
+    description: Request containing new product category to be added
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../../schemas/purchases/categories/CategoryDto.yaml'
+  responses:
+    200:
+      description: (OK) Success response containing added product category
+      content:
+        application/json:
+          schema:
+            $ref: '../../../schemas/purchases/categories/CategoryDto.yaml'
+    400:
+      description: (BAD_REQUEST) Failure response when request body is invalid
+      content:
+        application/json:
+          schema:
+            $ref: '../../../schemas/common/ValidationError.yaml'

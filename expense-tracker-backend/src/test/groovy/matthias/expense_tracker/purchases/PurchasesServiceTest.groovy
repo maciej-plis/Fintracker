@@ -1,9 +1,9 @@
 package matthias.expense_tracker.purchases
 
-import matthias.expense_tracker.api.model.CategoryDto
-import matthias.expense_tracker.api.model.ProductDto
-import matthias.expense_tracker.api.model.PurchaseDto
-import matthias.expense_tracker.api.model.ShopDto
+import matthias.expense_tracker.openapi.model.CategoryDto
+import matthias.expense_tracker.openapi.model.ProductDto
+import matthias.expense_tracker.openapi.model.PurchaseDto
+import matthias.expense_tracker.openapi.model.ShopDto
 import matthias.expense_tracker.purchases.products.ProductsMapper
 import spock.lang.Specification
 import spock.lang.Subject

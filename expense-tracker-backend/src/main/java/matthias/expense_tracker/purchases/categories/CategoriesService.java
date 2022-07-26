@@ -1,7 +1,7 @@
 package matthias.expense_tracker.purchases.categories;
 
 import lombok.RequiredArgsConstructor;
-import matthias.expense_tracker.api.model.CategoryDto;
+import matthias.expense_tracker.openapi.model.CategoryDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

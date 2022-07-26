@@ -1,6 +1,6 @@
 package matthias.expense_tracker.purchases
 
-import matthias.expense_tracker.api.model.PurchaseDto
+import matthias.expense_tracker.openapi.model.PurchaseDto
 import matthias.expense_tracker.configuration.ResponseExceptionHandler
 import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification

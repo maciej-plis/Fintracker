@@ -1,8 +1,8 @@
 package matthias.expense_tracker.purchases.categories;
 
 import lombok.RequiredArgsConstructor;
-import matthias.expense_tracker.api.CategoriesApi;
-import matthias.expense_tracker.api.model.CategoryDto;
+import matthias.expense_tracker.openapi.api.CategoriesApi;
+import matthias.expense_tracker.openapi.model.CategoryDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,7 +1,7 @@
 package matthias.expense_tracker.purchases.products;
 
 import lombok.RequiredArgsConstructor;
-import matthias.expense_tracker.api.ProductsApi;
+import matthias.expense_tracker.openapi.api.ProductsApi;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

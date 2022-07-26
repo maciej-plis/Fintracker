@@ -1,7 +1,7 @@
 package matthias.expense_tracker.purchases.shops
 
 
-import matthias.expense_tracker.api.model.ShopDto
+import matthias.expense_tracker.openapi.model.ShopDto
 import matthias.expense_tracker.configuration.ResponseExceptionHandler
 import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification

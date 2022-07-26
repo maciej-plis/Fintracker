@@ -1,6 +1,6 @@
 package matthias.expense_tracker.purchases.categories
 
-import matthias.expense_tracker.api.model.CategoryDto
+import matthias.expense_tracker.openapi.model.CategoryDto
 import spock.lang.Specification
 import spock.lang.Subject
 

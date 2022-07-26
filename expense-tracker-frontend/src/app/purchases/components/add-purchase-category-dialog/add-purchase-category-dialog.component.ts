@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
-import {CategoriesService, CategoryDto} from 'build/expense-tracker-frontend-api';
-import {FormBuilder, FormControl, Validators} from "@angular/forms";
-import {HttpErrorResponse} from "@angular/common/http";
-import {ErrorMessages} from "../../../shared/pipes/error-messages-converter.pipe";
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from "@angular/material/dialog";
+import { CategoriesService, CategoryDto } from 'build/expense-tracker-frontend-api';
+import { FormBuilder, FormControl, Validators } from "@angular/forms";
+import { HttpErrorResponse } from "@angular/common/http";
+import { ErrorMessages } from "@shared/pipes/error-messages-converter.pipe";
 
 @Component({
   selector: 'add-purchase-shop-dialog',
@@ -44,7 +44,7 @@ export class AddPurchaseCategoryDialog implements OnInit {
     }
 
     this.categoriesService
-      .addPurchaseCategory({id: "", name: this.categoryForm.value})
+      .addProductCategory({id: "", name: this.categoryForm.value})
       .subscribe({
         next: (savedCategory: CategoryDto) => this.dialogRef.close(savedCategory),
         error: (errResp: HttpErrorResponse) => {

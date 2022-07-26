@@ -2,14 +2,13 @@ package matthias.expense_tracker.purchases;
 
 import lombok.RequiredArgsConstructor;
 import matthias.expense_tracker.api.PurchasesApi;
-import matthias.expense_tracker.api.model.PurchaseGroupDto;
+import matthias.expense_tracker.api.model.PurchaseDto;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
-import java.util.List;
-
-import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RequiredArgsConstructor
@@ -22,13 +21,7 @@ class PurchasesController implements PurchasesApi {
 
     @Override
     @PostMapping
-    public ResponseEntity<PurchaseGroupDto> addPurchaseGroup(PurchaseGroupDto purchaseGroupDto) {
-        return ok(purchasesService.addPurchases(purchaseGroupDto));
-    }
-
-    @Override
-    @GetMapping("query-names")
-    public ResponseEntity<List<String>> queryPurchaseNames(@RequestParam String query) {
-        return ok(purchasesService.queryPurchaseNames(query));
+    public ResponseEntity<PurchaseDto> addPurchase(PurchaseDto purchaseDto) {
+        return ok(purchasesService.addPurchases(purchaseDto));
     }
 }

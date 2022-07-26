@@ -10,10 +10,10 @@ import java.util.List;
 @Mapper
 interface CategoriesMapper {
 
-    CategoryDto toDto(CategoryEntity category);
-
-    List<CategoryDto> toDto(List<CategoryEntity> categories);
-
     @Mapping(target = "id", ignore = true)
     CategoryEntity fromDto(CategoryDto categoryDto);
+
+    CategoryDto toDto(CategoryEntity categoryEntity);
+
+    List<CategoryDto> toDtos(List<CategoryEntity> categoryEntities);
 }

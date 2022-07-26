@@ -15,18 +15,18 @@ class ShopsServiceTest extends Specification {
 
     def shopDto1 = new ShopDto(name: "shop 1")
 
-    ShopsDAO shopsDAO = Mock()
+    ShopsRepository shopsRepository = Mock()
     ShopsMapper shopsMapper = getMapper(ShopsMapper)
 
     @Subject
-    ShopsService shopsService = new ShopsService(shopsDAO, shopsMapper)
+    ShopsService shopsService = new ShopsService(shopsRepository, shopsMapper)
 
     def "Should return list of shops"() {
         when:
             def result = shopsService.getPurchaseShops()
 
         then: "Should get shops"
-            1 * shopsDAO.findAll() >> [
+            1 * shopsRepository.findAll() >> [
                 new ShopEntity(id: idSamples[0], name: "shop 1"),
                 new ShopEntity(id: idSamples[1], name: "shop 2")
             ]
@@ -47,16 +47,16 @@ class ShopsServiceTest extends Specification {
             def result = shopsService.addPurchaseShop(shopDto1)
 
         then: "Should check if shop already exists"
-            1 * shopsDAO.existsByName(shopDto1.name) >> false
+            1 * shopsRepository.existsByName(shopDto1.name) >> false
 
-        and: "Should save entity"
-            1 * shopsDAO.save(_ as ShopEntity) >> { args ->
+        and: "Should save shop"
+            1 * shopsRepository.save(_ as ShopEntity) >> { args ->
                 ShopEntity shop = args[0]
                 shop.id = idSamples[0]
                 return shop
             }
 
-        and: "Should return saved entity"
+        and: "Should return saved shop"
             with(result) {
                 id == idSamples[0]
                 name == "shop 1"
@@ -68,7 +68,7 @@ class ShopsServiceTest extends Specification {
             shopsService.addPurchaseShop(shopDto1)
 
         then: "Should check if shop already exists"
-            1 * shopsDAO.existsByName(shopDto1.name) >> true
+            1 * shopsRepository.existsByName(shopDto1.name) >> true
 
         and: "EntityExistsException is thrown"
             thrown(EntityExistsException)

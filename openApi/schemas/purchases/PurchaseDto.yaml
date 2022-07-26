@@ -2,7 +2,7 @@ required:
   - id
   - date
   - shop
-  - purchases
+  - products
 
 properties:
   id:
@@ -13,5 +13,5 @@ properties:
     format: date
   shop:
     $ref: './shops/ShopDto.yaml'
-  purchases:
+  products:
     $ref: './products/ProductsList.yaml'

@@ -37,7 +37,7 @@ class CategoriesControllerTest extends Specification {
                 .andDo(print())
 
         then: "Should get categories"
-            categoriesService.getPurchaseCategories() >> [
+            categoriesService.getProductCategories() >> [
                 new CategoryDto(id: idSamples[0], name: "category 1"),
                 new CategoryDto(id: idSamples[1], name: "category 2")
             ]
@@ -62,7 +62,7 @@ class CategoriesControllerTest extends Specification {
                 .andDo(print())
 
         then: "Should save new category"
-            categoriesService.addPurchaseCategory(_ as CategoryDto) >> { args ->
+            categoriesService.addProductCategory(_ as CategoryDto) >> { args ->
                 CategoryDto categoryDto = args[0]
                 categoryDto.id = idSamples[0]
                 return categoryDto
@@ -85,7 +85,7 @@ class CategoriesControllerTest extends Specification {
                 .andDo(print())
 
         then: "Should try to save new category"
-            categoriesService.addPurchaseCategory(_ as CategoryDto) >> {
+            categoriesService.addProductCategory(_ as CategoryDto) >> {
                 throw new EntityExistsException("Category already exists")
             }
 

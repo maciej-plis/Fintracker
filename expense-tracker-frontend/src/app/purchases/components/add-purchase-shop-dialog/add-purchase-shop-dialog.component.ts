@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormControl, Validators} from "@angular/forms";
-import {HttpErrorResponse} from "@angular/common/http";
-import {ShopDto, ShopsService} from 'build/expense-tracker-frontend-api';
-import {ErrorMessages} from "../../../shared/pipes/error-messages-converter.pipe";
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from "@angular/material/dialog";
+import { FormBuilder, FormControl, Validators } from "@angular/forms";
+import { HttpErrorResponse } from "@angular/common/http";
+import { ShopDto, ShopsService } from 'build/expense-tracker-frontend-api';
+import { ErrorMessages } from "../../../shared/pipes/error-messages-converter.pipe";
 
 const {required, minLength, maxLength, pattern} = Validators;
 

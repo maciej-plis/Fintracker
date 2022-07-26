@@ -12,21 +12,21 @@ import java.util.List;
 @RequiredArgsConstructor
 class CategoriesService {
 
-    private final CategoriesDAO categoriesDAO;
+    private final CategoriesRepository categoriesRepository;
     private final CategoriesMapper categoriesMapper;
 
-    List<CategoryDto> getPurchaseCategories() {
-        return categoriesMapper.toDto(categoriesDAO.findAll());
+    List<CategoryDto> getProductCategories() {
+        return categoriesMapper.toDtos(categoriesRepository.findAll());
     }
 
     @Transactional
-    public CategoryDto addPurchaseCategory(CategoryDto categoryDto) {
+    public CategoryDto addProductCategory(CategoryDto categoryDto) {
 
-        if (categoriesDAO.existsByName(categoryDto.getName())) {
+        if (categoriesRepository.existsByName(categoryDto.getName())) {
             throw new EntityExistsException("Category with such name already exist");
         }
 
-        CategoryEntity savedCategory = categoriesDAO.save(categoriesMapper.fromDto(categoryDto));
+        CategoryEntity savedCategory = categoriesRepository.save(categoriesMapper.fromDto(categoryDto));
         return categoriesMapper.toDto(savedCategory);
     }
 }

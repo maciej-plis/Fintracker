@@ -12,20 +12,20 @@ import java.util.List;
 @RequiredArgsConstructor
 class ShopsService {
 
-    private final ShopsDAO shopsDAO;
+    private final ShopsRepository shopsRepository;
     private final ShopsMapper shopsMapper;
 
     List<ShopDto> getPurchaseShops() {
-        return shopsMapper.toDto(shopsDAO.findAll());
+        return shopsMapper.toDto(shopsRepository.findAll());
     }
 
     @Transactional
     public ShopDto addPurchaseShop(ShopDto shopDto) {
-        if (shopsDAO.existsByName(shopDto.getName())) {
+        if (shopsRepository.existsByName(shopDto.getName())) {
             throw new EntityExistsException("Shop with such name already exist");
         }
 
-        ShopEntity savedShop = shopsDAO.save(shopsMapper.fromDto(shopDto));
+        ShopEntity savedShop = shopsRepository.save(shopsMapper.fromDto(shopDto));
         return shopsMapper.toDto(savedShop);
     }
 }

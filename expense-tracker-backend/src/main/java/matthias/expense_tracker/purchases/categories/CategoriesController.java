@@ -20,14 +20,14 @@ class CategoriesController implements CategoriesApi {
 
     @Override
     @GetMapping
-    public ResponseEntity<List<CategoryDto>> getPurchaseCategories() {
-        return ok(expensesService.getPurchaseCategories());
+    public ResponseEntity<List<CategoryDto>> getProductCategories() {
+        return ok(expensesService.getProductCategories());
     }
 
     @Override
     @PostMapping
-    public ResponseEntity<CategoryDto> addPurchaseCategory(@RequestBody CategoryDto categoryDto) {
-        return ok(expensesService.addPurchaseCategory(categoryDto));
+    public ResponseEntity<CategoryDto> addProductCategory(@RequestBody CategoryDto categoryDto) {
+        return ok(expensesService.addProductCategory(categoryDto));
     }
 }
 

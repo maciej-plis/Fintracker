@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { PurchaseGroupDto, PurchasesService, ShopDto, ShopsService } from 'build/expense-tracker-frontend-api';
+import { PurchaseDto, PurchasesService, ShopDto, ShopsService } from 'build/expense-tracker-frontend-api';
 import * as moment from 'moment';
 import { locale } from 'moment';
 import { CellProperties } from "handsontable/settings";
@@ -68,11 +68,11 @@ export class AddPurchasesComponent implements OnInit, AfterViewInit {
       .map((c: CellProperties) => c['value'])
       .map((c: string, i: number) => [c, ...this.hot.getDataAtRow(i).slice(1)]) // join categories meta with other columns;
 
-    const purchaseGroup: PurchaseGroupDto = {
+    const purchase: PurchaseDto = {
       id: "",
       shop: this.purchaseShop.value,
       date: moment(this.purchaseDate.nativeElement.value).format("YYYY-MM-DD"),
-      purchases: purchasesData.filter((row: any) => !row.every((cell: any) => cell == null))
+      products: purchasesData.filter((row: any) => !row.every((cell: any) => cell == null))
         .map((row: any) => {
           return {
             id: '',
@@ -85,13 +85,13 @@ export class AddPurchasesComponent implements OnInit, AfterViewInit {
         })
     }
 
-    const total = purchaseGroup.purchases.map(p => p.amount * p.price).reduce((prevVal, val) => prevVal + val);
+    const total = purchase.products.map(p => p.amount * p.price).reduce((prevVal, val) => prevVal + val);
 
     this.dialog
       .open(PurchasesConfirmationDialog, {data: {total}})
       .afterClosed()
       .subscribe(confirmation => {
-        confirmation && this.purchasesService.addPurchaseGroup(purchaseGroup).subscribe(
+        confirmation && this.purchasesService.addPurchase(purchase).subscribe(
           () => this.snackBar.open("Purchases saved", "dismiss", {duration: 3000})
         );
       });

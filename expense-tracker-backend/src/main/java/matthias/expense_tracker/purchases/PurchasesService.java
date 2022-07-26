@@ -1,34 +1,24 @@
 package matthias.expense_tracker.purchases;
 
 import lombok.RequiredArgsConstructor;
-import matthias.expense_tracker.api.model.PurchaseGroupDto;
+import matthias.expense_tracker.api.model.PurchaseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional
 @Service
 class PurchasesService {
 
-    private final PurchaseGroupsDAO purchaseGroupsDAO;
-    private final PurchasesDAO purchasesDAO;
-    private final EntityManager entityManager;
+    private final PurchasesRepository purchasesRepository;
     private final PurchasesMapper purchasesMapper;
+    private final EntityManager entityManager;
 
-    public PurchaseGroupDto addPurchases(PurchaseGroupDto purchaseGroupDto) {
-        PurchaseGroupEntity savedPurchaseGroup = purchaseGroupsDAO.saveAndFlush(purchasesMapper.fromDto(purchaseGroupDto));
-        entityManager.refresh(savedPurchaseGroup);
-        return purchasesMapper.toDto(savedPurchaseGroup);
-    }
-
-    public List<String> queryPurchaseNames(String query) {
-        return purchasesDAO.findAllByNameContainingIgnoreCase(query)
-            .stream()
-            .map(PurchaseEntity::getName)
-            .distinct()
-            .toList();
+    public PurchaseDto addPurchases(PurchaseDto purchaseDto) {
+        PurchaseEntity savedPurchase = purchasesRepository.saveAndFlush(purchasesMapper.fromDto(purchaseDto));
+        entityManager.refresh(savedPurchase);
+        return purchasesMapper.toDto(savedPurchase);
     }
 }

@@ -1,13 +1,13 @@
-import {AfterViewInit, Component, forwardRef, HostBinding, HostListener, OnInit} from '@angular/core';
-import {HotTableRegisterer} from "@handsontable/angular";
-import {CategoriesService, CategoryDto, PurchasesService} from 'build/expense-tracker-frontend-api';
+import { AfterViewInit, Component, forwardRef, HostBinding, HostListener, OnInit } from '@angular/core';
+import { HotTableRegisterer } from "@handsontable/angular";
+import { CategoriesService, CategoryDto, ProductsService, PurchasesService } from 'build/expense-tracker-frontend-api';
 import Handsontable from "handsontable";
-import {MatDialog} from "@angular/material/dialog";
-import {AddPurchaseCategoryDialog} from "../add-purchase-category-dialog/add-purchase-category-dialog.component";
-import {filter, Observable} from "rxjs";
-import {isNonNull} from "@shared/miscellaneous/functions";
-import {CellChange, RowObject} from "handsontable/common";
-import {tap} from "rxjs/operators";
+import { MatDialog } from "@angular/material/dialog";
+import { AddPurchaseCategoryDialog } from "../add-purchase-category-dialog/add-purchase-category-dialog.component";
+import { filter, Observable } from "rxjs";
+import { isNonNull } from "@shared/miscellaneous/functions";
+import { CellChange, RowObject } from "handsontable/common";
+import { tap } from "rxjs/operators";
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -116,11 +116,13 @@ export class PurchasesInputTable implements OnInit, AfterViewInit, ControlValueA
   constructor(
     private categoriesService: CategoriesService,
     private purchasesService: PurchasesService,
+    private productsService: ProductsService,
     private dialog: MatDialog
   ) {
   }
 
   @HostBinding('tabindex') tabindex = 0;
+
   @HostListener('focus')
   focusHandler() {
     this.hot.selectCell(0, 0);
@@ -136,7 +138,7 @@ export class PurchasesInputTable implements OnInit, AfterViewInit, ControlValueA
   }
 
   ngOnInit(): void {
-    this.categoriesService.getPurchaseCategories()
+    this.categoriesService.getProductCategories()
       .subscribe((categories: CategoryDto[]) => this.updateAvailableCategories(...categories));
   }
 
@@ -197,7 +199,7 @@ export class PurchasesInputTable implements OnInit, AfterViewInit, ControlValueA
   }
 
   getPurchaseNameHints(query: string, callback: Function): void {
-    this.purchasesService.queryPurchaseNames(query).subscribe(response => callback(response));
+    this.productsService.getProductNames(query).subscribe(response => callback(response));
   }
 
   handleCellChange(changes: CellChange[] | null): boolean {

@@ -10,7 +10,7 @@ import spock.lang.Specification
 @AutoConfigureMockMvc
 @ActiveProfiles("it")
 @SpringBootTest
-class IntegrationTestSpecification extends Specification{
+class IntegrationTestSpecification extends Specification {
 
     @Autowired
     MockMvc mvc

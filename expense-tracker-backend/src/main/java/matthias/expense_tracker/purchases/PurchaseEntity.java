@@ -2,27 +2,28 @@ package matthias.expense_tracker.purchases;
 
 import lombok.Getter;
 import lombok.Setter;
-import matthias.expense_tracker.common.BaseEntity;
-import matthias.expense_tracker.purchases.categories.CategoryEntity;
+import matthias.expense_tracker.common.AuditEntity;
+import matthias.expense_tracker.purchases.products.ProductEntity;
+import matthias.expense_tracker.purchases.shops.ShopEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Getter
 @Setter
-@Table(name = "purchase")
+@Table(name = "purchase_group")
 @Entity
-class PurchaseEntity extends BaseEntity {
+class PurchaseEntity extends AuditEntity {
 
-    private String name;
-
-    private String description;
-
-    private double price;
-
-    private double amount;
+    private LocalDate date;
 
     @ManyToOne(optional = false)
-    private CategoryEntity category;
+    private ShopEntity shop;
+
+    @OneToMany(cascade = ALL)
+    @JoinColumn(name = "group_id")
+    private List<ProductEntity> products;
 }

@@ -1,5 +1,5 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {ValidationErrors} from "@angular/forms";
+import { Pipe, PipeTransform } from '@angular/core';
+import { ValidationErrors } from "@angular/forms";
 
 export type ErrorMessages = { [key: string]: string }
 

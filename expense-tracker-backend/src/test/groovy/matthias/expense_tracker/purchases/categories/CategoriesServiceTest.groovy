@@ -15,7 +15,7 @@ class CategoriesServiceTest extends Specification {
 
     def categoryDto1 = new CategoryDto(name: "category 1")
 
-    CategoriesDAO categoriesDAO = Mock()
+    CategoriesRepository categoriesDAO = Mock()
     CategoriesMapper categoriesMapper = getMapper(CategoriesMapper)
 
     @Subject
@@ -23,7 +23,7 @@ class CategoriesServiceTest extends Specification {
 
     def "Should return list of categories"() {
         when:
-            def result = categoriesService.getPurchaseCategories()
+            def result = categoriesService.getProductCategories()
 
         then: "Should get categories"
             1 * categoriesDAO.findAll() >> [
@@ -44,19 +44,19 @@ class CategoriesServiceTest extends Specification {
 
     def "Should save new category and return it"() {
         when:
-            def result = categoriesService.addPurchaseCategory(categoryDto1)
+            def result = categoriesService.addProductCategory(categoryDto1)
 
         then: "Should check if category already exists"
             1 * categoriesDAO.existsByName(categoryDto1.name) >> false
 
-        and: "Should save entity"
+        and: "Should save category"
             1 * categoriesDAO.save(_ as CategoryEntity) >> { args ->
                 CategoryEntity category = args[0]
                 category.id = idSamples[0]
                 return category
             }
 
-        and: "Should return saved entity"
+        and: "Should return saved category"
             with(result) {
                 id == idSamples[0]
                 name == "category 1"
@@ -65,7 +65,7 @@ class CategoriesServiceTest extends Specification {
 
     def "Should throw EntityExistsException when category already exists"() {
         when:
-            categoriesService.addPurchaseCategory(categoryDto1)
+            categoriesService.addProductCategory(categoryDto1)
 
         then: "Should check if category already exists"
             1 * categoriesDAO.existsByName(categoryDto1.name) >> true

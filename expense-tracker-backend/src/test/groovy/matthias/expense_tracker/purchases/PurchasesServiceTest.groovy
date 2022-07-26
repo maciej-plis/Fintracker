@@ -1,12 +1,12 @@
 package matthias.expense_tracker.purchases
 
 import matthias.expense_tracker.api.model.CategoryDto
+import matthias.expense_tracker.api.model.ProductDto
 import matthias.expense_tracker.api.model.PurchaseDto
-import matthias.expense_tracker.api.model.PurchaseGroupDto
 import matthias.expense_tracker.api.model.ShopDto
+import matthias.expense_tracker.purchases.products.ProductsMapper
 import spock.lang.Specification
 import spock.lang.Subject
-import spock.lang.Unroll
 
 import javax.persistence.EntityManager
 import java.time.LocalDate
@@ -18,86 +18,60 @@ class PurchasesServiceTest extends Specification {
 
     static def idSamples = (0..9).collect { randomUUID() }
 
-    def purchaseDto1 = new PurchaseDto(name: "purchase 1", amount: 1, price: 1.99, description: "purchase 1 description", category: new CategoryDto(id: randomUUID()))
-    def purchaseDto2 = new PurchaseDto(name: "purchase 2", amount: 0.234, price: 29.99, description: "purchase 2 description", category: new CategoryDto(id: randomUUID()))
-    def purchaseGroup = new PurchaseGroupDto(purchases: [purchaseDto1, purchaseDto2], date: LocalDate.parse("2020-12-20"), shop: new ShopDto(id: randomUUID()))
+    def productDto_1 = new ProductDto(name: "product 1", amount: 1, price: 1.99, description: "product 1 description", category: new CategoryDto(id: randomUUID()))
+    def productDto_2 = new ProductDto(name: "product 2", amount: 0.234, price: 29.99, description: "product 2 description", category: new CategoryDto(id: randomUUID()))
+    def purchaseDto = new PurchaseDto(products: [productDto_1, productDto_2], date: LocalDate.parse("2020-12-20"), shop: new ShopDto(id: randomUUID()))
 
-    PurchaseGroupsDAO purchaseGroupsDAO = Mock()
-    PurchasesDAO purchasesDAO = Mock()
+    PurchasesRepository purchasesRepository = Mock()
+    ProductsMapper productsMapper = getMapper(ProductsMapper)
+    PurchasesMapper purchasesMapper = new PurchasesMapperImpl(productsMapper)
     EntityManager entityManager = Mock()
-    PurchasesMapper purchasesMapper = getMapper(PurchasesMapper)
 
     @Subject
-    PurchasesService purchasesService = new PurchasesService(purchaseGroupsDAO, purchasesDAO, entityManager, purchasesMapper)
+    PurchasesService purchasesService = new PurchasesService(purchasesRepository, purchasesMapper, entityManager)
 
-    def "Should save new PurchaseGroup and return it"() {
+    def "Should save new purchase and return it"() {
         when:
-            def result = purchasesService.addPurchases(purchaseGroup)
+            def result = purchasesService.addPurchases(purchaseDto)
 
-        then: "Should save entity"
-            1 * purchaseGroupsDAO.saveAndFlush(_ as PurchaseGroupEntity) >> { args ->
-                PurchaseGroupEntity purchaseGroup = args[0]
-                purchaseGroup.id = idSamples[0]
-                purchaseGroup.purchases[0].id = idSamples[1]
-                purchaseGroup.purchases[1].id = idSamples[2]
-                return purchaseGroup
+        then: "Should save purchase"
+            1 * purchasesRepository.saveAndFlush(_ as PurchaseEntity) >> { args ->
+                PurchaseEntity purchaseEntity = args[0]
+                purchaseEntity.id = idSamples[0]
+                purchaseEntity.products[0].id = idSamples[1]
+                purchaseEntity.products[1].id = idSamples[2]
+                return purchaseEntity
             }
 
-        and: "Should refresh saved entity"
-            1 * entityManager.refresh(_ as PurchaseGroupEntity) >> { args ->
-                PurchaseGroupEntity purchaseGroup = args[0]
-                purchaseGroup.shop.name = "shop name"
-                purchaseGroup.purchases[0].category.name = "category 1"
-                purchaseGroup.purchases[1].category.name = "category 2"
+        and: "Should refresh saved purchase"
+            1 * entityManager.refresh(_ as PurchaseEntity) >> { args ->
+                PurchaseEntity purchaseEntity = args[0]
+                purchaseEntity.shop.name = "shop name"
+                purchaseEntity.products[0].category.name = "category 1"
+                purchaseEntity.products[1].category.name = "category 2"
             }
 
-        and: "Should return saved and refreshed entity"
+        and: "Should return saved and refreshed purchase"
             with(result) {
                 id == idSamples[0]
-                shop == new ShopDto(id: purchaseGroup.shop.id, name: "shop name")
+                shop == new ShopDto(id: purchaseDto.shop.id, name: "shop name")
                 date == LocalDate.parse("2020-12-20")
-                with(purchases.find { it.id == idSamples[1] }) {
+                with(products.find { it.id == idSamples[1] }) {
                     id == idSamples[1]
-                    name == "purchase 1"
+                    name == "product 1"
                     amount == 1
                     price == 1.99
-                    description == "purchase 1 description"
-                    category == new CategoryDto(id: purchaseDto1.category.id, name: "category 1")
+                    description == "product 1 description"
+                    category == new CategoryDto(id: productDto_1.category.id, name: "category 1")
                 }
-                with(purchases.find { it.id == idSamples[2] }) {
+                with(products.find { it.id == idSamples[2] }) {
                     id == idSamples[2]
-                    name == "purchase 2"
+                    name == "product 2"
                     amount == 0.234
                     price == 29.99
-                    description == "purchase 2 description"
-                    category == new CategoryDto(id: purchaseDto2.category.id, name: "category 2")
+                    description == "product 2 description"
+                    category == new CategoryDto(id: productDto_2.category.id, name: "category 2")
                 }
             }
-    }
-
-    @Unroll
-    def "Should return distinct list of purchase names containing given phrase: #queryPhrase"() {
-        given:
-            def purchases = [
-                new PurchaseEntity(name: "purchase 1"),
-                new PurchaseEntity(name: "purchase 2"),
-                new PurchaseEntity(name: "purchase 2")
-            ]
-
-        when:
-            def result = purchasesService.queryPurchaseNames(queryPhrase)
-
-        then: "Should return matching purchases"
-            1 * purchasesDAO.findAllByNameContainingIgnoreCase(queryPhrase) >> purchases.findAll { it.name.containsIgnoreCase(queryPhrase) }
-
-        and: "Should return distinct list of names"
-            result == expectedNames
-
-        where:
-            queryPhrase   | expectedNames
-            "purchase"    | ["purchase 1", "purchase 2"]
-            "hASe"        | ["purchase 1", "purchase 2"]
-            "purchase 1"  | ["purchase 1"]
-            "purchase 99" | []
     }
 }

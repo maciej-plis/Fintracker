@@ -1,10 +1,12 @@
 openapi: '3.0.3'
 
 servers:
+  - url: http://localhost:4010
+    description: "Mocked server"
   - url: http://localhost:8080
-    description: "Url used for development"
+    description: "Local server"
   - url: http://localhost:8081
-    description: "Url used for production"
+    description: "Production server"
 
 info:
   version: 0.0.5-SNAPSHOT
@@ -42,3 +44,7 @@ components:
       $ref: './schemas/common/ErrorMessage.yaml'
     ValidationError:
       $ref: './schemas/common/ValidationError.yaml'
+
+x-json-schema-faker:
+  min-items: 2
+  max-items: 5

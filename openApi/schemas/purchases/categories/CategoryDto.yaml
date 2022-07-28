@@ -6,5 +6,9 @@ properties:
   id:
     type: string
     format: uuid
+    example: 'd964b4b3-ba2d-430d-9695-7d5d9c7b9382'
+    x-faker: datatype.uuid
   name:
     type: string
+    example: 'Food'
+    x-faker: commerce.department

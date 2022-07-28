@@ -3,9 +3,11 @@
   "version": "0.0.5-SNAPSHOT",
   "scripts": {
     "generate-api": "openapi-generator-cli generate -g typescript-angular -i ../openApi/schema.yaml -o ./build/expense-tracker-frontend-api",
+    "startMockServer": "prism mock -d ../openApi/schema.yaml",
     "ng": "ng",
     "prestart": "npm run generate-api",
-    "start": "ng serve",
+    "startWithLocal": "ng serve --configuration development",
+    "startWithMock": "ng serve --configuration mocked-development",
     "prebuild": "npm run generate-api",
     "build": "ng build",
     "pretest": "npm run generate-api",

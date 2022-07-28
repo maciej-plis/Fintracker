@@ -12,14 +12,27 @@ val build = task<Exec>("build") {
   commandLine("npm", "run", "build")
 }
 
-val start = task<Exec>("start") {
-  description = "Starts frontend application"
+val startApplicationForLocalBackend = task<Exec>("startApplicationForLocalBackend") {
+  description = "Starts frontend application with local profile"
   group = "build"
 
   workingDir = projectDir
-  commandLine("npm", "run", "start")
+  commandLine("npm", "run", "startWithLocal")
+}
 
-  dependsOn(build)
+val startApplicationForMockBackend = task<Exec>("startApplicationForMockBackend") {
+  description = "Starts frontend application with mock profile"
+  group = "build"
+
+  workingDir = projectDir
+  commandLine("npm", "run", "startWithMock")
+}
+
+val startMockServer = task<Exec>("startMockServer") {
+  description = "Starts mocked api server"
+  group = "build"
+
+  commandLine("npm", "run", "startMockServer")
 }
 
 val jar = task<Jar>("jar") {

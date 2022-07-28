@@ -2,3 +2,5 @@ type: array
 
 items:
   type: string
+  example: "iPhone"
+  x-faker: commerce.product

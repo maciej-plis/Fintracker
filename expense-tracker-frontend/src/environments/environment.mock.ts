@@ -3,6 +3,6 @@ import { Configuration } from "build/expense-tracker-frontend-api";
 export const environment = {
   production: false,
   apiConfiguration: new Configuration({
-    basePath: "http://127.0.0.1:8080"
+    basePath: "http://127.0.0.1:4010"
   })
 };

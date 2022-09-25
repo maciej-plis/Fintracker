@@ -1,0 +1,5 @@
+For querying by parameter use RSQL: https://github.com/jirutka/rsql-parser
+
+Create monitoring Grafana + Prometheus
+
+Try CQRS and Event sourcing

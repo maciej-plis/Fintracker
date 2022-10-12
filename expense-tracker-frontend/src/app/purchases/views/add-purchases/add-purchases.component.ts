@@ -4,13 +4,14 @@ import * as moment from 'moment';
 import { locale } from 'moment';
 import { CellProperties } from "handsontable/settings";
 import { MatDialog } from "@angular/material/dialog";
-import { AddPurchaseShopDialog, PurchasesConfirmationDialog } from "../../components";
+import { AddPurchaseShopDialog, PurchasesConfirmationDialog, PurchasesInputTable } from "../../components";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { filter } from "rxjs";
 import { isNonNull } from "@shared/miscellaneous/functions";
 import Handsontable from "handsontable";
 import { HotTableRegisterer } from "@handsontable/angular";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatSelect } from "@angular/material/select";
 
 const numbro = require('numbro')
 const plPL = require('numbro/dist/languages/pl-PL.min')
@@ -25,14 +26,14 @@ locale('pl-PL')
 })
 export class AddPurchasesComponent implements OnInit, AfterViewInit {
 
-  @ViewChild("purchasesTable") purchasesTable?: any;
+  @ViewChild("purchasesTable") purchasesTable?: PurchasesInputTable;
   @ViewChild("purchaseShop") purchaseShop?: any;
   @ViewChild("purchaseDate") purchaseDate?: any;
 
   purchasesForm: FormGroup;
   shops: ShopDto[] = [];
 
-  hot!: Handsontable;
+  hot: Handsontable;
 
   constructor(
     private shopsService: ShopsService,

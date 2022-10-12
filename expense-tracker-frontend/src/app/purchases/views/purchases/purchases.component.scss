@@ -7,6 +7,23 @@ main {
   padding: 4em;
 }
 
-button {
-  margin-right: 0.5rem;
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+
+  .btn {
+    border-radius: 5%;
+  }
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.5rem;
 }

@@ -1,28 +1,18 @@
 <main>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Shop</th>
-        <th scope="col">Purchase Date</th>
-        <th scope="col">Purchase Items</th>
-        <th scope="col">Purchase Sum</th>
-        <th scope="col">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let index of [1,2,3,4,5,6,7,8,9,10]">
-        <th scope="row">{{index}}</th>
-        <td>Lidl</td>
-        <td>10.12.2022</td>
-        <td>10</td>
-        <td>199.99</td>
-        <td>
-          <button type="button" class="btn btn-primary"><span data-feather="eye"></span></button>
-          <button type="button" class="btn btn-success"><span data-feather="edit"></span></button>
-          <button type="button" class="btn btn-danger"><span data-feather="trash-2"></span></button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="purchases mat-elevation-z3">
+
+    <div class="wrapper">
+
+      <h2>Purchases</h2>
+
+      <div class="controls">
+        <button type="button" class="btn btn-primary">Add</button>
+        <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
+      </div>
+
+    </div>
+
+    <app-purchases-display-table #displayTable></app-purchases-display-table>
+
+  </div>
 </main>

@@ -15,6 +15,13 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ApiModule } from 'build/expense-tracker-frontend-api';
 import { registerAllModules } from "handsontable/registry";
 import { plPL, registerLanguageDictionary } from "handsontable/i18n";
+import { PurchasesDisplayTableComponent } from './components/purchases-display-table/purchases-display-table.component';
+import { MatTableModule } from "@angular/material/table";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatSortModule } from "@angular/material/sort";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatButtonModule } from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -23,7 +30,8 @@ import { plPL, registerLanguageDictionary } from "handsontable/i18n";
     AddPurchaseCategoryDialog,
     PurchasesConfirmationDialog,
     AddPurchasesComponent,
-    PurchasesComponent
+    PurchasesComponent,
+    PurchasesDisplayTableComponent
   ],
   imports: [
     PurchasesRoutingModule,
@@ -32,7 +40,13 @@ import { plPL, registerLanguageDictionary } from "handsontable/i18n";
     HotTableModule,
     LayoutModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTableModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatCheckboxModule,
+    MatButtonModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

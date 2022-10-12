@@ -47,4 +47,4 @@ components:
 
 x-json-schema-faker:
   min-items: 2
-  max-items: 5
+  max-items: 10

@@ -13,11 +13,13 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatCardModule } from "@angular/material/card";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { ConfirmationDialog } from './components/confirmation-dialog/confirmation-dialog.component';
 
 
 @NgModule({
   declarations: [
-    ErrorMessagesConverterPipe
+    ErrorMessagesConverterPipe,
+    ConfirmationDialog
   ],
   imports: [
     CommonModule,

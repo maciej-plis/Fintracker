@@ -22,3 +22,16 @@ post:
         application/json:
           schema:
             $ref: '../../schemas/common/ValidationError.yaml'
+get:
+  summary: Get purchases
+  tags: [ purchases ]
+  operationId: getPurchases
+  responses:
+    200:
+      description: (OK) Success response containing purchases
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../../schemas/purchases/PurchaseDto.yaml'

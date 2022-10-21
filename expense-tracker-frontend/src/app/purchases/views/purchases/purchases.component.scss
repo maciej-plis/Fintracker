@@ -4,23 +4,19 @@
 
 main {
   height: 100%;
-  padding: 4em;
+  padding: 4rem;
 }
 
 .wrapper {
   display: flex;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 1.5rem;
   padding-bottom: 0.5rem;
 }
 
 .controls {
   display: flex;
   gap: 1rem;
-
-  .btn {
-    border-radius: 5%;
-  }
 }
 
 h2 {

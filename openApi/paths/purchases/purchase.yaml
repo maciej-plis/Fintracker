@@ -1,0 +1,18 @@
+get:
+  summary: Get purchase
+  tags: [ purchases ]
+  operationId: getPurchase
+  parameters:
+    - in: path
+      name: purchaseId
+      schema:
+        type: string
+        format: uuid
+      required: true
+  responses:
+    200:
+      description: (OK) Success response containing purchase
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/purchases/PurchaseDto.yaml'

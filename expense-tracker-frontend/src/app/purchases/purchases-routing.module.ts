@@ -4,7 +4,8 @@ import { AddPurchasesComponent, PurchasesComponent } from "./views";
 
 const routes: Routes = [
   { path: '', component: PurchasesComponent },
-  { path: 'add', component: AddPurchasesComponent }
+  { path: 'add', component: AddPurchasesComponent },
+  { path: 'edit/:id', component: AddPurchasesComponent }
 ];
 
 @NgModule({

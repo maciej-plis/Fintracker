@@ -43,7 +43,7 @@
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let purchase; columns: displayedColumns;" [routerLink]="'add'"></mat-row>
+  <mat-row *matRowDef="let purchase; columns: displayedColumns;" [routerLink]="['edit', purchase.id]"></mat-row>
 
 </mat-table>
 

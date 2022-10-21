@@ -32,18 +32,18 @@ export class PurchasesComponent implements OnInit, AfterViewInit {
     this.dialog
       .open(ConfirmationDialog, {
         data: {
-          confirmationTitle: "Title",
-          confirmationDescription: "Description",
+          confirmationTitle: "Confirm removing purchases",
+          confirmationDescription: `Do you want to remove ${this.table.selection.selected.length} purchases?`,
           confirmBtnText: "Yes",
           rejectBtnText: "No"
         }
       })
       .afterClosed()
       .pipe(filter(approved => approved))
-      .subscribe(approved => this.deletePurchases(approved));
+      .subscribe(() => this.deletePurchases());
   }
 
-  private deletePurchases(approved: boolean) {
+  private deletePurchases() {
     // const purchaseIds = this.table.selection.selected.map(purchase => purchase.id);
     // this.purchasesService.deletePurchases(purchaseIds);
     this.table.loadPurchasesPage();

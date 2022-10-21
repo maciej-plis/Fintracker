@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, Validators } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ShopDto, ShopsService } from 'build/expense-tracker-frontend-api';
 import { ErrorMessages } from "../../../shared/pipes/error-messages-converter.pipe";
+import { v4 as randomUUID } from "uuid";
 
 const {required, minLength, maxLength, pattern} = Validators;
 
@@ -46,13 +47,10 @@ export class AddPurchaseShopDialog implements OnInit {
     }
 
     this.shopsService
-      .addPurchaseShop({id: "", name: this.shopForm.value})
+      .addPurchaseShop({id: randomUUID(), name: this.shopForm.value})
       .subscribe({
         next: (savedShop: ShopDto) => this.dialogRef.close(savedShop),
-        error: (errResp: HttpErrorResponse) => {
-          console.error(errResp);
-          this.shopForm.setErrors(errResp.status == 409 ? {conflict: true} : {unknown: true});
-        }
+        error: (errResp: HttpErrorResponse) => this.shopForm.setErrors(errResp.status == 409 ? {conflict: true} : {unknown: true})
       });
   }
 }

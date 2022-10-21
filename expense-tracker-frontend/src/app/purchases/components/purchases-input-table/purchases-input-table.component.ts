@@ -5,12 +5,15 @@ import Handsontable from "handsontable";
 import { MatDialog } from "@angular/material/dialog";
 import { AddPurchaseCategoryDialog } from "../add-purchase-category-dialog/add-purchase-category-dialog.component";
 import { filter, Observable } from "rxjs";
-import { isNonNull } from "@shared/miscellaneous/functions";
-import { CellChange, RowObject } from "handsontable/common";
+import { isAnyPropertyNonNull, isNonNull } from "@shared/miscellaneous/functions";
+import { CellChange } from "handsontable/common";
 import { tap } from "rxjs/operators";
 import {
   AbstractControl,
   ControlValueAccessor,
+  FormArray,
+  FormBuilder,
+  FormGroup,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ValidationErrors,
@@ -48,34 +51,35 @@ export const PURCHASES_HOT_VALUE_VALIDATOR: any = {
 })
 export class PurchasesInputTable implements OnInit, AfterViewInit, ControlValueAccessor, Validator {
 
-  private REQUIRED_COLUMNS: Columns[] = [Columns.CATEGORY, Columns.NAME, Columns.AMOUNT, Columns.PRICE];
+  private COLUMNS: Columns[] = Object.values(Columns)
+  private REQUIRED_COLUMNS: string[] = [Columns.CATEGORY, Columns.NAME, Columns.AMOUNT, Columns.PRICE];
   private INITIAL_ROWS: number = 10
   private ADD_CATEGORY_OPTION: string = "Add Category"
 
-  private hot!: Handsontable;
+  productsFormArray: FormArray<FormGroup>;
 
-  public _onChange!: Function;
-  public _onTouch!: Function;
+  private hot: Handsontable;
 
-  purchases: RowObject[] = Array.from({length: this.INITIAL_ROWS}, () => ({}))
+  public _onChange: Function;
+  public _onTouch: Function;
+
   categories: CategoryDto[] = []
+
   hotSettings: Handsontable.GridSettings = {
-    data: this.purchases,
     language: 'pl-PL',
     contextMenu: true,
     stretchH: 'all',
-    minSpareRows: 2,
+    minSpareRows: 1,
     rowHeights: 35,
     columnHeaderHeight: 35,
     className: 'htMiddle',
     colHeaders: true,
     licenseKey: 'non-commercial-and-evaluation',
-    beforeChange: changes => this.handleCellChange(changes),
-    afterChange: changes => changes && this.afterChange(),
-    afterRemoveRow: () => this.afterChange(),
-    afterGetColHeader: (col, headerElement) => {
-      headerElement.className = 'htMiddle'
-    },
+    beforeChange: changes => this.beforeChange(changes),
+    afterChange: changes => changes && this.afterChange(changes),
+    afterRemoveRow: (index, amount) => this.afterRemoveRow(index, amount),
+    afterCreateRow: (index, amount) => this.afterCreateRow(index, amount),
+    afterGetColHeader: (col, headerElement) => { headerElement.className = 'htMiddle' },
     beforeKeyDown: (event: any) => {
       if (!event.target.closest(".handsontableInput")) {
         event.stopImmediatePropagation();
@@ -87,7 +91,7 @@ export class PurchasesInputTable implements OnInit, AfterViewInit, ControlValueA
         title: 'Kategoria',
         type: 'dropdown',
         allowInvalid: false,
-        source: (query: string, process: Function) => this.getAvailableCategories(query, process)
+        source: (query: string, process: Function) => this.getAvailableCategoryNames(query, process),
       }, {
         data: Columns.NAME,
         title: 'Nazwa',
@@ -96,7 +100,8 @@ export class PurchasesInputTable implements OnInit, AfterViewInit, ControlValueA
       }, {
         data: Columns.AMOUNT,
         title: 'Ilość (szt / kg)',
-        type: 'numeric'
+        type: 'numeric',
+        allowInvalid: false,
       }, {
         data: Columns.PRICE,
         title: 'Cena',
@@ -104,7 +109,8 @@ export class PurchasesInputTable implements OnInit, AfterViewInit, ControlValueA
         numericFormat: {
           culture: 'pl-PL',
           pattern: '$ 0,0.00'
-        }
+        },
+        allowInvalid: false
       }, {
         data: Columns.DESCRIPTION,
         title: 'Opis',
@@ -117,9 +123,9 @@ export class PurchasesInputTable implements OnInit, AfterViewInit, ControlValueA
     private categoriesService: CategoriesService,
     private purchasesService: PurchasesService,
     private productsService: ProductsService,
-    private dialog: MatDialog
-  ) {
-  }
+    private dialog: MatDialog,
+    private fb: FormBuilder
+  ) { }
 
   @HostBinding('tabindex') tabindex = 0;
 
@@ -138,16 +144,12 @@ export class PurchasesInputTable implements OnInit, AfterViewInit, ControlValueA
   }
 
   ngOnInit(): void {
-    this.categoriesService.getProductCategories()
-      .subscribe((categories: CategoryDto[]) => this.updateAvailableCategories(...categories));
+    this.categoriesService.getProductCategories().subscribe(categories => this.updateAvailableCategories(...categories));
   }
 
   ngAfterViewInit(): void {
     this.hot = new HotTableRegisterer().getInstance("purchases-spreadsheet");
-  }
-
-  writeValue(value: (string | number)[][]): void {
-    // Ignore
+    this.hot.updateData(this.productsFormArray.value.map(row => ({...row, category: row?.category?.name})));
   }
 
   registerOnChange(fn: Function): void {
@@ -158,81 +160,93 @@ export class PurchasesInputTable implements OnInit, AfterViewInit, ControlValueA
     this._onTouch = fn;
   }
 
-  afterChange(): void {
-    this._onChange(this.purchases);
-    this._onTouch();
+  writeValue(purchases: any[]): void {
+    console.log(purchases)
+    this.productsFormArray = this.fb.array<FormGroup>(purchases.map(purchase => this.createPurchaseFormGroup(purchase)));
+    this.hot?.updateData(this.productsFormArray.value.map(row => ({...row, category: row?.category?.name})));
   }
 
   validate({value}: AbstractControl): ValidationErrors | null {
-    const purchases = this.getFilteredPurchases();
+    const purchases = this.productsFormArray.value.filter(isAnyPropertyNonNull);
 
     if (purchases.length === 0) {
-      return {notEmpty: true};
+      return {empty: true};
     }
 
-    const allRowsAreFilled = purchases.every((row: RowObject) => {
-      const keys = Object.keys(row);
-      return this.REQUIRED_COLUMNS.every(col => keys.includes(col) && row[col] != null);
+    const requiredColumnsAreFilled = purchases.every(purchase => {
+      return Object.keys(purchase).every(key => !this.REQUIRED_COLUMNS.includes(key) || purchase[key] != null);
     });
 
-    if (!allRowsAreFilled) {
+    if (!requiredColumnsAreFilled) {
       return {unfilled: true}
     }
 
     return null;
   }
 
-  getFilteredPurchases(): RowObject[] {
-    return this.purchases.filter((row: RowObject) => {
-      const keys = Object.keys(row);
-      return keys.length > 0 && keys.some(key => row[key] != null);
+  afterRemoveRow(index: number, amount: number): void {
+    for (let i = 0; i < amount; i++) {
+      this.productsFormArray.removeAt(index);
+    }
+    this._onChange(this.productsFormArray.value);
+  }
+
+  afterCreateRow(index: number, amount: number): void {
+    for (let i = 0; i < amount; i++) {
+      this.productsFormArray.insert(index + i, this.createPurchaseFormGroup({}));
+    }
+    this._onChange(this.productsFormArray.value);
+  }
+
+  beforeChange(changes: CellChange[]): boolean {
+    if (!this.containsAnyAddCategoryChange(changes)) return true;
+
+    const [addCategoryChanges, otherChanges] = changes.reduce(([addCategoryChanges, otherChanges], change) => {
+      this.isAddCategoryChange(change) ? addCategoryChanges.push(change) : otherChanges.push(change);
+      return [addCategoryChanges, otherChanges];
+    }, [[], []] as [CellChange[], CellChange[]])
+
+    this.openAddCategoryDialog().subscribe((category) =>
+      this.hot.setDataAtRowProp(addCategoryChanges.map(([row, column]) => [row, column, category.name]))
+    );
+
+    this.hot.setDataAtRowProp(otherChanges.map(([row, column, preValue, newValue]) => [row, column, newValue]));
+
+    return false;
+  }
+
+  afterChange(changes: CellChange[]): void {
+    changes.forEach(change => this.setControlValue(change));
+    this._onChange(this.productsFormArray.value);
+  }
+
+  getAvailableCategoryNames(searchPhrase: string, callback: Function): void {
+    callback([...this.getFilteredCategoryNames(searchPhrase), this.ADD_CATEGORY_OPTION]);
+  }
+
+  getPurchaseNameHints(searchPhrase: string, callback: Function): void {
+    this.productsService.getProductNames(searchPhrase).subscribe(response => callback(response));
+  }
+
+  private createPurchaseFormGroup(product: any): FormGroup {
+    return this.fb.group({
+      "category": [product.category],
+      "name": [product.name],
+      "amount": [product.amount],
+      "price": [product.price],
+      "description": [product.description]
     });
   }
 
-  getAvailableCategories(query: string, callback: Function): void {
-    callback([
-      ...this.categories
-        .map(c => c.name)
-        .filter(cName => cName.includes(query)),
-      this.ADD_CATEGORY_OPTION
-    ]);
+  private containsAnyAddCategoryChange(changes: CellChange[]): boolean {
+    return changes.some(change => this.isAddCategoryChange(change));
   }
 
-  getPurchaseNameHints(query: string, callback: Function): void {
-    this.productsService.getProductNames(query).subscribe(response => callback(response));
+  private isAddCategoryChange([row, column, preValue, newValue]: CellChange): boolean {
+    return column === Columns.CATEGORY && newValue === this.ADD_CATEGORY_OPTION;
   }
 
-  handleCellChange(changes: CellChange[] | null): boolean {
-    if (changes != null) {
-      const addCategoryChanges: CellChange[] = changes
-        .filter(c => c[1] === Columns.CATEGORY)
-        .map(c => this.addCategoryMetaToCell(c))
-        .filter(c => c[3] === this.ADD_CATEGORY_OPTION)
-        .map(c => this.setCellValue(c, null));
-
-      if (addCategoryChanges.length > 0) {
-        this.openAddCategoryDialog().subscribe(newCategory => {
-          this.hot.setDataAtRowProp(
-            addCategoryChanges.map(c => [c[0], c[1], newCategory.name])
-          );
-        })
-      }
-    }
-
-    return true;
-  }
-
-  addCategoryMetaToCell(cellChange: CellChange): CellChange {
-    this.hot.setCellMeta(cellChange[0], 0, "value", this.categories.find(c => c.name == cellChange[3]))
-    return cellChange;
-  }
-
-  setCellValue(cellChange: CellChange, value: any): CellChange {
-    cellChange[3] = value;
-    return cellChange;
-  }
-
-  openAddCategoryDialog(): Observable<CategoryDto> {
+  private openAddCategoryDialog(): Observable<CategoryDto> {
     return this.dialog
       .open(AddPurchaseCategoryDialog, {data: {name: ""}})
       .afterClosed()
@@ -242,9 +256,26 @@ export class PurchasesInputTable implements OnInit, AfterViewInit, ControlValueA
       );
   }
 
-  updateAvailableCategories(...categories: CategoryDto[]): void {
+  private updateAvailableCategories(...categories: CategoryDto[]): void {
     this.categories = this.categories
       .concat(categories)
       .sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  private setControlValue([row, column, preValue, newValue]: CellChange): void {
+    const rowFormGroup = this.productsFormArray.controls[row];
+    const cellFormControl = rowFormGroup.controls[column];
+
+    if (column === Columns.CATEGORY) {
+      newValue = this.categories.find(category => newValue === category.name)
+    }
+
+    cellFormControl.patchValue(newValue)
+  }
+
+  private getFilteredCategoryNames(searchPhrase: string): string[] {
+    return this.categories
+      .map(({name}) => name)
+      .filter(name => name.toLowerCase().includes(searchPhrase.toLowerCase()));
   }
 }

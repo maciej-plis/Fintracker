@@ -4,36 +4,33 @@
 
 main {
   height: 100%;
-  padding: 4em;
+  padding: 4rem;
 }
 
 form {
-  height: 100%;
-}
-
-mat-card {
   display: flex;
   flex-direction: column;
 
-  height: 98%;
-  padding: 2em;
+  height: 100%;
+
+  padding: 1.5rem;
 }
 
-.row:nth-child(1) {
-  height: 15%;
-
+.wrapper {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: center;
 
-  margin-bottom: 2em;
+  flex-grow: 1.5;
 
-  & > .group {
-    display: flex;
-    gap: 2em;
-  }
+  margin-bottom: 1rem;
 }
 
-.row:nth-child(2) {
-  height: 70%;
+app-purchases-input-table {
+  flex-grow: 8.5;
+}
+
+.controls, .group {
+  display: flex;
+  gap: 1rem;
 }

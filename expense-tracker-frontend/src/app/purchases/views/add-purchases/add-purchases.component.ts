@@ -1,126 +1,138 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { PurchaseDto, PurchasesService, ShopDto, ShopsService } from 'build/expense-tracker-frontend-api';
-import * as moment from 'moment';
-import { locale } from 'moment';
-import { CellProperties } from "handsontable/settings";
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import { ProductDto, PurchaseDto, PurchasesService, ShopsService } from 'build/expense-tracker-frontend-api';
 import { MatDialog } from "@angular/material/dialog";
-import { AddPurchaseShopDialog, PurchasesConfirmationDialog, PurchasesInputTable } from "../../components";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { filter } from "rxjs";
-import { isNonNull } from "@shared/miscellaneous/functions";
-import Handsontable from "handsontable";
-import { HotTableRegisterer } from "@handsontable/angular";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { MatSelect } from "@angular/material/select";
+import { formatCurrency, formatDate, getCurrencySymbol } from "@angular/common";
+import { filter, map, mergeMap } from 'rxjs';
+import { ConfirmationDialog } from "@shared/components/confirmation-dialog/confirmation-dialog.component";
+import { v4 as randomUUID } from 'uuid';
+import { ActivatedRoute } from "@angular/router";
+import { isAnyPropertyNonNull } from "@shared/miscellaneous/functions";
 
 const numbro = require('numbro')
 const plPL = require('numbro/dist/languages/pl-PL.min')
 numbro.registerLanguage(plPL)
 numbro.setLanguage('pl-PL')
-locale('pl-PL')
 
 @Component({
   selector: 'app-add-purchases',
   templateUrl: './add-purchases.component.html',
   styleUrls: ['./add-purchases.component.scss']
 })
-export class AddPurchasesComponent implements OnInit, AfterViewInit {
-
-  @ViewChild("purchasesTable") purchasesTable?: PurchasesInputTable;
-  @ViewChild("purchaseShop") purchaseShop?: any;
-  @ViewChild("purchaseDate") purchaseDate?: any;
+export class AddPurchasesComponent implements OnInit {
 
   purchasesForm: FormGroup;
-  shops: ShopDto[] = [];
-
-  hot: Handsontable;
 
   constructor(
+    @Inject(LOCALE_ID) private locale: string,
     private shopsService: ShopsService,
     private purchasesService: PurchasesService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute
   ) {
     this.purchasesForm = fb.group({
-      shop: [null, Validators.required],
-      date: [new Date(), Validators.required],
-      purchases: [null]
+      shop: fb.control(null, Validators.required),
+      date: fb.control(new Date(), Validators.required),
+      products: fb.control(this.initEmptyProductGroups(10), Validators.required)
     })
   }
 
   ngOnInit() {
-    this.shopsService.getPurchaseShops().subscribe((shops: ShopDto[]) => this.updateAvailableShops(...shops));
+    this.route.params.pipe(
+      map(({id}) => id),
+      filter(id => id != null),
+      mergeMap(id => this.purchasesService.getPurchase(id))
+    ).subscribe(purchase => this.loadPurchaseData(purchase))
   }
 
-  ngAfterViewInit(): void {
-    this.hot = new HotTableRegisterer().getInstance("purchases-spreadsheet");
+  private loadPurchaseData(purchase: PurchaseDto): void {
+    this.purchasesForm.reset({
+      shop: purchase.shop,
+      date: purchase.date,
+      products: purchase.products
+    })
+  }
+
+  clearForm(): void {
+    this.purchasesForm.reset({
+      shop: null,
+      date: new Date(),
+      products: this.initEmptyProductGroups(10)
+    })
+    this.purchasesForm.markAsPristine();
   }
 
   onPurchasesSave(): void {
-    this.purchasesForm.controls['purchases'].markAsTouched()
+    if (this.purchasesForm.invalid) return;
 
-    if (this.purchasesForm.invalid) {
-      return;
-    }
+    const purchase: PurchaseDto = this.mapPurchaseDto();
+    this.openConfirmationDialogForSavingPurchase(purchase, () => this.saveNewPurchase(purchase));
+  }
 
-    let purchasesData = this.hot.getCellsMeta()
-      .filter((val: CellProperties, i: number) => i % 5 == 0) // get every 5th cell i.e. first column
-      .map((c: CellProperties) => c['value'])
-      .map((c: string, i: number) => [c, ...this.hot.getDataAtRow(i).slice(1)]) // join categories meta with other columns;
+  private mapPurchaseDto(): PurchaseDto {
+    return {
+      id: randomUUID(),
+      shop: this.purchasesForm.controls['shop'].value,
+      date: this.purchasesForm.controls['date'].value,
+      products: this.purchasesForm.controls['products'].value
+        .filter(isAnyPropertyNonNull)
+        .map((row: any) => ({
+          id: randomUUID(),
+          category: row.category,
+          name: row.name,
+          amount: row.amount,
+          price: row.price,
+          description: row.description
+        }))
+    };
+  }
 
-    const purchase: PurchaseDto = {
-      id: "",
-      shop: this.purchaseShop.value,
-      date: moment(this.purchaseDate.nativeElement.value).format("YYYY-MM-DD"),
-      products: purchasesData.filter((row: any) => !row.every((cell: any) => cell == null))
-        .map((row: any) => {
-          return {
-            id: '',
-            category: row[0],
-            name: row[1],
-            amount: row[2],
-            price: row[3],
-            description: row[4]
-          }
-        })
-    }
-
-    const total = purchase.products.map(p => p.amount * p.price).reduce((prevVal, val) => prevVal + val);
-
+  private openConfirmationDialogForSavingPurchase(purchase: PurchaseDto, approvedCallback: Function): void {
     this.dialog
-      .open(PurchasesConfirmationDialog, {data: {total}})
+      .open(ConfirmationDialog, {
+        data: {
+          confirmationTitle: "Confirm purchase save",
+          confirmationDescription: `
+            <p>Purchase shop: ${purchase.shop.name}</p>
+            <p>Purchase date: ${formatDate(purchase.date, "dd.MM.yyyy", this.locale)}</p>
+            <p>Purchases count: ${purchase.products.length}</p>
+            <p>Total price: ${this.calculateAndFormatTotalPrice(purchase.products)}</p>
+          `,
+          confirmBtnText: "Save",
+          rejectBtnText: "Cancel"
+        }
+      })
       .afterClosed()
-      .subscribe(confirmation => {
-        confirmation && this.purchasesService.addPurchase(purchase).subscribe(
-          () => this.snackBar.open("Purchases saved", "dismiss", {duration: 3000})
-        );
-      });
+      .pipe(filter(approved => approved))
+      .subscribe(() => approvedCallback());
   }
 
-  openAddShopDialog({value}: any): void {
-    if (value !== "ADD_SHOP") {
-      return;
-    }
+  private calculateAndFormatTotalPrice(products: ProductDto[]): string {
+    const totalPrice = products
+      .map(p => p.amount * p.price)
+      .reduce((prevVal, val) => prevVal + val, 0);
 
-    this.dialog
-      .open(AddPurchaseShopDialog, {data: {name: ""}})
-      .afterClosed()
-      .pipe(filter(isNonNull))
-      .subscribe((savedShop: ShopDto) => {
-        this.updateAvailableShops(savedShop);
-        this.selectShop(savedShop);
-      });
+    return formatCurrency(totalPrice, this.locale, getCurrencySymbol("PLN", "wide", this.locale), 'PLN', '1.2-2')
   }
 
-  selectShop(shop: ShopDto): void {
-    this.purchasesForm.patchValue({shop: shop});
+  private saveNewPurchase(purchase: PurchaseDto) {
+    this.purchasesService.addPurchase(purchase).subscribe(
+      () => this.snackBar.open("Purchase saved!", "dismiss", {duration: 3000}),
+      () => this.snackBar.open("Failed to save purchase!", "dismiss", {duration: 3000})
+    );
   }
 
-  updateAvailableShops(...shops: ShopDto[]): void {
-    this.shops = this.shops
-      .concat(shops)
-      .sort((a, b) => a.name.localeCompare(b.name));
+  private initEmptyProductGroups(length: number): any[] {
+    return Array.from({length}, () => ({
+      "category": null,
+      "name": null,
+      "amount": null,
+      "price": null,
+      "description": null,
+    }));
   }
 }
 

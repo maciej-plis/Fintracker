@@ -1,6 +1,6 @@
 import '@angular/common/locales/global/pl'
 
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Configuration } from 'build/expense-tracker-frontend-api';
@@ -18,7 +18,10 @@ import { DashboardComponent } from "./purchases/views";
     AppRoutingModule,
     CoreModule
   ],
-  providers: [{ provide: Configuration, useValue: environment.apiConfiguration }],
+  providers: [
+    { provide: Configuration, useValue: environment.apiConfiguration },
+    { provide: LOCALE_ID, useValue: "pl-PL"}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

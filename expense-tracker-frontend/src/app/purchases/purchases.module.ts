@@ -22,6 +22,8 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatSortModule } from "@angular/material/sort";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatButtonModule } from "@angular/material/button";
+import { PurchaseShopInputComponent } from './components/purchase-shop-input/purchase-shop-input.component';
+import { PurchaseDateInputComponent } from './components/purchase-date-input/purchase-date-input.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { MatButtonModule } from "@angular/material/button";
     PurchasesConfirmationDialog,
     AddPurchasesComponent,
     PurchasesComponent,
-    PurchasesDisplayTableComponent
+    PurchasesDisplayTableComponent,
+    PurchaseShopInputComponent,
+    PurchaseDateInputComponent
   ],
   imports: [
     PurchasesRoutingModule,

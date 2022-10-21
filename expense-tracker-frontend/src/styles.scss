@@ -49,7 +49,12 @@ body {
 $theme-colors: (
   "primary": #4373BC,
   "danger": #DE215E,
-  "success": #73BC43
+  "light": #F9FAFB,
+  "warning": #FFC107
 );
 
 @import "node_modules/bootstrap/scss/bootstrap.scss";
+
+.btn {
+  border-radius: 3%;
+}

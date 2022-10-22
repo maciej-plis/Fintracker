@@ -1,9 +1,10 @@
-import org.gradle.api.JavaVersion.VERSION_17
+import org.gradle.jvm.toolchain.JavaLanguageVersion.of
 
 plugins {
-    id("org.springframework.boot") version "2.7.2"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.springframework.boot") version "2.7.5"
+    id("io.spring.dependency-management") version "1.1.0"
     id("org.openapi.generator") version "6.0.1"
+    kotlin("jvm") version "1.7.20"
     `java-library`
 }
 
@@ -11,8 +12,15 @@ group = rootProject.group
 version = rootProject.version
 
 java {
-    sourceCompatibility = VERSION_17
-    targetCompatibility = VERSION_17
+    toolchain {
+        languageVersion.set(of(17))
+    }
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(of(17))
+    }
 }
 
 repositories {
@@ -51,7 +59,7 @@ openApiValidate {
 }
 
 openApiGenerate {
-    generatorName.set("spring")
+    generatorName.set("kotlin-spring")
     library.set("spring-boot")
     inputSpec.set("$rootDir/openApi/schema.yaml")
     outputDir.set("$projectDir")

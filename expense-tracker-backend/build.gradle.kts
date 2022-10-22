@@ -1,19 +1,34 @@
-import org.gradle.api.JavaVersion.VERSION_17
+import org.gradle.jvm.toolchain.JavaLanguageVersion.of
 
 plugins {
-    id("org.springframework.boot") version "2.7.2"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.springframework.boot") version "2.7.5"
+    id("io.spring.dependency-management") version "1.1.0"
     id("com.palantir.docker") version "0.34.0"
     java
     groovy
+    kotlin("jvm") version "1.7.20"
+    kotlin("kapt") version "1.7.20"
+    kotlin("plugin.jpa") version "1.7.20"
+    kotlin("plugin.spring") version "1.7.20"
 }
 
 group = rootProject.group
 version = rootProject.version
 
 java {
-    sourceCompatibility = VERSION_17
-    targetCompatibility = VERSION_17
+    toolchain {
+        languageVersion.set(of(17))
+    }
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(of(17))
+    }
+}
+
+kapt {
+    keepJavacAnnotationProcessors = true
 }
 
 sourceSets {
@@ -40,8 +55,8 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.24")
     compileOnly("org.projectlombok:lombok:1.18.24")
 
-    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.1.Final")
-    compileOnly("org.mapstruct:mapstruct:1.5.1.Final")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
+    compileOnly("org.mapstruct:mapstruct:1.5.3.Final")
 
     implementation(project(":expense-tracker-backend-api"))
 
@@ -52,17 +67,21 @@ dependencies {
     implementation("org.springframework.data:spring-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
 //    runtimeOnly(project(":expense-tracker-frontend"))
 
-    runtimeOnly("org.liquibase:liquibase-core:4.11.0")
-    runtimeOnly("org.postgresql:postgresql:42.3.6")
+    runtimeOnly("org.liquibase:liquibase-core:4.17.0")
+    runtimeOnly("org.postgresql:postgresql:42.5.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.spockframework:spock-spring:2.1-groovy-3.0")
-    testImplementation("org.mapstruct:mapstruct:1.4.2.Final")
-    testImplementation("org.codehaus.groovy:groovy-json:3.0.11")
+    testImplementation("org.spockframework:spock-spring:2.3-groovy-3.0")
+    testImplementation("org.mapstruct:mapstruct:1.5.3.Final")
+    testImplementation("org.codehaus.groovy:groovy-json:3.0.13")
 
-    integrationTestRuntimeOnly("com.h2database:h2:2.1.212")
+    integrationTestRuntimeOnly("com.h2database:h2:2.1.214")
 }
 
 tasks.test {
@@ -89,6 +108,7 @@ tasks.compileJava {
     options.compilerArgs.addAll(
         listOf(
             "-Amapstruct.defaultComponentModel=spring",
+            "-Amapstruct.defaultInjectionStrategy=constructor",
             "-Amapstruct.unmappedTargetPolicy=ERROR"
         )
     )

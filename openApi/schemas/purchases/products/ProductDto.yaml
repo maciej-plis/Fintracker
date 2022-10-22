@@ -1,34 +1,32 @@
-required:
-  - id
-  - name
-  - description
-  - price
-  - amount
-  - category
-
 properties:
   id:
     type: string
     format: uuid
     example: '92c58038-3267-4689-bc1c-cd0b1d90cc5f'
     x-faker: datatype.uuid
+  category:
+    $ref: '../categories/CategoryDto.yaml'
   name:
     type: string
     example: 'iPhone X'
     x-faker: commerce.product
-  description:
-    type: string
-    example: 'Bought for my 18th birthday'
-    x-faker: commerce.productDescription
-  price:
-    type: number
-    format: double
-    example: 1999.99
-    x-faker: commerce.price
   amount:
     type: number
     format: double
     example: 1.00
     x-faker: finance.amount
-  category:
-    $ref: '../categories/CategoryDto.yaml'
+  price:
+    type: number
+    format: double
+    example: 1999.99
+    x-faker: commerce.price
+  description:
+    type: string
+    example: 'Bought for my 18th birthday'
+    x-faker: commerce.productDescription
+
+required:
+  - name
+  - price
+  - amount
+  - category

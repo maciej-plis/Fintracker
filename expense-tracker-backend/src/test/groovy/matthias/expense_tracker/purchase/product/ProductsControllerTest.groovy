@@ -1,4 +1,4 @@
-package matthias.expense_tracker.purchase.products
+package matthias.expense_tracker.purchase.product
 
 import matthias.expense_tracker.configuration.ResponseExceptionHandler
 import org.springframework.test.web.servlet.MockMvc

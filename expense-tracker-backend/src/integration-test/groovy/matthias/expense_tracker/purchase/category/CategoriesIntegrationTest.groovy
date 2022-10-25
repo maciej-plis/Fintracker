@@ -1,4 +1,4 @@
-package matthias.expense_tracker.purchase.categories
+package matthias.expense_tracker.purchase.category
 
 import spock.lang.Specification
 

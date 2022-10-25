@@ -1,5 +1,6 @@
-package matthias.expense_tracker.purchase.categories
+package matthias.expense_tracker.purchase.category
 
+import matthias.expense_tracker.category.CategoryMapper
 import matthias.expense_tracker.openapi.model.CategoryDto
 import spock.lang.Specification
 import spock.lang.Subject
@@ -16,7 +17,7 @@ class CategoriesServiceTest extends Specification {
     def categoryDto1 = new CategoryDto(name: "Food")
 
     CategoriesRepository categoriesDAO = Mock()
-    CategoriesMapper categoriesMapper = getMapper(CategoriesMapper)
+    CategoryMapper categoriesMapper = getMapper(CategoryMapper)
 
     @Subject
     CategoriesService categoriesService = new CategoriesService(categoriesDAO, categoriesMapper)

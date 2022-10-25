@@ -1,4 +1,4 @@
-package matthias.expense_tracker.purchase.shops
+package matthias.expense_tracker.purchase.shop
 
 import matthias.expense_tracker.configuration.ResponseExceptionHandler
 import matthias.expense_tracker.openapi.model.ShopDto

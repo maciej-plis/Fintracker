@@ -3,7 +3,6 @@ package matthias.expense_tracker.shop
 import lombok.RequiredArgsConstructor
 import matthias.expense_tracker.common.jpa.TransactionExecutor
 import matthias.expense_tracker.openapi.model.ShopDto
-import matthias.expense_tracker.purchase.shops.ShopMapper
 import org.springframework.stereotype.Service
 import javax.persistence.EntityExistsException
 

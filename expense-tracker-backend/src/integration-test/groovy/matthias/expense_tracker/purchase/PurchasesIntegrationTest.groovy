@@ -1,9 +1,8 @@
 package matthias.expense_tracker.purchase
 
 import matthias.expense_tracker.IntegrationTestSpecification
-import matthias.expense_tracker.purchase.categories.CategoriesRepository
-import matthias.expense_tracker.purchase.categories.CategoryEntity
-import matthias.expense_tracker.purchase.shops.ShopsRepository
+import matthias.expense_tracker.purchase.category.CategoriesRepository
+import matthias.expense_tracker.purchase.shop.ShopsRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional
 

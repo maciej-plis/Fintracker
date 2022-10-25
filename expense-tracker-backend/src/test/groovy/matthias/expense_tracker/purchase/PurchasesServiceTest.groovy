@@ -4,7 +4,7 @@ import matthias.expense_tracker.openapi.model.CategoryDto
 import matthias.expense_tracker.openapi.model.ProductDto
 import matthias.expense_tracker.openapi.model.PurchaseDto
 import matthias.expense_tracker.openapi.model.ShopDto
-import matthias.expense_tracker.purchase.products.ProductsMapper
+import matthias.expense_tracker.product.ProductsMapper
 import spock.lang.Specification
 import spock.lang.Subject
 

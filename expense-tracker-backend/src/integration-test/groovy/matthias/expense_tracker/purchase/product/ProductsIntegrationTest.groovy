@@ -1,8 +1,7 @@
-package matthias.expense_tracker.purchase.products
+package matthias.expense_tracker.purchase.product
 
 import matthias.expense_tracker.IntegrationTestSpecification
-import matthias.expense_tracker.purchase.categories.CategoriesRepository
-import matthias.expense_tracker.purchase.categories.CategoryEntity
+import matthias.expense_tracker.purchase.category.CategoriesRepository
 import org.springframework.beans.factory.annotation.Autowired
 
 import static org.hamcrest.Matchers.hasSize

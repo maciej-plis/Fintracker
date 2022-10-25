@@ -1,7 +1,6 @@
-package matthias.expense_tracker.purchase.shops;
+package matthias.expense_tracker.shop;
 
 import matthias.expense_tracker.openapi.model.ShopDto;
-import matthias.expense_tracker.shop.ShopEntity;
 import org.mapstruct.Mapper;
 
 import java.util.List;

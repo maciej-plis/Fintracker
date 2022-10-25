@@ -1,7 +1,7 @@
 package matthias.expense_tracker.purchase;
 
 import matthias.expense_tracker.openapi.model.PurchaseDto;
-import matthias.expense_tracker.purchase.products.ProductsMapper;
+import matthias.expense_tracker.product.ProductsMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

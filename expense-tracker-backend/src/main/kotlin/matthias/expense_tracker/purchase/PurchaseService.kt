@@ -1,7 +1,6 @@
 package matthias.expense_tracker.purchase
 
-import matthias.expense_tracker.common.TransactionExecutor
-import matthias.expense_tracker.common.findByIdOrThrow
+import matthias.expense_tracker.common.jpa.TransactionExecutor
 import matthias.expense_tracker.openapi.model.PurchaseDto
 import org.springframework.stereotype.Service
 import java.util.*
@@ -23,8 +22,10 @@ internal class PurchaseService(
     }
 
     fun addPurchases(purchaseDto: PurchaseDto): PurchaseDto {
-        val purchaseId = transactionEx.executeInTx { return@executeInTx purchaseRepository.save(purchaseDto.toEntity()).id }
-        return getPurchaseOrThrow(purchaseId)
+        val savedPurchase = transactionEx.executeInTx {
+            return@executeInTx purchaseRepository.save(purchaseDto.toEntity())
+        }
+        return purchaseRepository.refresh(savedPurchase).toDTO()
     }
 
     private fun PurchaseEntity.toDTO() = purchaseMapper.toPurchaseDTO(this)!!

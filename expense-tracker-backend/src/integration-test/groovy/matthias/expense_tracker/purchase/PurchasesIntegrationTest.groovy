@@ -3,7 +3,6 @@ package matthias.expense_tracker.purchase
 import matthias.expense_tracker.IntegrationTestSpecification
 import matthias.expense_tracker.purchase.categories.CategoriesRepository
 import matthias.expense_tracker.purchase.categories.CategoryEntity
-import matthias.expense_tracker.purchase.shops.ShopEntity
 import matthias.expense_tracker.purchase.shops.ShopsRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional

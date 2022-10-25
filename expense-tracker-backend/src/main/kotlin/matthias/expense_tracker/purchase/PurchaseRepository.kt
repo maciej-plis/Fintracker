@@ -1,8 +1,6 @@
 package matthias.expense_tracker.purchase
 
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.stereotype.Repository
+import matthias.expense_tracker.common.jpa.BaseRepository
 import java.util.*
 
-@Repository
-internal interface PurchaseRepository : JpaRepository<PurchaseEntity, UUID>
+internal interface PurchaseRepository : BaseRepository<PurchaseEntity, UUID>

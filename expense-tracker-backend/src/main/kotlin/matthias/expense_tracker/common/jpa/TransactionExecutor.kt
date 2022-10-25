@@ -1,4 +1,4 @@
-package matthias.expense_tracker.common
+package matthias.expense_tracker.common.jpa
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation.REQUIRED

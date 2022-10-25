@@ -16,7 +16,7 @@ class ShopsServiceTest extends Specification {
     def shopDto1 = new ShopDto(id: randomUUID(), "Walmart")
 
     ShopsRepository shopsRepository = Mock()
-    ShopsMapper shopsMapper = getMapper(ShopsMapper)
+    ShopMapper shopsMapper = getMapper(ShopMapper)
 
     @Subject
     ShopsService shopsService = new ShopsService(shopsRepository, shopsMapper)

@@ -2,7 +2,7 @@ package matthias.expense_tracker.purchase.categories;
 
 import lombok.Getter;
 import lombok.Setter;
-import matthias.expense_tracker.common.BaseEntity;
+import matthias.expense_tracker.common.jpa.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

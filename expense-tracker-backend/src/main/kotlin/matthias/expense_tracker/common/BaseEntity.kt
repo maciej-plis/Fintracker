@@ -6,10 +6,7 @@ import javax.persistence.Id
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class BaseEntity {
-
-    @Id
-    val id: UUID = randomUUID()
+abstract class BaseEntity(@Id open val id: UUID = randomUUID()) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

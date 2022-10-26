@@ -1,0 +1,85 @@
+databaseChangeLog:
+  - changeSet:
+      id: CHG-2
+      author: Maciej Plis
+      changes:
+        - dropAllForeignKeyConstraints:
+            baseTableName: purchase_group
+        - dropAllForeignKeyConstraints:
+            baseTableName: purchase
+        - renameTable:
+            oldTableName: purchase
+            newTableName: product
+        - dropPrimaryKey:
+            tableName: product
+        - addPrimaryKey:
+            tableName: product
+            columnNames: id
+            constraintName: pk_product
+        - renameColumn:
+            tableName: product
+            oldColumnName: group_id
+            newColumnName: purchase_id
+        - renameTable:
+            oldTableName: purchase_category
+            newTableName: product_category
+        - dropPrimaryKey:
+            tableName: product_category
+        - addPrimaryKey:
+            tableName: product_category
+            columnNames: id
+            constraintName: pk_product_category
+        - renameTable:
+            oldTableName: purchase_group
+            newTableName: purchase
+        - dropPrimaryKey:
+            tableName: purchase
+        - addPrimaryKey:
+            tableName: purchase
+            columnNames: id
+            constraintName: pk_purchase
+        - addForeignKeyConstraint:
+            baseTableName: purchase
+            baseColumnNames: shop_id
+            referencedTableName: purchase_shop
+            referencedColumnNames: id
+            constraintName: fk_purchase__purchase_shop
+        - addForeignKeyConstraint:
+            baseTableName: product
+            baseColumnNames: purchase_id
+            referencedTableName: purchase
+            referencedColumnNames: id
+            constraintName: fk_product__purchase
+        - addForeignKeyConstraint:
+            baseTableName: product
+            baseColumnNames: category_id
+            referencedTableName: product_category
+            referencedColumnNames: id
+            constraintName: fk_product__product_category
+  - changeSet:
+      id: CHG-3
+      author: Maciej Plis
+      changes:
+        - addNotNullConstraint:
+            tableName: product
+            columnName: purchase_id
+  - changeSet:
+      id: CHG-4
+      author: Maciej Plis
+      changes:
+        - modifyDataType:
+            tableName: product_category
+            columnName: name
+            newDataType: citext
+        - modifyDataType:
+            tableName: purchase_shop
+            columnName: name
+            newDataType: citext
+        - modifyDataType:
+            tableName: product
+            columnName: name
+            newDataType: citext
+        - modifyDataType:
+            tableName: product
+            columnName: description
+            newDataType: text

@@ -8,12 +8,12 @@ import javax.persistence.*
 import javax.persistence.CascadeType.ALL
 
 @Entity
-@Table(name = "purchase_group")
+@Table(name = "purchase")
 class PurchaseEntity(
     var date: LocalDate,
     @ManyToOne(optional = false)
     var shop: ShopEntity,
     @OneToMany(cascade = [ALL], targetEntity = ProductEntity::class)
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "purchase_id")
     var products: List<ProductEntity>
 ) : AuditEntity()

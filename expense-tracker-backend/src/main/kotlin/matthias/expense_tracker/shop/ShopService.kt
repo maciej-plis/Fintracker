@@ -1,16 +1,13 @@
 package matthias.expense_tracker.shop
 
-import lombok.RequiredArgsConstructor
 import matthias.expense_tracker.common.jpa.TransactionExecutor
 import matthias.expense_tracker.openapi.model.ShopDto
 import org.springframework.stereotype.Service
 import javax.persistence.EntityExistsException
 
 @Service
-@RequiredArgsConstructor
 internal class ShopService(
     private val shopRepository: ShopRepository,
-    private val shopMapper: ShopMapper,
     private val transactionEx: TransactionExecutor
 ) {
 
@@ -24,8 +21,4 @@ internal class ShopService(
             return@executeInTx shopRepository.save(shopDto.toEntity()).toDTO()
         }
     }
-
-    private fun ShopEntity.toDTO() = shopMapper.toShopDTO(this)!!
-
-    private fun ShopDto.toEntity() = shopMapper.toShopEntity(this)!!
 }

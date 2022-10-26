@@ -7,7 +7,6 @@ plugins {
     java
     groovy
     kotlin("jvm") version "1.7.20"
-    kotlin("kapt") version "1.7.20"
     kotlin("plugin.jpa") version "1.7.20"
     kotlin("plugin.spring") version "1.7.20"
 }
@@ -27,8 +26,8 @@ kotlin {
     }
 }
 
-kapt {
-    keepJavacAnnotationProcessors = true
+tasks.compileKotlin {
+    kotlinOptions.freeCompilerArgs = listOf("-Xjsr305=strict")
 }
 
 sourceSets {
@@ -52,19 +51,11 @@ repositories {
 dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-    annotationProcessor("org.projectlombok:lombok:1.18.24")
-    compileOnly("org.projectlombok:lombok:1.18.24")
-
-    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
-    compileOnly("org.mapstruct:mapstruct:1.5.3.Final")
-
     implementation(project(":expense-tracker-backend-api"))
 
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.data:spring-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -78,7 +69,6 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.spockframework:spock-spring:2.3-groovy-3.0")
-    testImplementation("org.mapstruct:mapstruct:1.5.3.Final")
     testImplementation("org.codehaus.groovy:groovy-json:3.0.13")
 
     integrationTestRuntimeOnly("com.h2database:h2:2.1.214")
@@ -102,16 +92,6 @@ val integrationTest = task<Test>("integrationTest") {
 
 tasks.check {
     dependsOn(integrationTest)
-}
-
-tasks.compileJava {
-    options.compilerArgs.addAll(
-        listOf(
-            "-Amapstruct.defaultComponentModel=spring",
-            "-Amapstruct.defaultInjectionStrategy=constructor",
-            "-Amapstruct.unmappedTargetPolicy=ERROR"
-        )
-    )
 }
 
 tasks.bootJar {

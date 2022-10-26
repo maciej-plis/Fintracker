@@ -1,10 +1,12 @@
 package matthias.expense_tracker.category
 
-import org.springframework.data.jpa.repository.JpaRepository
+import matthias.expense_tracker.common.jpa.BaseRepository
+import org.springframework.stereotype.Repository
 import java.util.*
 
 
-internal interface CategoryRepository : JpaRepository<CategoryEntity, UUID> {
+@Repository
+internal interface CategoryRepository : BaseRepository<CategoryEntity, UUID> {
 
     fun existsByName(name: String): Boolean
 }

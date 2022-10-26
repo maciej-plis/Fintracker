@@ -11,9 +11,9 @@ import javax.persistence.Table
 @Table(name = "purchase")
 class ProductEntity(
     var name: String,
-    var description: String,
     var price: Double,
     var amount: Double,
     @ManyToOne(optional = false)
-    var category: CategoryEntity
+    var category: CategoryEntity,
+    var description: String?
 ) : BaseEntity()

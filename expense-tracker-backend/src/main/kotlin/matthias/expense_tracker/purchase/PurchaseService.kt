@@ -9,7 +9,6 @@ import java.util.*
 @Service
 internal class PurchaseService(
     private val purchaseRepository: PurchaseRepository,
-    private val purchaseMapper: PurchaseMapper,
     private val transactionEx: TransactionExecutor,
 ) {
 
@@ -27,8 +26,4 @@ internal class PurchaseService(
         }
         return purchaseRepository.refresh(savedPurchase).toDTO()
     }
-
-    private fun PurchaseEntity.toDTO() = purchaseMapper.toPurchaseDTO(this)!!
-
-    private fun PurchaseDto.toEntity() = purchaseMapper.toPurchaseEntity(this)!!
 }

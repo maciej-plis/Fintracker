@@ -8,7 +8,6 @@ import javax.persistence.EntityExistsException
 @Service
 internal class CategoryService(
     private val categoryRepository: CategoryRepository,
-    private val categoryMapper: CategoryMapper,
     private val transactionEx: TransactionExecutor
 ) {
 
@@ -22,8 +21,4 @@ internal class CategoryService(
             return@executeInTx categoryRepository.save(categoryDto.toEntity()).toDTO()
         }
     }
-
-    private fun CategoryEntity.toDTO() = categoryMapper.toCategoryDTO(this)!!
-
-    private fun CategoryDto.toEntity() = categoryMapper.toCategoryEntity(this)!!
 }

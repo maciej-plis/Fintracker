@@ -1,5 +1,2 @@
 spring:
   datasource.url: jdbc:postgresql://localhost:5432/expense-tracker-dev
-  r2dbc.url: r2dbc:postgresql://localhost:5432/expense-tracker-dev
-
-logging.level.org.springframework.r2dbc: DEBUG

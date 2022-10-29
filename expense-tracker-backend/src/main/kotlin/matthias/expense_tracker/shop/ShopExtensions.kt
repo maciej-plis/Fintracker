@@ -1,5 +1,6 @@
 package matthias.expense_tracker.shop
 
+import matthias.expense_tracker.openapi.model.AddShopRequest
 import matthias.expense_tracker.openapi.model.ShopDto
 
 fun ShopEntity.toDTO() = ShopDto(
@@ -7,6 +8,6 @@ fun ShopEntity.toDTO() = ShopDto(
     name = name
 )
 
-fun ShopDto.toEntity() = ShopEntity(
+fun AddShopRequest.toEntity() = ShopEntity(
     name = name
 )

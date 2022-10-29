@@ -10,4 +10,5 @@ properties:
     x-faker: company.name
 
 required:
+  - id
   - name

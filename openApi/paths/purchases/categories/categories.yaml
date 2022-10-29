@@ -20,7 +20,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../../../schemas/purchases/categories/CategoryDto.yaml'
+          $ref: '../../../schemas/purchases/categories/AddCategoryRequest.yaml'
   responses:
     200:
       description: (OK) Success response containing added product category

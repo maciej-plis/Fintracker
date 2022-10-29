@@ -83,3 +83,17 @@ databaseChangeLog:
             tableName: product
             columnName: description
             newDataType: text
+  - changeSet:
+      id: CHG-5
+      author: Maciej Plis
+      changes:
+        - addColumn:
+            tableName: purchase
+            columns:
+              - column:
+                  name: deleted
+                  type: boolean
+        - addNotNullConstraint:
+            tableName: purchase
+            columnName: deleted
+            defaultNullValue: false

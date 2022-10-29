@@ -1,11 +1,9 @@
 properties:
-  id:
+  categoryId:
     type: string
     format: uuid
     example: '92c58038-3267-4689-bc1c-cd0b1d90cc5f'
     x-faker: datatype.uuid
-  category:
-    $ref: '../categories/CategoryDto.yaml'
   name:
     type: string
     example: 'iPhone X'
@@ -26,8 +24,7 @@ properties:
     x-faker: commerce.productDescription
 
 required:
-  - id
-  - category
+  - categoryId
   - name
   - price
   - amount

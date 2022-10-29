@@ -10,4 +10,5 @@ properties:
     x-faker: commerce.department
 
 required:
+  - id
   - name

@@ -1,6 +1,8 @@
 package matthias.expense_tracker.purchase
 
 import matthias.expense_tracker.openapi.api.PurchasesApi
+import matthias.expense_tracker.openapi.model.AddPurchaseRequest
+import matthias.expense_tracker.openapi.model.EditPurchaseRequest
 import matthias.expense_tracker.openapi.model.PurchaseDto
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
@@ -20,7 +22,16 @@ internal class PurchaseController(private val purchaseService: PurchaseService) 
         return ok(purchaseService.getPurchaseOrThrow(purchaseId))
     }
 
-    override fun addPurchase(purchaseDto: PurchaseDto): ResponseEntity<PurchaseDto> {
-        return ok(purchaseService.addPurchases(purchaseDto))
+    override fun addPurchase(addPurchaseRequest: AddPurchaseRequest): ResponseEntity<PurchaseDto> {
+        return ok(purchaseService.addPurchases(addPurchaseRequest))
+    }
+
+    override fun updatePurchase(editPurchaseRequest: EditPurchaseRequest): ResponseEntity<PurchaseDto> {
+        return ok(purchaseService.updatePurchase(editPurchaseRequest))
+    }
+
+    override fun removePurchase(purchaseId: UUID): ResponseEntity<Unit> {
+        purchaseService.removePurchase(purchaseId)
+        return ResponseEntity.noContent().build()
     }
 }

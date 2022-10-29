@@ -28,20 +28,34 @@ components:
   schemas:
     PurchaseDto:
       $ref: './schemas/purchases/PurchaseDto.yaml'
+    AddPurchaseRequest:
+      $ref: './schemas/purchases/AddPurchaseRequest.yaml'
+    EditPurchaseRequest:
+      $ref: './schemas/purchases/EditPurchaseRequest.yaml'
+
     ProductsList:
       $ref: './schemas/purchases/products/ProductsList.yaml'
-    ProductNamesList:
-      $ref: './schemas/purchases/products/ProductNamesList.yaml'
     ProductDto:
       $ref: './schemas/purchases/products/ProductDto.yaml'
+    AddEditProductRequest:
+      $ref: './schemas/purchases/products/AddEditProductRequest.yaml'
+    ProductNamesList:
+      $ref: './schemas/purchases/products/ProductNamesList.yaml'
+
     ShopsList:
       $ref: './schemas/purchases/shops/ShopsList.yaml'
     ShopDto:
       $ref: './schemas/purchases/shops/ShopDto.yaml'
+    AddShopRequest:
+      $ref: './schemas/purchases/shops/AddShopRequest.yaml'
+
     CategoriesList:
       $ref: './schemas/purchases/categories/CategoriesList.yaml'
     CategoryDto:
       $ref: './schemas/purchases/categories/CategoryDto.yaml'
+    AddCategoryRequest:
+      $ref: './schemas/purchases/categories/AddCategoryRequest.yaml'
+
     ErrorMessage:
       $ref: './schemas/common/ErrorMessage.yaml'
     ValidationError:

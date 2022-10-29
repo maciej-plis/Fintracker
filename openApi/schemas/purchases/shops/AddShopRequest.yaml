@@ -1,0 +1,8 @@
+properties:
+  name:
+    type: string
+    example: 'Walmart'
+    x-faker: company.name
+
+required:
+  - name

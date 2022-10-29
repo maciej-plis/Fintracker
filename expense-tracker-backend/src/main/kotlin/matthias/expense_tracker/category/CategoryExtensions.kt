@@ -1,5 +1,6 @@
 package matthias.expense_tracker.category
 
+import matthias.expense_tracker.openapi.model.AddCategoryRequest
 import matthias.expense_tracker.openapi.model.CategoryDto
 
 fun CategoryEntity.toDTO() = CategoryDto(
@@ -7,6 +8,6 @@ fun CategoryEntity.toDTO() = CategoryDto(
     name = name
 )
 
-fun CategoryDto.toEntity() = CategoryEntity(
+fun AddCategoryRequest.toEntity() = CategoryEntity(
     name = name
 )

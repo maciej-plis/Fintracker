@@ -20,7 +20,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../../../schemas/purchases/shops/ShopDto.yaml'
+          $ref: '../../../schemas/purchases/shops/AddShopRequest.yaml'
   responses:
     200:
       description: (OK) Success response containing added purchase shop

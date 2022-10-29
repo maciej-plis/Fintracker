@@ -1,6 +1,7 @@
 package matthias.expense_tracker.category
 
 import matthias.expense_tracker.common.jpa.TransactionExecutor
+import matthias.expense_tracker.openapi.model.AddCategoryRequest
 import matthias.expense_tracker.openapi.model.CategoryDto
 import org.springframework.stereotype.Service
 import javax.persistence.EntityExistsException
@@ -15,10 +16,10 @@ internal class CategoryService(
         return categoryRepository.findAll().map { it.toDTO() }
     }
 
-    fun addProductCategory(categoryDto: CategoryDto): CategoryDto {
+    fun addProductCategory(request: AddCategoryRequest): CategoryDto {
         return transactionEx.executeInTx {
-            categoryRepository.existsByName(categoryDto.name) && throw EntityExistsException("Category with name '${categoryDto.name}' already exist")
-            return@executeInTx categoryRepository.save(categoryDto.toEntity()).toDTO()
+            categoryRepository.existsByName(request.name) && throw EntityExistsException("Category with name '${request.name}' already exist")
+            return@executeInTx categoryRepository.save(request.toEntity()).toDTO()
         }
     }
 }

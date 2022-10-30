@@ -1,8 +1,7 @@
 package matthias.expense_tracker.purchase
 
 import matthias.expense_tracker.common.jpa.TransactionExecutor
-import matthias.expense_tracker.openapi.model.AddPurchaseRequest
-import matthias.expense_tracker.openapi.model.EditPurchaseRequest
+import matthias.expense_tracker.openapi.model.AddEditPurchaseRequest
 import matthias.expense_tracker.openapi.model.PurchaseDto
 import org.springframework.stereotype.Service
 import java.util.*
@@ -15,23 +14,23 @@ internal class PurchaseService(
 ) {
 
     fun getPurchases(): List<PurchaseDto> {
-        return purchaseRepository.findAll().map { it.toDTO() }
+        return purchaseRepository.findAll().map(PurchaseEntity::toDTO)
     }
 
     fun getPurchaseOrThrow(purchaseId: UUID): PurchaseDto {
         return purchaseRepository.findByIdOrThrow(purchaseId).toDTO()
     }
 
-    fun addPurchases(request: AddPurchaseRequest): PurchaseDto {
+    fun addPurchases(request: AddEditPurchaseRequest): PurchaseDto {
         val savedPurchase = transactionEx.executeInTx {
             return@executeInTx purchaseRepository.save(request.toEntity())
         }
         return purchaseRepository.refresh(savedPurchase).toDTO()
     }
 
-    fun updatePurchase(request: EditPurchaseRequest): PurchaseDto {
+    fun updatePurchase(purchaseId: UUID, request: AddEditPurchaseRequest): PurchaseDto {
         val updatedPurchase = transactionEx.executeInTx {
-            return@executeInTx purchaseRepository.save(request.toEntity())
+            return@executeInTx purchaseRepository.save(request.toEntity(purchaseId))
         }
         return purchaseRepository.refresh(updatedPurchase).toDTO()
     }

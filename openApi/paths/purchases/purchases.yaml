@@ -8,7 +8,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../../schemas/purchases/AddPurchaseRequest.yaml'
+          $ref: '../../schemas/purchases/AddEditPurchaseRequest.yaml'
   responses:
     200:
       description: (OK) Success response containing added purchase

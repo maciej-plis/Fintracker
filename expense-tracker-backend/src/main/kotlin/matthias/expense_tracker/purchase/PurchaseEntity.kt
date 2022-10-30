@@ -7,20 +7,26 @@ import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.Where
 import java.time.LocalDate
 import java.util.*
-import java.util.UUID.randomUUID
 import javax.persistence.*
+import javax.persistence.CascadeType.ALL
 
 @Entity
 @Table(name = "purchase")
 @Where(clause = "deleted = false")
 @SQLDelete(sql = "UPDATE purchase SET deleted = true where id=?")
-class PurchaseEntity(
-    var date: LocalDate,
+class PurchaseEntity : AuditEntity {
+
+    constructor() : super()
+    constructor(id: UUID?) : super(id)
+
+    lateinit var date: LocalDate
+
     @ManyToOne(optional = false)
-    var shop: ShopEntity,
-    @OneToMany
+    lateinit var shop: ShopEntity
+
+    @OneToMany(cascade = [ALL], orphanRemoval = true)
     @JoinColumn(name = "purchase_id", nullable = false)
-    var products: List<ProductEntity>,
-    var deleted: Boolean = false,
-    id: UUID = randomUUID()
-) : AuditEntity(id)
+    lateinit var products: List<ProductEntity>
+
+    var deleted: Boolean = false
+}

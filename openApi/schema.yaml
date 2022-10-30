@@ -29,9 +29,7 @@ components:
     PurchaseDto:
       $ref: './schemas/purchases/PurchaseDto.yaml'
     AddPurchaseRequest:
-      $ref: './schemas/purchases/AddPurchaseRequest.yaml'
-    EditPurchaseRequest:
-      $ref: './schemas/purchases/EditPurchaseRequest.yaml'
+      $ref: './schemas/purchases/AddEditPurchaseRequest.yaml'
 
     ProductsList:
       $ref: './schemas/purchases/products/ProductsList.yaml'

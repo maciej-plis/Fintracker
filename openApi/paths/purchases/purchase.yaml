@@ -20,13 +20,20 @@ put:
   summary: Update purchase
   tags: [ purchases ]
   operationId: updatePurchase
+  parameters:
+    - in: path
+      name: purchaseId
+      schema:
+        type: string
+        format: uuid
+      required: true
   requestBody:
     description: Request containing new purchase to be added
     required: true
     content:
       application/json:
         schema:
-          $ref: '../../schemas/purchases/EditPurchaseRequest.yaml'
+          $ref: '../../schemas/purchases/AddEditPurchaseRequest.yaml'
   responses:
     200:
       description: (OK) Success response containing updated purchase

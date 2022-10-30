@@ -35,3 +35,17 @@ get:
             type: array
             items:
               $ref: '../../schemas/purchases/PurchaseDto.yaml'
+delete:
+  summary: Delete multiple purchases
+  tags: [ purchases ]
+  operationId: removePurchases
+  requestBody:
+    description: Request containing ids of purchases to be deleted
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../schemas/common/BulkDeleteRequest.yaml'
+  responses:
+    204:
+      description: (NO_CONTENT) Success response

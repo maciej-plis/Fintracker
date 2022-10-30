@@ -54,6 +54,9 @@ components:
     AddCategoryRequest:
       $ref: './schemas/purchases/categories/AddCategoryRequest.yaml'
 
+    BulkDeleteRequest:
+      $ref: './schemas/common/BulkDeleteRequest.yaml'
+
     ErrorMessage:
       $ref: './schemas/common/ErrorMessage.yaml'
     ValidationError:

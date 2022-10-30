@@ -1,0 +1,9 @@
+properties:
+  ids:
+    type: array
+    items:
+      type: string
+      format: uuid
+
+required:
+  - ids

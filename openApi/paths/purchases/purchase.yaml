@@ -54,4 +54,4 @@ delete:
       required: true
   responses:
     204:
-      noContent: (NO_CONTENT) Success response
+      description: (NO_CONTENT) Success response

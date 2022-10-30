@@ -40,4 +40,10 @@ internal class PurchaseService(
             purchaseRepository.deleteById(purchaseId)
         }
     }
+
+    fun removePurchases(ids: List<UUID>) {
+        transactionEx.executeInTx {
+            purchaseRepository.deleteAllById(ids)
+        }
+    }
 }

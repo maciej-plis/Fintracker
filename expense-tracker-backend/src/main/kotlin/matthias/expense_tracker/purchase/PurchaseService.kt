@@ -35,12 +35,7 @@ internal class PurchaseService(
     fun updatePurchase(purchaseId: UUID, request: AddEditPurchaseRequest): PurchaseDto {
         val updatedPurchase = transactionEx.executeInTx {
             purchaseRepository.deletePurchaseProducts(purchaseId)
-            return@executeInTx purchaseRepository.getReferenceById(purchaseId).apply {
-                val updatedProducts = request.products.map(AddEditProductRequest::toEntity)
-                shop = ShopEntity(request.shopId)
-                date = request.date
-                products.addAll(updatedProducts)
-            }
+            return@executeInTx purchaseRepository.getReferenceById(purchaseId).applyUpdate(request);
         }
         purchaseRepository.clearContext()
         return getPurchaseOrThrow(updatedPurchase.id)
@@ -56,5 +51,13 @@ internal class PurchaseService(
         transactionEx.executeInTx {
             purchaseRepository.deleteAllById(ids)
         }
+    }
+
+    private fun PurchaseEntity.applyUpdate(request: AddEditPurchaseRequest): PurchaseEntity {
+        val updatedProducts = request.products.map(AddEditProductRequest::toEntity)
+        shop = ShopEntity(request.shopId)
+        date = request.date
+        products.addAll(updatedProducts)
+        return this
     }
 }

@@ -7,6 +7,8 @@ import java.io.Serializable
 @NoRepositoryBean
 interface BaseRepository<T, ID : Serializable> : JpaRepository<T, ID> {
 
+    fun clearContext(): Unit
+
     fun refresh(entity: T): T
 
     fun findByIdOrThrow(id: ID): T

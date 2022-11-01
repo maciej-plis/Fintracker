@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { PurchaseDto, PurchasesService } from 'build/expense-tracker-frontend-api';
 import { PurchasesDataSource } from "../../services/purchases.data-source";
 import { MatPaginator } from "@angular/material/paginator";
-import { first, map, merge, Observable } from "rxjs";
+import { map, merge, Observable, take } from "rxjs";
 import { MatSort, SortDirection } from "@angular/material/sort";
 import { SelectionModel } from "@angular/cdk/collections";
 
@@ -25,7 +25,6 @@ export class PurchasesDisplayTableComponent implements OnInit, AfterViewInit {
   purchasesLength: Observable<number>;
 
   selection = new SelectionModel<PurchaseDto>(true, []);
-  allSelected = false;
 
   constructor(private purchasesService: PurchasesService) {
   }
@@ -47,7 +46,9 @@ export class PurchasesDisplayTableComponent implements OnInit, AfterViewInit {
   }
 
   selectOrDeselectAll() {
-    this.isAllSelected() ? this.clearSelection() : this.dataSource.connect().pipe(first()).subscribe(purchases => this.selection.select(...purchases));
+    this.isAllSelected() ? this.clearSelection() : this.dataSource.connect()
+      .pipe(take(1))
+      .subscribe(purchases => this.selection.select(...purchases));
   }
 
   isAllSelected() {

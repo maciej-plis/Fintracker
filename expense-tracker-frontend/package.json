@@ -27,7 +27,7 @@
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
     "@handsontable/angular": "^12.1.2",
-    "@openapitools/openapi-generator-cli": "^2.5.1",
+    "@openapitools/openapi-generator-cli": "^2.5.2",
     "bootstrap": "^5.2.0",
     "bootstrap-icons": "^1.9.1",
     "feather-icons": "^4.29.0",

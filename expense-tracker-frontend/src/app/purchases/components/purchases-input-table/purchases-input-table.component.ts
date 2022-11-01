@@ -230,6 +230,7 @@ export class PurchasesInputTable implements OnInit, AfterViewInit, ControlValueA
 
   private createPurchaseFormGroup(product: any): FormGroup {
     return this.fb.group({
+      "id": [product.id],
       "category": [product.category],
       "name": [product.name],
       "amount": [product.amount],

@@ -12,6 +12,10 @@ class BaseRepositoryImpl<T, ID : Serializable>(
     private val entityManager: EntityManager
 ) : SimpleJpaRepository<T, ID>(jpaEntityInformation, entityManager), BaseRepository<T, ID> {
 
+    override fun clearContext(): Unit {
+        entityManager.clear()
+    }
+
     @Transactional
     override fun refresh(entity: T): T {
         entityManager.refresh(entity)

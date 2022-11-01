@@ -96,4 +96,20 @@ databaseChangeLog:
         - addNotNullConstraint:
             tableName: purchase
             columnName: deleted
-            defaultNullValue: false
+  - changeSet:
+      id: CHG-6
+      author: Maciej Plis
+      changes:
+        - addColumn:
+            tableName: product
+            columns:
+              - column:
+                  name: ordinal
+                  type: smallint
+        - sql:
+            sql:
+              'WITH ordering AS (SELECT id, purchase_id, ROW_NUMBER() OVER (PARTITION BY purchase_id ORDER BY id) AS ord FROM product)
+              UPDATE product SET ordinal = (SELECT ord - 1 FROM ordering WHERE ordering.id = product.id);'
+        - addNotNullConstraint:
+            tableName: product
+            columnName: ordinal

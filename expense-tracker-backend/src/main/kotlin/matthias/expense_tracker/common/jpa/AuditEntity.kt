@@ -16,8 +16,8 @@ abstract class AuditEntity : BaseEntity {
     constructor(id: UUID?) : super(id)
 
     @CreatedDate
-    val createdAt: Instant? = null
+    var createdAt: Instant? = null
 
     @LastModifiedBy
-    val modifiedAt: Instant? = null
+    var modifiedAt: Instant? = null
 }

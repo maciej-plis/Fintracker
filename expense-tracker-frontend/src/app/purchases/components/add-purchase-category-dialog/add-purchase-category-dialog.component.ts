@@ -4,7 +4,6 @@ import { CategoriesService, CategoryDto } from 'build/expense-tracker-frontend-a
 import { FormBuilder, FormControl, Validators } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ErrorMessages } from "@shared/pipes/error-messages-converter.pipe";
-import { v4 as randomUUID } from "uuid";
 
 @Component({
   selector: 'add-purchase-shop-dialog',
@@ -40,12 +39,10 @@ export class AddPurchaseCategoryDialog implements OnInit {
   }
 
   onSave(): void {
-    if (this.categoryForm.invalid) {
-      return;
-    }
+    if (this.categoryForm.invalid) return;
 
     this.categoriesService
-      .addProductCategory({id: randomUUID(), name: this.categoryForm.value})
+      .addProductCategory({name: this.categoryForm.value})
       .subscribe({
         next: (savedCategory: CategoryDto) => this.dialogRef.close(savedCategory),
         error: (errResp: HttpErrorResponse) => {

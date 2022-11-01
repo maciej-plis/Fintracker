@@ -19,5 +19,5 @@ fun PurchaseEntity.toDTO() = PurchaseDto(
 fun AddEditPurchaseRequest.toEntity(id: UUID? = null) = PurchaseEntity(id).also {
     it.shop = ShopEntity(shopId)
     it.date = date
-    it.products = products.map(AddEditProductRequest::toEntity)
+    it.products = products.map(AddEditProductRequest::toEntity).toMutableList()
 }

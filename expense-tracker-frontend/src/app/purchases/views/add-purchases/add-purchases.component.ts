@@ -1,12 +1,17 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
-import { ProductDto, PurchaseDto, PurchasesService, ShopsService } from 'build/expense-tracker-frontend-api';
+import {
+  AddEditPurchaseRequest,
+  ProductDto,
+  PurchaseDto,
+  PurchasesService,
+  ShopsService
+} from 'build/expense-tracker-frontend-api';
 import { MatDialog } from "@angular/material/dialog";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { formatCurrency, formatDate, getCurrencySymbol } from "@angular/common";
 import { filter, map, mergeMap } from 'rxjs';
 import { ConfirmationDialog } from "@shared/components/confirmation-dialog/confirmation-dialog.component";
-import { v4 as randomUUID } from 'uuid';
 import { ActivatedRoute } from "@angular/router";
 import { isAnyPropertyNonNull } from "@shared/miscellaneous/functions";
 
@@ -23,6 +28,8 @@ numbro.setLanguage('pl-PL')
 export class AddPurchasesComponent implements OnInit {
 
   purchasesForm: FormGroup;
+
+  id: string | null
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
@@ -41,15 +48,17 @@ export class AddPurchasesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.id = this.route.snapshot.params['id'] ?? null;
+
     this.route.params.pipe(
       map(({id}) => id),
       filter(id => id != null),
       mergeMap(id => this.purchasesService.getPurchase(id))
-    ).subscribe(purchase => this.loadPurchaseData(purchase))
+    ).subscribe(purchase => this.loadPurchaseData(purchase));
   }
 
   private loadPurchaseData(purchase: PurchaseDto): void {
-    this.purchasesForm.reset({
+    this.purchasesForm.setValue({
       shop: purchase.shop,
       date: purchase.date,
       products: purchase.products
@@ -69,18 +78,21 @@ export class AddPurchasesComponent implements OnInit {
     if (this.purchasesForm.invalid) return;
 
     const purchase: PurchaseDto = this.mapPurchaseDto();
-    this.openConfirmationDialogForSavingPurchase(purchase, () => this.saveNewPurchase(purchase));
+
+    console.log("Request: ", this.toRequest(purchase))
+
+    this.openConfirmationDialogForSavingPurchase(purchase, () => this.savePurchase(purchase));
   }
 
   private mapPurchaseDto(): PurchaseDto {
     return {
-      id: randomUUID(),
+      id: "",
       shop: this.purchasesForm.controls['shop'].value,
       date: this.purchasesForm.controls['date'].value,
       products: this.purchasesForm.controls['products'].value
         .filter(isAnyPropertyNonNull)
         .map((row: any) => ({
-          id: randomUUID(),
+          id: row.id,
           category: row.category,
           name: row.name,
           amount: row.amount,
@@ -106,7 +118,7 @@ export class AddPurchasesComponent implements OnInit {
         }
       })
       .afterClosed()
-      .pipe(filter(approved => approved))
+      .pipe(filter(confirmed => confirmed))
       .subscribe(() => approvedCallback());
   }
 
@@ -118,11 +130,36 @@ export class AddPurchasesComponent implements OnInit {
     return formatCurrency(totalPrice, this.locale, getCurrencySymbol("PLN", "wide", this.locale), 'PLN', '1.2-2')
   }
 
+  private savePurchase(purchase: PurchaseDto) {
+    this.id !== null ? this.updateExistingPurchase(purchase) : this.saveNewPurchase(purchase)
+  }
+
   private saveNewPurchase(purchase: PurchaseDto) {
-    this.purchasesService.addPurchase(purchase).subscribe(
+    this.purchasesService.addPurchase(this.toRequest(purchase)).subscribe(
       () => this.snackBar.open("Purchase saved!", "dismiss", {duration: 3000}),
       () => this.snackBar.open("Failed to save purchase!", "dismiss", {duration: 3000})
     );
+  }
+
+  private updateExistingPurchase(purchase: PurchaseDto) {
+    this.purchasesService.updatePurchase(this.id!, this.toRequest(purchase)).subscribe(
+      () => this.snackBar.open("Purchase saved!", "dismiss", {duration: 3000}),
+      () => this.snackBar.open("Failed to save purchase!", "dismiss", {duration: 3000})
+    );
+  }
+
+  private toRequest(purchase: PurchaseDto): AddEditPurchaseRequest {
+    return {
+      shopId: purchase.shop.id,
+      date: purchase.date,
+      products: purchase.products.map(product => ({
+        categoryId: product.category.id,
+        name: product.name,
+        amount: product.amount,
+        price: product.price,
+        description: product.description
+      }))
+    }
   }
 
   private initEmptyProductGroups(length: number): any[] {

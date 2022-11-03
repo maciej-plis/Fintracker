@@ -8,33 +8,52 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../../schemas/purchases/AddEditPurchaseRequest.yaml'
+          $ref: '../../schema.yaml#/components/schemas/AddEditPurchaseRequest'
   responses:
     200:
       description: (OK) Success response containing added purchase
       content:
         application/json:
           schema:
-            $ref: '../../schemas/purchases/PurchaseDto.yaml'
+            $ref: '../../schema.yaml#/components/schemas/PurchaseDto'
     400:
       description: (BAD_REQUEST) Failure response when request body is invalid
       content:
         application/json:
           schema:
-            $ref: '../../schemas/common/ValidationError.yaml'
+            $ref: '../../schema.yaml#/components/schemas/ValidationError'
 get:
   summary: Get purchases
   tags: [ purchases ]
   operationId: getPurchases
+  parameters:
+    - in: query
+      name: offset
+      schema:
+        type: integer
+      default: 0
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      default: 10
+    - in: query
+      name: sortProperty
+      schema:
+        type: string
+      default: id
+    - in: query
+      name: sortDirection
+      schema:
+        type: string
+      default: asc
   responses:
     200:
       description: (OK) Success response containing purchases
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: '../../schemas/purchases/PurchaseDto.yaml'
+            $ref: '../../schema.yaml#/components/schemas/PurchasePage'
 delete:
   summary: Delete multiple purchases
   tags: [ purchases ]
@@ -45,7 +64,7 @@ delete:
     content:
       application/json:
         schema:
-          $ref: '../../schemas/common/BulkDeleteRequest.yaml'
+          $ref: '../../schema.yaml#/components/schemas/BulkDeleteRequest'
   responses:
     204:
       description: (NO_CONTENT) Success response

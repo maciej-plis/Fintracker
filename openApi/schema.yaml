@@ -17,42 +17,46 @@ paths:
     $ref: './paths/purchases/purchases.yaml'
   /purchases/{purchaseId}:
     $ref: './paths/purchases/purchase.yaml'
-  /purchases/products/names:
-    $ref: './paths/purchases/products/names.yaml'
-  /purchases/shops:
-    $ref: './paths/purchases/shops/shops.yaml'
-  /purchases/categories:
-    $ref: './paths/purchases/categories/categories.yaml'
+  /products/names:
+    $ref: './paths/products/names.yaml'
+  /shops:
+    $ref: './paths/shops/shops.yaml'
+  /categories:
+    $ref: './paths/categories/categories.yaml'
 
 components:
   schemas:
+    PurchasePage:
+      $ref: './schemas/purchases/PurchasePage.yaml'
     PurchaseDto:
       $ref: './schemas/purchases/PurchaseDto.yaml'
-    AddPurchaseRequest:
+    AddEditPurchaseRequest:
       $ref: './schemas/purchases/AddEditPurchaseRequest.yaml'
 
-    ProductsList:
-      $ref: './schemas/purchases/products/ProductsList.yaml'
+    ProductList:
+      $ref: './schemas/products/ProductList.yaml'
     ProductDto:
-      $ref: './schemas/purchases/products/ProductDto.yaml'
+      $ref: './schemas/products/ProductDto.yaml'
     AddEditProductRequest:
-      $ref: './schemas/purchases/products/AddEditProductRequest.yaml'
+      $ref: './schemas/products/AddEditProductRequest.yaml'
+    AddEditProductRequestList:
+      $ref: './schemas/products/AddEditProductRequestList.yaml'
     ProductNamesList:
-      $ref: './schemas/purchases/products/ProductNamesList.yaml'
+      $ref: './schemas/products/ProductNamesList.yaml'
 
-    ShopsList:
-      $ref: './schemas/purchases/shops/ShopsList.yaml'
+    ShopList:
+      $ref: './schemas/shops/ShopList.yaml'
     ShopDto:
-      $ref: './schemas/purchases/shops/ShopDto.yaml'
+      $ref: './schemas/shops/ShopDto.yaml'
     AddShopRequest:
-      $ref: './schemas/purchases/shops/AddShopRequest.yaml'
+      $ref: './schemas/shops/AddShopRequest.yaml'
 
-    CategoriesList:
-      $ref: './schemas/purchases/categories/CategoriesList.yaml'
+    CategoryList:
+      $ref: './schemas/categories/CategoryList.yaml'
     CategoryDto:
-      $ref: './schemas/purchases/categories/CategoryDto.yaml'
+      $ref: './schemas/categories/CategoryDto.yaml'
     AddCategoryRequest:
-      $ref: './schemas/purchases/categories/AddCategoryRequest.yaml'
+      $ref: './schemas/categories/AddCategoryRequest.yaml'
 
     BulkDeleteRequest:
       $ref: './schemas/common/BulkDeleteRequest.yaml'

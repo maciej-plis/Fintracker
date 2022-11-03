@@ -8,7 +8,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../../schemas/purchases/shops/ShopsList.yaml'
+            $ref: '../../schema.yaml#/components/schemas/ShopList'
 
 post:
   summary: Add new purchase shop
@@ -20,17 +20,17 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../../../schemas/purchases/shops/AddShopRequest.yaml'
+          $ref: '../../schema.yaml#/components/schemas/AddShopRequest'
   responses:
     200:
       description: (OK) Success response containing added purchase shop
       content:
         application/json:
           schema:
-            $ref: '../../../schemas/purchases/shops/ShopDto.yaml'
+            $ref: '../../schema.yaml#/components/schemas/ShopDto'
     400:
       description: (BAD_REQUEST) Failure response when request body is invalid
       content:
         application/json:
           schema:
-            $ref: '../../../schemas/common/ValidationError.yaml'
+            $ref: '../../schema.yaml#/components/schemas/ValidationError'

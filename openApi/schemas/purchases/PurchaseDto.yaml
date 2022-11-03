@@ -5,14 +5,14 @@ properties:
     example: '4a807620-7e35-4824-bbe9-acf4a597c97f'
     x-faker: datatype.uuid
   shop:
-    $ref: './shops/ShopDto.yaml'
+    $ref: '../../schema.yaml#/components/schemas/ShopDto'
   date:
     type: string
     format: date
     example: '2020-07-27'
     x-faker: date.recent
   products:
-    $ref: './products/ProductsList.yaml'
+    $ref: '../../schema.yaml#/components/schemas/ProductList'
 
 required:
   - id

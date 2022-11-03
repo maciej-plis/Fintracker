@@ -10,7 +10,7 @@ properties:
     example: '2020-07-27'
     x-faker: date.recent
   products:
-    $ref: './products/AddEditProductRequestList.yaml'
+    $ref: '../../schema.yaml#/components/schemas/AddEditProductRequestList'
 
 required:
   - shopId

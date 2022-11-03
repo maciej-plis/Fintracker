@@ -15,7 +15,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../schemas/purchases/PurchaseDto.yaml'
+            $ref: '../../schema.yaml#/components/schemas/PurchaseDto'
 put:
   summary: Update purchase
   tags: [ purchases ]
@@ -33,14 +33,14 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../../schemas/purchases/AddEditPurchaseRequest.yaml'
+          $ref: '../../schema.yaml#/components/schemas/AddEditPurchaseRequest'
   responses:
     200:
       description: (OK) Success response containing updated purchase
       content:
         application/json:
           schema:
-            $ref: '../../schemas/purchases/PurchaseDto.yaml'
+            $ref: '../../schema.yaml#/components/schemas/PurchaseDto'
 delete:
   summary: Remove purchase
   tags: [ purchases ]

@@ -8,7 +8,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../../schemas/purchases/categories/CategoriesList.yaml'
+            $ref: '../../schema.yaml#/components/schemas/CategoryList'
 
 post:
   summary:  Add new product category
@@ -20,17 +20,17 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../../../schemas/purchases/categories/AddCategoryRequest.yaml'
+          $ref: '../../schema.yaml#/components/schemas/AddCategoryRequest'
   responses:
     200:
       description: (OK) Success response containing added product category
       content:
         application/json:
           schema:
-            $ref: '../../../schemas/purchases/categories/CategoryDto.yaml'
+            $ref: '../../schema.yaml#/components/schemas/CategoryDto'
     400:
       description: (BAD_REQUEST) Failure response when request body is invalid
       content:
         application/json:
           schema:
-            $ref: '../../../schemas/common/ValidationError.yaml'
+            $ref: '../../schema.yaml#/components/schemas/ValidationError'

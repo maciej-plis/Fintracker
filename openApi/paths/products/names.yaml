@@ -15,10 +15,10 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../../schemas/purchases/products/ProductNamesList.yaml'
+            $ref: '../../schema.yaml#/components/schemas/ProductNamesList'
     400:
       description: (BAD_REQUEST) Failure response when query string is invalid
       content:
         application/json:
           schema:
-            $ref: '../../../schemas/common/ErrorMessage.yaml'
+            $ref: '../../schema.yaml#/components/schemas/ErrorMessage'

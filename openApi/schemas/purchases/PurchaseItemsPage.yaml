@@ -1,0 +1,21 @@
+properties:
+  content:
+    type: array
+    items:
+      $ref: '../../schema.yaml#/components/schemas/PurchaseItemDto'
+  totalPages:
+    type: integer
+  totalElements:
+    type: integer
+    format: int64
+  first:
+    type: boolean
+  last:
+    type: boolean
+
+required:
+  - content
+  - totalPages
+  - totalElements
+  - first
+  - last

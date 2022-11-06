@@ -1,22 +1,23 @@
 package matthias.expense_tracker.category
 
-import matthias.expense_tracker.openapi.api.CategoriesApi
 import matthias.expense_tracker.openapi.model.AddCategoryRequest
 import matthias.expense_tracker.openapi.model.CategoryDto
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @CrossOrigin("*")
 @RestController
-internal class CategoryController(private val categoryService: CategoryService) : CategoriesApi {
+@RequestMapping("/categories")
+internal class CategoryController(private val categoryService: CategoryService) {
 
-    override fun getProductCategories(): ResponseEntity<List<CategoryDto>> {
+    @GetMapping
+    fun getProductCategories(): ResponseEntity<List<CategoryDto>> {
         return ok(categoryService.getProductCategories())
     }
 
-    override fun addProductCategory(addCategoryRequest: AddCategoryRequest): ResponseEntity<CategoryDto> {
+    @PostMapping
+    fun addProductCategory(@RequestBody addCategoryRequest: AddCategoryRequest): ResponseEntity<CategoryDto> {
         return ok(categoryService.addProductCategory(addCategoryRequest))
     }
 }

@@ -5,8 +5,9 @@ import {
 } from '../../components/purchases-display-table/purchases-display-table.component';
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmationDialog } from "@shared/components/confirmation-dialog/confirmation-dialog.component";
-import { PurchaseDto, PurchasesService } from 'build/expense-tracker-frontend-api';
+import { PurchaseItemDto, PurchasesService } from 'build/expense-tracker-frontend-api';
 import { filter } from "rxjs";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-purchases',
@@ -19,6 +20,7 @@ export class PurchasesComponent implements OnInit, AfterViewInit {
 
   constructor(
     private dialog: MatDialog,
+    private snackBar: MatSnackBar,
     private purchasesService: PurchasesService
   ) {}
 
@@ -46,13 +48,18 @@ export class PurchasesComponent implements OnInit, AfterViewInit {
       .subscribe(() => this.deletePurchases());
   }
 
-  get selectedPurchases(): PurchaseDto[] {
+  get selectedPurchases(): PurchaseItemDto[] {
     return this.table.selection.selected;
   }
 
   private deletePurchases() {
     const ids = this.selectedPurchases.map(purchase => purchase.id);
-    this.purchasesService.removePurchases({ids});
-    this.table.loadPurchasesPage();
+    this.purchasesService.removePurchases({ids}).subscribe(
+      () => {
+        this.snackBar.open("Purchase deleted!", "dismiss", {duration: 3000});
+        this.table.loadPurchasesPage();
+      },
+      () => this.snackBar.open("Failed to delete purchases!", "dismiss", {duration: 3000})
+    );
   }
 }

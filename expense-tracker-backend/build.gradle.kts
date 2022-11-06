@@ -14,20 +14,14 @@ plugins {
 group = rootProject.group
 version = rootProject.version
 
-java {
-    toolchain {
-        languageVersion.set(of(17))
-    }
+tasks.compileKotlin {
+    kotlinOptions.freeCompilerArgs = listOf("-Xjsr305=strict")
 }
 
 kotlin {
     jvmToolchain {
         languageVersion.set(of(17))
     }
-}
-
-tasks.compileKotlin {
-    kotlinOptions.freeCompilerArgs = listOf("-Xjsr305=strict")
 }
 
 sourceSets {
@@ -62,7 +56,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-//    runtimeOnly(project(":expense-tracker-frontend"))
+    runtimeOnly(project(":expense-tracker-frontend"))
 
     runtimeOnly("org.liquibase:liquibase-core:4.17.0")
     runtimeOnly("org.postgresql:postgresql:42.5.0")
@@ -78,7 +72,7 @@ tasks.test {
     useJUnitPlatform()
 }
 
-val integrationTest = task<Test>("integrationTest") {
+tasks.register<Test>("integrationTest") {
     description = "Run integration tests."
     group = "verification"
 
@@ -91,7 +85,7 @@ val integrationTest = task<Test>("integrationTest") {
 }
 
 tasks.check {
-    dependsOn(integrationTest)
+    dependsOn("integrationTest")
 }
 
 tasks.bootJar {
@@ -116,8 +110,11 @@ docker {
     )
 
     buildArgs(
-        mapOf(
-            "JAR_FILE" to bootJar.archiveFileName.get()
-        )
+        mapOf("JAR_FILE" to bootJar.archiveFileName.get())
     )
+}
+
+tasks.docker {
+    dependsOn("build")
+    finalizedBy("dockerTag")
 }

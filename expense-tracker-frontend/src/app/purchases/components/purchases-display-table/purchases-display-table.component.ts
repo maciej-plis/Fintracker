@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { PurchaseDto, PurchasesService } from 'build/expense-tracker-frontend-api';
+import { PurchaseItemDto, PurchasesService } from 'build/expense-tracker-frontend-api';
 import { PurchasesDataSource } from "../../services/purchases.data-source";
 import { MatPaginator } from "@angular/material/paginator";
-import { map, merge, Observable, take } from "rxjs";
+import { merge, take } from "rxjs";
 import { MatSort, SortDirection } from "@angular/material/sort";
 import { SelectionModel } from "@angular/cdk/collections";
 
@@ -17,14 +17,12 @@ export class PurchasesDisplayTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource: PurchasesDataSource;
-  displayedColumns = ['select', 'index', 'name', 'date', 'products', 'price'];
+  displayedColumns = ['select', 'index', 'shopName', 'date', 'productsCount', 'totalPrice'];
 
   initialSortColumn = 'date';
   initialSortDirection: SortDirection = 'desc';
 
-  purchasesLength: Observable<number>;
-
-  selection = new SelectionModel<PurchaseDto>(true, []);
+  selection = new SelectionModel<PurchaseItemDto>(true, []);
 
   constructor(private purchasesService: PurchasesService) {
   }
@@ -32,7 +30,6 @@ export class PurchasesDisplayTableComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.dataSource = new PurchasesDataSource(this.purchasesService)
     this.dataSource.loadPurchases(this.initialSortColumn, this.initialSortDirection)
-    this.purchasesLength = this.dataSource.connect().pipe(map(purchases => purchases.length))
   }
 
   ngAfterViewInit() {

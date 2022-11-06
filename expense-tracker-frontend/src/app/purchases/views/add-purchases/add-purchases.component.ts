@@ -43,7 +43,7 @@ export class AddPurchasesComponent implements OnInit {
     this.purchasesForm = fb.group({
       shop: fb.control(null, Validators.required),
       date: fb.control(new Date(), Validators.required),
-      products: fb.control(this.initEmptyProductGroups(10), Validators.required)
+      products: fb.control([], Validators.required)
     })
   }
 
@@ -69,7 +69,7 @@ export class AddPurchasesComponent implements OnInit {
     this.purchasesForm.reset({
       shop: null,
       date: new Date(),
-      products: this.initEmptyProductGroups(10)
+      products: []
     })
     this.purchasesForm.markAsPristine();
   }
@@ -160,16 +160,6 @@ export class AddPurchasesComponent implements OnInit {
         description: product.description
       }))
     }
-  }
-
-  private initEmptyProductGroups(length: number): any[] {
-    return Array.from({length}, () => ({
-      "category": null,
-      "name": null,
-      "amount": null,
-      "price": null,
-      "description": null,
-    }));
   }
 }
 

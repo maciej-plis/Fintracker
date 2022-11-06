@@ -1,15 +1,21 @@
 properties:
-  items:
+  content:
     type: array
     items:
       $ref: '../../schema.yaml#/components/schemas/PurchaseDto'
   totalPages:
     type: integer
-  totalItems:
+  totalElements:
     type: integer
     format: int64
+  first:
+    type: boolean
+  last:
+    type: boolean
 
 required:
-  - items
+  - content
   - totalPages
-  - totalItems
+  - totalElements
+  - first
+  - last

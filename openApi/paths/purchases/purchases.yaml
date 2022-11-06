@@ -28,32 +28,27 @@ get:
   operationId: getPurchases
   parameters:
     - in: query
-      name: offset
+      name: page
       schema:
         type: integer
       default: 0
     - in: query
-      name: limit
+      name: size
       schema:
         type: integer
       default: 10
     - in: query
-      name: sortProperty
+      name: sort
       schema:
         type: string
-      default: id
-    - in: query
-      name: sortDirection
-      schema:
-        type: string
-      default: asc
+      default: date,desc
   responses:
     200:
-      description: (OK) Success response containing purchases
+      description: (OK) Success response containing page of purchases
       content:
         application/json:
           schema:
-            $ref: '../../schema.yaml#/components/schemas/PurchasePage'
+            $ref: '../../schema.yaml#/components/schemas/PurchasesPage'
 delete:
   summary: Delete multiple purchases
   tags: [ purchases ]

@@ -88,17 +88,17 @@ databaseChangeLog:
                   name: name
                   type: VARCHAR(128)
                   constraints:
-                    nullable: false
+                    nullabe: false
               - column:
                   name: amount
                   type: FLOAT
                   constraints:
-                    nullable: false
+                    nullabe: false
               - column:
                   name: price
                   type: FLOAT
                   constraints:
-                    nullable: false
+                    nullabe: false
               - column:
                   name: category_id
                   type: UUID

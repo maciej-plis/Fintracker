@@ -1,8 +1,12 @@
+plugins {
+  `java-library`
+}
+
 group = rootProject.group
 version = rootProject.version
 
-val build = task<Exec>("build") {
-  description = "Builds fronted application"
+tasks.register<Exec>("buildAngular") {
+  description = "Builds angular application"
   group = "build"
 
   inputs.dir("$projectDir/src")
@@ -12,7 +16,7 @@ val build = task<Exec>("build") {
   commandLine("npm", "run", "build")
 }
 
-val startApplicationForLocalBackend = task<Exec>("startApplicationForLocalBackend") {
+tasks.register<Exec>("startApplicationForLocalBackend") {
   description = "Starts frontend application with local profile"
   group = "build"
 
@@ -20,7 +24,7 @@ val startApplicationForLocalBackend = task<Exec>("startApplicationForLocalBacken
   commandLine("npm", "run", "startWithLocal")
 }
 
-val startApplicationForMockBackend = task<Exec>("startApplicationForMockBackend") {
+tasks.register<Exec>("startApplicationForMockBackend") {
   description = "Starts frontend application with mock profile"
   group = "build"
 
@@ -28,34 +32,19 @@ val startApplicationForMockBackend = task<Exec>("startApplicationForMockBackend"
   commandLine("npm", "run", "startWithMock")
 }
 
-val startMockServer = task<Exec>("startMockServer") {
+tasks.register<Exec>("startMockServer") {
   description = "Starts mocked api server"
   group = "build"
 
   commandLine("npm", "run", "startMockServer")
 }
 
-val jar = task<Jar>("jar") {
-  description = "Builds jar with application"
-  group = "build"
-
-  inputs.dir("$projectDir/build")
-  outputs.file("$projectDir/build/libs/${project.name}-${project.version}.jar")
-
-  destinationDirectory.set(file("$projectDir/build/libs"))
-  archiveBaseName.set("${project.name}-${project.version}")
+tasks.jar {
+  dependsOn("buildAngular")
 
   from("$projectDir/dist/expense-tracker").into("static")
-
-  dependsOn(build)
 }
 
-val clean = task<Delete>("clean") {
-  description = "Cleans up build files"
-  group = "build"
-
-  delete(
-    "$projectDir/build",
-    "$projectDir/dist"
-  )
+tasks.clean {
+  delete("$projectDir/dist")
 }

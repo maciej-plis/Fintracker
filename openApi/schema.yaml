@@ -17,19 +17,29 @@ paths:
     $ref: './paths/purchases/purchases.yaml'
   /purchases/{purchaseId}:
     $ref: './paths/purchases/purchase.yaml'
+
+  /purchase-items:
+    $ref: './paths/purchases/purchase-items.yaml'
+
   /products/names:
     $ref: './paths/products/names.yaml'
+
   /shops:
     $ref: './paths/shops/shops.yaml'
+
   /categories:
     $ref: './paths/categories/categories.yaml'
 
 components:
   schemas:
-    PurchasePage:
-      $ref: './schemas/purchases/PurchasePage.yaml'
+    PurchasesPage:
+      $ref: './schemas/purchases/PurchasesPage.yaml'
     PurchaseDto:
       $ref: './schemas/purchases/PurchaseDto.yaml'
+    PurchaseItemsPage:
+      $ref: './schemas/purchases/PurchaseItemsPage.yaml'
+    PurchaseItemDto:
+      $ref: './schemas/purchases/PurchaseItemDto.yaml'
     AddEditPurchaseRequest:
       $ref: './schemas/purchases/AddEditPurchaseRequest.yaml'
 

@@ -4,8 +4,11 @@ import matthias.expense_tracker.common.jpa.TransactionExecutor
 import matthias.expense_tracker.openapi.model.AddEditProductRequest
 import matthias.expense_tracker.openapi.model.AddEditPurchaseRequest
 import matthias.expense_tracker.openapi.model.PurchaseDto
+import matthias.expense_tracker.openapi.model.PurchaseItemDto
 import matthias.expense_tracker.product.toEntity
 import matthias.expense_tracker.shop.ShopEntity
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -16,8 +19,8 @@ internal class PurchaseService(
     private val transactionEx: TransactionExecutor
 ) {
 
-    fun getPurchases(): List<PurchaseDto> {
-        return purchaseRepository.findAll().map(PurchaseEntity::toDTO)
+    fun getPurchases(pageable: Pageable): Page<PurchaseDto> {
+        return purchaseRepository.findAll(pageable).map(PurchaseEntity::toDTO)
     }
 
     fun getPurchaseOrThrow(purchaseId: UUID): PurchaseDto {
@@ -59,5 +62,9 @@ internal class PurchaseService(
         date = request.date
         products.addAll(updatedProducts)
         return this
+    }
+
+    fun getPurchaseItems(pageable: Pageable): Page<PurchaseItemDto> {
+        return purchaseRepository.getPurchaseItems(pageable).map(PurchaseItemView::toDTO)
     }
 }

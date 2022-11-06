@@ -69,6 +69,7 @@ export class PurchasesInputTable implements OnInit, AfterViewInit, ControlValueA
     language: 'pl-PL',
     contextMenu: true,
     stretchH: 'all',
+    minRows: 10,
     minSpareRows: 1,
     rowHeights: 35,
     columnHeaderHeight: 35,

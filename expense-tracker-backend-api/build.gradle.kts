@@ -11,10 +11,8 @@ plugins {
 group = rootProject.group
 version = rootProject.version
 
-java {
-    toolchain {
-        languageVersion.set(of(17))
-    }
+tasks.compileKotlin {
+    dependsOn(tasks.openApiGenerate)
 }
 
 kotlin {
@@ -39,10 +37,6 @@ dependencies {
 
 tasks.bootJar {
     enabled = false
-}
-
-tasks.compileJava {
-    dependsOn(tasks.openApiGenerate)
 }
 
 tasks.clean {

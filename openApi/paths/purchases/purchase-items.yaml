@@ -1,0 +1,27 @@
+get:
+  summary: Get purchase items
+  tags: [ purchases ]
+  operationId: getPurchaseItems
+  parameters:
+    - in: query
+      name: page
+      schema:
+        type: integer
+      default: 0
+    - in: query
+      name: size
+      schema:
+        type: integer
+      default: 10
+    - in: query
+      name: sort
+      schema:
+        type: string
+      default: date,desc
+  responses:
+    200:
+      description: (OK) Success response containing page of purchase items
+      content:
+        application/json:
+          schema:
+            $ref: '../../schema.yaml#/components/schemas/PurchaseItemsPage'

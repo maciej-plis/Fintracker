@@ -3,6 +3,7 @@ package matthias.expense_tracker.purchase
 import matthias.expense_tracker.openapi.model.AddEditProductRequest
 import matthias.expense_tracker.openapi.model.AddEditPurchaseRequest
 import matthias.expense_tracker.openapi.model.PurchaseDto
+import matthias.expense_tracker.openapi.model.PurchaseItemDto
 import matthias.expense_tracker.product.toDTO
 import matthias.expense_tracker.product.toEntity
 import matthias.expense_tracker.shop.ShopEntity
@@ -14,6 +15,14 @@ fun PurchaseEntity.toDTO() = PurchaseDto(
     shop = shop.toDTO(),
     date = date,
     products = products.map { it.toDTO() }
+)
+
+fun PurchaseItemView.toDTO() = PurchaseItemDto(
+    id = getId(),
+    shopName = getShopName(),
+    date = getDate(),
+    productsCount = getProductsCount(),
+    totalPrice = getTotalPrice()
 )
 
 fun AddEditPurchaseRequest.toEntity(id: UUID? = null) = PurchaseEntity(id).also {

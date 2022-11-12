@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/purchases/products")
+@RequestMapping("/products")
 internal class ProductController(private val productService: ProductService) {
 
     @GetMapping("/names")

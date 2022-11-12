@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service
 internal class ProductService(private val productsRepository: ProductRepository) {
 
     fun getProductNames(nameQuery: String): List<String> {
-        return productsRepository.findDistinctByNameContainingIgnoreCase(nameQuery).map { it.name }
+        return productsRepository.getProductNamesContaining(nameQuery)
     }
 }

@@ -14,10 +14,10 @@ internal interface PurchaseRepository : BaseRepository<PurchaseEntity, UUID> {
     fun deletePurchaseProducts(purchaseId: UUID)
 
     @Query(
-        "SELECT p.id as id, p.date as date, p.shop.name as shopName, COUNT(pp) as productsCount, SUM(pp.price) AS totalPrice " +
+        "SELECT p.id as id, p.date as date, p.createdAt as createdAt, p.shop.name as shopName, COUNT(pp) as productsCount, SUM(pp.amount * pp.price) AS totalPrice " +
         "FROM PurchaseEntity p " +
         "JOIN p.products pp " +
-        "GROUP BY p.id, p.date, p.shop.name"
+        "GROUP BY p.id, p.date, p.shop.name, p.createdAt"
     )
     fun getPurchaseItems(pageable: Pageable): Page<PurchaseItemView>
 }

@@ -20,6 +20,9 @@ properties:
     type: number
     format: double
     example: 199.99
+  createdAt:
+    type: string
+    format: date-time
 
 required:
   - id
@@ -27,3 +30,4 @@ required:
   - shopName
   - productsCount
   - totalPrice
+  - createdAt

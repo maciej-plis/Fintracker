@@ -22,7 +22,8 @@ fun PurchaseItemView.toDTO() = PurchaseItemDto(
     shopName = getShopName(),
     date = getDate(),
     productsCount = getProductsCount(),
-    totalPrice = getTotalPrice()
+    totalPrice = getTotalPrice(),
+    createdAt = getCreatedAt()
 )
 
 fun AddEditPurchaseRequest.toEntity(id: UUID? = null) = PurchaseEntity(id).also {

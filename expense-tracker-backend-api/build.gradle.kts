@@ -85,4 +85,7 @@ openApiGenerate {
             "skipDefaultInterface" to "true"
         )
     )
+    typeMappings.set(
+        mapOf("DateTime" to "java.time.Instant")
+    )
 }

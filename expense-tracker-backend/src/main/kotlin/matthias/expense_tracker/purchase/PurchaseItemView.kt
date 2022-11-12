@@ -1,5 +1,6 @@
 package matthias.expense_tracker.purchase
 
+import java.time.Instant
 import java.time.LocalDate
 import java.util.*
 
@@ -10,4 +11,5 @@ interface PurchaseItemView {
     fun getShopName(): String
     fun getProductsCount(): Int
     fun getTotalPrice(): Double
+    fun getCreatedAt(): Instant
 }

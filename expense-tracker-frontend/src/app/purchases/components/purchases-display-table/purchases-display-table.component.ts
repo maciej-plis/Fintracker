@@ -17,9 +17,9 @@ export class PurchasesDisplayTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource: PurchasesDataSource;
-  displayedColumns = ['select', 'index', 'shopName', 'date', 'productsCount', 'totalPrice'];
+  displayedColumns = ['select', 'index', 'shopName', 'date', 'productsCount', 'totalPrice', "createdAt"];
 
-  initialSortColumn = 'date';
+  initialSortColumn = 'createdAt';
   initialSortDirection: SortDirection = 'desc';
 
   selection = new SelectionModel<PurchaseItemDto>(true, []);

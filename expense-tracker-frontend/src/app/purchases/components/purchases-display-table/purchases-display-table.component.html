@@ -44,6 +44,12 @@
       *matCellDef="let purchase"> {{ purchase.totalPrice | currency:'PLN':'symbol':'1.2-2':'pl-PL' }} </mat-cell>
   </ng-container>
 
+  <ng-container matColumnDef="createdAt">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Created At</mat-header-cell>
+    <mat-cell
+      *matCellDef="let purchase"> {{ purchase.createdAt | date: 'dd-MM-yyyy HH:mm:ss' }} </mat-cell>
+  </ng-container>
+
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let purchase; columns: displayedColumns;" [routerLink]="['edit', purchase.id]"></mat-row>
 

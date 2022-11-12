@@ -162,7 +162,6 @@ export class PurchasesInputTable implements OnInit, AfterViewInit, ControlValueA
   }
 
   writeValue(purchases: any[]): void {
-    console.log(purchases)
     this.productsFormArray = this.fb.array<FormGroup>(purchases.map(purchase => this.createPurchaseFormGroup(purchase)));
     this.hot?.updateData(this.productsFormArray.value.map(row => ({...row, category: row?.category?.name})));
   }

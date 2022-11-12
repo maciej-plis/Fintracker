@@ -14,6 +14,7 @@ import { filter, map, mergeMap } from 'rxjs';
 import { ConfirmationDialog } from "@shared/components/confirmation-dialog/confirmation-dialog.component";
 import { ActivatedRoute } from "@angular/router";
 import { isAnyPropertyNonNull } from "@shared/miscellaneous/functions";
+import * as moment from 'moment';
 
 const numbro = require('numbro')
 const plPL = require('numbro/dist/languages/pl-PL.min')
@@ -42,7 +43,7 @@ export class AddPurchasesComponent implements OnInit {
   ) {
     this.purchasesForm = fb.group({
       shop: fb.control(null, Validators.required),
-      date: fb.control(new Date(), Validators.required),
+      date: fb.control(moment(), Validators.required),
       products: fb.control([], Validators.required)
     })
   }
@@ -60,7 +61,7 @@ export class AddPurchasesComponent implements OnInit {
   private loadPurchaseData(purchase: PurchaseDto): void {
     this.purchasesForm.setValue({
       shop: purchase.shop,
-      date: purchase.date,
+      date: moment(purchase.date),
       products: purchase.products
     })
   }
@@ -71,15 +72,12 @@ export class AddPurchasesComponent implements OnInit {
       date: new Date(),
       products: []
     })
-    this.purchasesForm.markAsPristine();
   }
 
   onPurchasesSave(): void {
     if (this.purchasesForm.invalid) return;
 
     const purchase: PurchaseDto = this.mapPurchaseDto();
-
-    console.log("Request: ", this.toRequest(purchase))
 
     this.openConfirmationDialogForSavingPurchase(purchase, () => this.savePurchase(purchase));
   }
@@ -88,7 +86,7 @@ export class AddPurchasesComponent implements OnInit {
     return {
       id: "",
       shop: this.purchasesForm.controls['shop'].value,
-      date: this.purchasesForm.controls['date'].value,
+      date: this.purchasesForm.controls['date'].value.format("YYYY-MM-DD"),
       products: this.purchasesForm.controls['products'].value
         .filter(isAnyPropertyNonNull)
         .map((row: any) => ({
@@ -109,7 +107,7 @@ export class AddPurchasesComponent implements OnInit {
           confirmationTitle: "Confirm purchase save",
           confirmationDescription: `
             <p>Purchase shop: ${purchase.shop.name}</p>
-            <p>Purchase date: ${formatDate(purchase.date, "dd.MM.yyyy", this.locale)}</p>
+            <p>Purchase date: ${formatDate(purchase.date, "dd-MM-yyyy", this.locale)}</p>
             <p>Purchases count: ${purchase.products.length}</p>
             <p>Total price: ${this.calculateAndFormatTotalPrice(purchase.products)}</p>
           `,

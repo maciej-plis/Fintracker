@@ -2,7 +2,8 @@
 
   <mat-label>Purchase date</mat-label>
 
-  <input matInput [matDatepicker]="datePicker" [formControl]="dateFormControl" placeholder="MM/DD/YYYY" autocomplete="off">
+  <input matInput [matDatepicker]="datePicker" [formControl]="dateFormControl" placeholder="DD-MM-YYYY"
+         autocomplete="off">
   <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
   <mat-datepicker #datePicker></mat-datepicker>
 

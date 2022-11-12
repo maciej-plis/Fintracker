@@ -24,6 +24,19 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatButtonModule } from "@angular/material/button";
 import { PurchaseShopInputComponent } from './components/purchase-shop-input/purchase-shop-input.component';
 import { PurchaseDateInputComponent } from './components/purchase-date-input/purchase-date-input.component';
+import { MAT_DATE_FORMATS } from "@angular/material/core";
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD-MM-YYYY'
+  },
+  display: {
+    dateInput: "DD-MM-YYYY",
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  }
+}
 
 @NgModule({
   declarations: [
@@ -51,6 +64,9 @@ import { PurchaseDateInputComponent } from './components/purchase-date-input/pur
     MatSortModule,
     MatCheckboxModule,
     MatButtonModule
+  ],
+  providers: [
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS}
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

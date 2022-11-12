@@ -14,6 +14,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { ConfirmationDialog } from './components/confirmation-dialog/confirmation-dialog.component';
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { ConfirmationDialog } from './components/confirmation-dialog/confirmatio
     MatDatepickerModule,
     MatCardModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMomentDateModule
   ]
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -18,6 +18,11 @@ get:
       schema:
         type: string
       default: date,desc
+    - in: query
+      name: sort
+      schema:
+        type: string
+      default: id,desc
   responses:
     200:
       description: (OK) Success response containing page of purchase items

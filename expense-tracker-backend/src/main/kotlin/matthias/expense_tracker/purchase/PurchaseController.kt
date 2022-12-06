@@ -15,6 +15,7 @@ import java.util.*
 
 @CrossOrigin("*")
 @RestController
+@RequestMapping("/api")
 internal class PurchaseController(private val purchaseService: PurchaseService) {
     @GetMapping("/purchases")
     fun getPurchases(@PageableDefault(sort = ["date"], direction = DESC) pageable: Pageable): ResponseEntity<Page<PurchaseDto>> {

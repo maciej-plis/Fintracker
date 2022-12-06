@@ -19,8 +19,8 @@ import { DashboardComponent } from "./purchases/views";
     CoreModule
   ],
   providers: [
-    { provide: Configuration, useValue: environment.apiConfiguration },
-    { provide: LOCALE_ID, useValue: "pl-PL"}
+    {provide: Configuration, useValue: environment.apiConfiguration},
+    {provide: LOCALE_ID, useValue: "pl-PL"}
   ],
   bootstrap: [AppComponent]
 })

@@ -13,21 +13,21 @@ info:
   title: Expense Tracker API Contract
 
 paths:
-  /purchases:
+  /api/purchases:
     $ref: './paths/purchases/purchases.yaml'
-  /purchases/{purchaseId}:
+  /api/purchases/{purchaseId}:
     $ref: './paths/purchases/purchase.yaml'
 
-  /purchase-items:
+  /api/purchase-items:
     $ref: './paths/purchases/purchase-items.yaml'
 
-  /products/names:
+  /api/products/names:
     $ref: './paths/products/names.yaml'
 
-  /shops:
+  /api/shops:
     $ref: './paths/shops/shops.yaml'
 
-  /categories:
+  /api/categories:
     $ref: './paths/categories/categories.yaml'
 
 components:

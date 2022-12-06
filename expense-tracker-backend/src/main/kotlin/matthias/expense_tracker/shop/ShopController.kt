@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/shops")
+@RequestMapping("/api/shops")
 internal class ShopController(private val shopService: ShopService) {
 
     @GetMapping

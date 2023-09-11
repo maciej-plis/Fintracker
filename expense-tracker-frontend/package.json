@@ -2,17 +2,19 @@
   "name": "expense-tracker",
   "version": "0.0.5-SNAPSHOT",
   "scripts": {
+    "ng": "ng",
     "generate-api": "openapi-generator-cli generate -g typescript-angular -i ../openApi/schema.yaml -o ./build/expense-tracker-frontend-api",
     "startMockServer": "prism mock -d ../openApi/schema.yaml",
-    "ng": "ng",
     "prestart": "npm run generate-api",
-    "startWithLocal": "ng serve --configuration development",
-    "startWithMock": "ng serve --configuration mocked-development",
+    "start": "ng serve -o --verbose --proxy-config proxy.conf.json --host 0.0.0.0 --disable-host-check true --ssl true",
+    "startWithMock": "ng serve --configuration mocked-development --host 0.0.0.0 --disable-host-check true",
+    "startWithLocal": "ng serve --configuration development --host 0.0.0.0 --disable-host-check true --ssl true",
     "prebuild": "npm run generate-api",
     "build": "ng build",
+    "build-watch": "ng build --watch --configuration development",
     "pretest": "npm run generate-api",
-    "test": "ng test",
-    "watch": "ng build --watch --configuration development"
+    "test": "ng test --watch=false --code-coverage --browsers chromeHeadless",
+    "test-watch": "ng test"
   },
   "private": true,
   "dependencies": {

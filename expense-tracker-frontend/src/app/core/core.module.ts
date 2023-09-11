@@ -1,10 +1,11 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { EnsureModuleLoadedOnceGuard } from "@core/guards/ensure-module-loaded-once.guard";
-import { HeaderComponent, SidenavComponent } from "@core/components";
-import { HttpClientModule } from "@angular/common/http";
-import { BrowserModule } from "@angular/platform-browser";
-import { RouterModule } from "@angular/router";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import {NgModule, Optional, SkipSelf} from '@angular/core';
+import {EnsureModuleLoadedOnceGuard} from "@core/guards/ensure-module-loaded-once.guard";
+import {HeaderComponent, SidenavComponent} from "@core/components";
+import {HttpClientModule, HttpClientXsrfModule} from "@angular/common/http";
+import {BrowserModule} from "@angular/platform-browser";
+import {RouterModule} from "@angular/router";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ApiModule, Configuration} from 'build/expense-tracker-frontend-api';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,9 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    HttpClientXsrfModule.withOptions({cookieName: 'XSRF-TOKEN'}),
+    ApiModule.forRoot(() => new Configuration({basePath: '', withCredentials: true})),
   ],
   exports: [
     HeaderComponent,

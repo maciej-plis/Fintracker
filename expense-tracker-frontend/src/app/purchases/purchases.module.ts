@@ -12,7 +12,6 @@ import {
 import { HotTableModule } from "@handsontable/angular";
 import { LayoutModule } from "@angular/cdk/layout";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { ApiModule } from 'build/expense-tracker-frontend-api';
 import { registerAllModules } from "handsontable/registry";
 import { plPL, registerLanguageDictionary } from "handsontable/i18n";
 import { PurchasesDisplayTableComponent } from './components/purchases-display-table/purchases-display-table.component';
@@ -53,7 +52,6 @@ export const MY_FORMATS = {
   imports: [
     PurchasesRoutingModule,
     SharedModule,
-    ApiModule,
     HotTableModule,
     LayoutModule,
     FormsModule,

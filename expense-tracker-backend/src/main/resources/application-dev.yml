@@ -1,5 +1,9 @@
+database:
+  url: localhost:5432/expense-tracker-dev
+  user: pgUser
+  password: pgPassword
+
 spring:
-  datasource.url: jdbc:postgresql://localhost:5432/expense-tracker-dev
   jpa.properties.hibernate:
     generate_statistics: true
     show_sql: true

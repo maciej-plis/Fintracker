@@ -13,10 +13,10 @@ import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
 internal class PurchaseController(private val purchaseService: PurchaseService) {
+
     @GetMapping("/purchases")
     fun getPurchases(@PageableDefault(sort = ["date"], direction = DESC) pageable: Pageable): ResponseEntity<Page<PurchaseDto>> {
         return ok(purchaseService.getPurchases(pageable))

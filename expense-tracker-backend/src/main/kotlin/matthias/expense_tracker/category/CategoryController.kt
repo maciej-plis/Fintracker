@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.*
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/categories")
 internal class CategoryController(private val categoryService: CategoryService) {

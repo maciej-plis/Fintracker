@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.*
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/products")
 internal class ProductController(private val productService: ProductService) {

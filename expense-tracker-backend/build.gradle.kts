@@ -3,7 +3,7 @@ import org.gradle.jvm.toolchain.JavaLanguageVersion.of
 plugins {
     id("org.springframework.boot") version "2.7.5"
     id("io.spring.dependency-management") version "1.1.0"
-    id("com.palantir.docker") version "0.34.0"
+    id("com.palantir.docker") version "0.35.0"
     java
     groovy
     kotlin("jvm") version "1.7.20"
@@ -93,6 +93,10 @@ tasks.bootJar {
         "Implementation-Title" to "Expense Tracker",
         "Implementation-Version" to project.version
     )
+}
+
+tasks.dockerPrepare.configure {
+    dependsOn(tasks.build)
 }
 
 docker {

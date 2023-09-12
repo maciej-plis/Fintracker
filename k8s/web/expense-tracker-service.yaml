@@ -3,7 +3,6 @@ kind: Service
 metadata:
   name: expense-tracker-service
 spec:
-  type: NodePort
   selector:
     app: expense-tracker
   ports:

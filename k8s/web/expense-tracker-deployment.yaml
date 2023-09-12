@@ -5,6 +5,7 @@ metadata:
   labels:
     app: expense-tracker
 spec:
+  revisionHistoryLimit: 0
   replicas: 1
   selector:
     matchLabels:
@@ -16,15 +17,17 @@ spec:
     spec:
       containers:
         - name: expense-tracker
-          image: expense-tracker:0.2.0-SNAPSHOT
-          imagePullPolicy: Never
+          image: localhost:5000/expense-tracker:0.2.0-SNAPSHOT
           ports:
             - containerPort: 8080
+          volumeMounts:
+            - name: expense-tracker-storage
+              mountPath: /app
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: prod
+              value: "prod"
             - name: TZ
-              value: UTC
+              value: "UTC"
             - name: DATABASE_USER
               valueFrom:
                 secretKeyRef:
@@ -42,3 +45,9 @@ spec:
                   key: database-name
             - name: DATABASE_URL
               value: "postgres:5432/$(DATABASE_NAME)"
+      volumes:
+        - name: expense-tracker-storage
+          persistentVolumeClaim:
+            claimName: expense-tracker-persistent-volume-claim
+      securityContext:
+        fsGroup: 1000

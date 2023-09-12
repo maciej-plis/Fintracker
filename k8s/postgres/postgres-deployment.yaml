@@ -5,6 +5,7 @@ metadata:
   labels:
     app: postgres
 spec:
+  revisionHistoryLimit: 0
   replicas: 1
   selector:
     matchLabels:
@@ -41,5 +42,7 @@ spec:
                   key: database-name
       volumes:
         - name: postgres-storage
-          hostPath:
-            path: /var/postgres
+          persistentVolumeClaim:
+            claimName: postgres-persistent-volume-claim
+      securityContext:
+        fsGroup: 1000

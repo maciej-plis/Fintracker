@@ -1,0 +1,23 @@
+kind: Kustomization
+
+resources:
+  - minikube/dashboard-ingress.yaml
+  - minikube/registry-ingress.yaml
+  - postgres/postgres-secret.yaml
+  - postgres/postgres-config.yaml
+  - postgres/postgres-pv.yaml
+  - postgres/postgres-pvc.yaml
+  - postgres/postgres-service.yaml
+  - postgres/postgres-deployment.yaml
+  - web/expense-tracker-pv.yaml
+  - web/expense-tracker-pvc.yaml
+  - web/expense-tracker-service.yaml
+  - web/expense-tracker-ingress.yaml
+  - web/expense-tracker-deployment.yaml
+  - pgadmin/pgadmin-secret.yaml
+  - pgadmin/pgadmin-pv.yaml
+  - pgadmin/pgadmin-pvc.yaml
+  - pgadmin/pgadmin-service.yaml
+  - pgadmin/pgadmin-ingress.yaml
+  - pgadmin/pgadmin-deployment.yaml
+

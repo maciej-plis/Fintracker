@@ -1,0 +1,38 @@
+.menu {
+  margin: 0;
+  padding: 0;
+
+  list-style-type: none;
+
+  &__item-header {
+    font-size: .857rem;
+    font-weight: 700;
+
+    overflow: hidden;
+    padding: 1rem 1.25rem 1rem 2rem;
+
+    transition: opacity var(--transition-duration);
+
+    white-space: nowrap;
+    text-transform: uppercase;
+
+    color: var(--root-menuitem-text-color);
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .menu__item-header {
+    opacity: 0;
+  }
+
+  :host-context(
+    .sidebar:hover,
+    .sidebar:focus-within,
+    .sidebar:has(.sidebar__anchor-btn:checked)
+  ) {
+    .menu__item-header {
+      opacity: 1;
+    }
+  }
+}
+

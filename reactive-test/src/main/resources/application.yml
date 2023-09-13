@@ -1,5 +1,0 @@
-spring:
-  liquibase:
-    change-log: db/db.changelog-master.yaml
-    database-change-log-table: database_change_log
-    database-change-log-lock-table: database_change_log_lock

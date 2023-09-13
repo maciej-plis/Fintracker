@@ -1,4 +1,0 @@
-type: array
-
-items:
-  $ref: '../../schema.yaml#/components/schemas/ShopDto'

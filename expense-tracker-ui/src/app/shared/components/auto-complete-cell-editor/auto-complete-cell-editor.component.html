@@ -1,0 +1,16 @@
+<p-autoComplete #autoComplete
+                appendTo="body"
+                panelStyleClass="ag-custom-component-popup"
+                [autoHighlight]="false"
+                [selectOnFocus]="false"
+                [optionLabel]="params.label ?? undefined"
+                [forceSelection]="params.forceSelection ?? false"
+                [completeOnFocus]="params.completeOnFocus ?? true"
+                [minLength]="params.minLength ?? 0"
+                [delay]="params.delay ?? 0"
+                [suggestions]="(filteredSuggestions$ | async) ?? []"
+                (completeMethod)="filterSubject.next($event.query)"
+                (onSelect)="params.onSelect?.($event, this.setValue.bind(this))"
+                (keydown)="value && params.onKeyDown($event)"
+                [(ngModel)]="value">
+</p-autoComplete>

@@ -1,7 +1,7 @@
 package matthias.expense_tracker.purchase
 
 import matthias.expense_tracker.configuration.ResponseExceptionHandler
-import matthias.expense_tracker.openapi.model.PurchaseDto
+import matthias.expense_tracker.api.models.PurchaseDto
 import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification
 import spock.lang.Subject
@@ -36,7 +36,7 @@ class PurchaseControllerTest extends Specification {
                 .andDo(print())
 
         then: "Should save new purchase"
-            purchaseService.addPurchases(_ as PurchaseDto) >> { args ->
+            purchaseService.addPurchase(_ as PurchaseDto) >> { args ->
                 PurchaseDto purchaseDto = args[0]
                 purchaseDto.id = idSamples[0]
                 purchaseDto.products[0].id = idSamples[1]

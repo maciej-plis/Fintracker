@@ -1,0 +1,15 @@
+<div class="content">
+  <form [formGroup]="shopFormGroup">
+    <span class="p-float-label">
+      <input [autofocus]="true" formControlName="name" id="shopName" pAutoFocus pInputText type="text">
+      <label for="shopName">Shop Name</label>
+    </span>
+    <small *ngIf="nameControl.dirty && !nameControl.valid" class="p-error">Invalid shop name</small>
+  </form>
+</div>
+<div class="controls">
+  <p-button (click)="cancel()" label="Cancel" severity="danger"></p-button>
+  <p-button (click)="save()" label="Save"></p-button>
+</div>
+
+

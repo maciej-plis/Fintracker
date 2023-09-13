@@ -1,15 +1,16 @@
 package matthias.expense_tracker.product
 
+import matthias.expense_tracker.api.apis.ProductsApi
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/products")
-internal class ProductController(private val productService: ProductService) {
+internal class ProductController(
+    private val productService: ProductService
+) : ProductsApi {
 
-    @GetMapping("/names")
-    fun getProductNames(@RequestParam query: String): ResponseEntity<List<String>> {
-        return ok(productService.getProductNames(query))
+    override fun getProductNames(filter: String): ResponseEntity<List<String>> {
+        return ok(productService.getProductNames(filter))
     }
 }

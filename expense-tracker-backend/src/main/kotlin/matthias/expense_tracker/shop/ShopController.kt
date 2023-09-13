@@ -1,22 +1,27 @@
 package matthias.expense_tracker.shop
 
-import matthias.expense_tracker.openapi.model.AddShopRequest
-import matthias.expense_tracker.openapi.model.ShopDto
+import matthias.expense_tracker.api.apis.ShopsApi
+import matthias.expense_tracker.api.models.AddShopRequest
+import matthias.expense_tracker.api.models.ShopDTO
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
-@RequestMapping("/api/shops")
-internal class ShopController(private val shopService: ShopService) {
+internal class ShopController(
+    private val shopService: ShopService
+) : ShopsApi {
 
-    @GetMapping
-    fun getPurchaseShops(): ResponseEntity<List<ShopDto>> {
+    override fun getShops(): ResponseEntity<List<ShopDTO>> {
         return ok(shopService.getPurchaseShops())
     }
 
-    @PostMapping
-    fun addPurchaseShop(@RequestBody addShopRequest: AddShopRequest): ResponseEntity<ShopDto> {
+    override fun getShop(shopId: UUID): ResponseEntity<ShopDTO> {
+        return ok(shopService.getShopOrThrow(shopId))
+    }
+
+    override fun addShop(addShopRequest: AddShopRequest): ResponseEntity<UUID> {
         return ok(shopService.addPurchaseShop(addShopRequest))
     }
 }

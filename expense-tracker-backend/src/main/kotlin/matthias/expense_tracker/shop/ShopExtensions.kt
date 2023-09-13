@@ -1,10 +1,10 @@
 package matthias.expense_tracker.shop
 
-import matthias.expense_tracker.openapi.model.AddShopRequest
-import matthias.expense_tracker.openapi.model.ShopDto
+import matthias.expense_tracker.api.models.AddShopRequest
+import matthias.expense_tracker.api.models.ShopDTO
 import java.util.*
 
-fun ShopEntity.toDTO() = ShopDto(
+fun ShopEntity.toDTO() = ShopDTO(
     id = id,
     name = name
 )

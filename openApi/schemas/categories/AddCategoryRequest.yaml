@@ -2,7 +2,6 @@ properties:
   name:
     type: string
     example: 'Food'
-    x-faker: commerce.department
 
 required:
   - name

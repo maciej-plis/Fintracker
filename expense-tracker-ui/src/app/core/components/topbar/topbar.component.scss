@@ -1,0 +1,32 @@
+:host ::ng-deep {
+  .sidebar-toggle button:focus-visible {
+    outline: 1px solid white;
+  }
+
+  .sidebar-toggle span {
+    font-size: 1.25rem;
+    color: white;
+  }
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 2rem;
+
+  align-items: center;
+}
+
+.topbar-start {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+@media screen and (min-width: 992px) {
+  .sidebar-toggle {
+    display: none;
+  }
+}

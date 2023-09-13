@@ -1,0 +1,23 @@
+@import "src/styles/component-common";
+
+.root-container {
+  outline: none;
+}
+
+.content-container {
+  padding: 1rem;
+  transition: margin-left 0.3s cubic-bezier(0,0,.2,1);
+}
+
+@media screen and (min-width: 992px) {
+  .content-container {
+    margin-left: $sidebar-narrow;
+    padding: 2rem;
+  }
+
+  :host-context(body:has(.sidebar__anchor-btn:checked)) {
+    .content-container {
+      margin-left: $sidebar-wide
+    }
+  }
+}

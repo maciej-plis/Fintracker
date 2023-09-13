@@ -1,0 +1,29 @@
+properties:
+  id:
+    type: string
+    format: uuid
+    example: '92c58038-3267-4689-bc1c-cd0b1d90cc5f'
+  categoryId:
+    type: string
+    format: uuid
+    example: '92c58038-3267-4689-bc1c-cd0b1d90cc5f'
+  name:
+    type: string
+    example: 'iPhone X'
+  amount:
+    type: number
+    format: double
+    example: 1.00
+  price:
+    type: number
+    format: double
+    example: 1999.99
+  description:
+    type: string
+    example: 'Bought for my 18th birthday'
+
+required:
+  - categoryId
+  - name
+  - price
+  - amount

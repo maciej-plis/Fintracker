@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: CHG-8
+      author: Maciej Plis
+      changes:
+        - createView:
+            fullDefinition: false
+            replaceIfExists: true
+            viewName: v_purchase_summary
+            selectQuery: >
+              SELECT pu.id as id, pu.date as date, pu_s.name as shop_name, COUNT(pr) as products_count, SUM(pr.amount * pr.price) AS total_price, pu.created_at as created_at
+              FROM purchase pu
+              INNER JOIN product pr ON pr.purchase_id = pu.id
+              INNER JOIN purchase_shop pu_s ON pu_s.id = pu.shop_id
+              WHERE pu.deleted = false
+              GROUP BY pu.id, pu.date, pu_s.name, pu.created_at;

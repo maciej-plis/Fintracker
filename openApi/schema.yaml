@@ -9,73 +9,16 @@ servers:
     description: "Production server"
 
 info:
-  version: 0.0.5-SNAPSHOT
+  version: 1.0.0-SNAPSHOT
   title: Expense Tracker API Contract
 
 paths:
-  /api/purchases:
-    $ref: './paths/purchases/purchases.yaml'
-  /api/purchases/{purchaseId}:
-    $ref: './paths/purchases/purchase.yaml'
-
-  /api/purchase-items:
-    $ref: './paths/purchases/purchase-items.yaml'
-
-  /api/products/names:
-    $ref: './paths/products/names.yaml'
-
-  /api/shops:
-    $ref: './paths/shops/shops.yaml'
-
-  /api/categories:
-    $ref: './paths/categories/categories.yaml'
+  $ref: "./paths/_index.yaml"
 
 components:
   schemas:
-    PurchasesPage:
-      $ref: './schemas/purchases/PurchasesPage.yaml'
-    PurchaseDto:
-      $ref: './schemas/purchases/PurchaseDto.yaml'
-    PurchaseItemsPage:
-      $ref: './schemas/purchases/PurchaseItemsPage.yaml'
-    PurchaseItemDto:
-      $ref: './schemas/purchases/PurchaseItemDto.yaml'
-    AddEditPurchaseRequest:
-      $ref: './schemas/purchases/AddEditPurchaseRequest.yaml'
-
-    ProductList:
-      $ref: './schemas/products/ProductList.yaml'
-    ProductDto:
-      $ref: './schemas/products/ProductDto.yaml'
-    AddEditProductRequest:
-      $ref: './schemas/products/AddEditProductRequest.yaml'
-    AddEditProductRequestList:
-      $ref: './schemas/products/AddEditProductRequestList.yaml'
-    ProductNamesList:
-      $ref: './schemas/products/ProductNamesList.yaml'
-
-    ShopList:
-      $ref: './schemas/shops/ShopList.yaml'
-    ShopDto:
-      $ref: './schemas/shops/ShopDto.yaml'
-    AddShopRequest:
-      $ref: './schemas/shops/AddShopRequest.yaml'
-
-    CategoryList:
-      $ref: './schemas/categories/CategoryList.yaml'
-    CategoryDto:
-      $ref: './schemas/categories/CategoryDto.yaml'
-    AddCategoryRequest:
-      $ref: './schemas/categories/AddCategoryRequest.yaml'
-
-    BulkDeleteRequest:
-      $ref: './schemas/common/BulkDeleteRequest.yaml'
-
-    ErrorMessage:
-      $ref: './schemas/common/ErrorMessage.yaml'
-    ValidationError:
-      $ref: './schemas/common/ValidationError.yaml'
-
-x-json-schema-faker:
-  min-items: 2
-  max-items: 10
+    $ref: "./schemas/_index.yaml"
+  parameters:
+    $ref: "./parameters/_index.yaml"
+  responses:
+    $ref: "./responses/_index.yaml"

@@ -1,9 +1,9 @@
 package matthias.expense_tracker.purchase
 
-import matthias.expense_tracker.openapi.model.CategoryDto
-import matthias.expense_tracker.openapi.model.ProductDto
-import matthias.expense_tracker.openapi.model.PurchaseDto
-import matthias.expense_tracker.openapi.model.ShopDto
+import matthias.expense_tracker.api.models.CategoryDto
+import matthias.expense_tracker.api.models.ProductDto
+import matthias.expense_tracker.api.models.PurchaseDto
+import matthias.expense_tracker.api.models.ShopDto
 import matthias.expense_tracker.product.ProductsMapper
 import spock.lang.Specification
 import spock.lang.Subject
@@ -32,7 +32,7 @@ class PurchasesServiceTest extends Specification {
 
     def "Should save new purchase and return it"() {
         when:
-            def result = purchaseService.addPurchases(purchaseDto)
+            def result = purchaseService.addPurchase(purchaseDto)
 
         then: "Should save purchase"
             1 * purchaseRepository.saveAndFlush(_ as PurchaseEntity) >> { args ->

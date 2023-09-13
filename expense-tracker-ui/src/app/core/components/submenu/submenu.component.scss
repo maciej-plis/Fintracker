@@ -1,0 +1,141 @@
+.submenu {
+  $submenu: &;
+
+  margin: 0;
+  padding: 0;
+
+  list-style-type: none;
+
+  &__item a {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    width: auto;
+    padding: 0.75rem 1.25rem 0.75rem 2rem;
+
+    cursor: pointer;
+
+    transition: background-color var(--transition-duration), box-shadow var(--transition-duration);
+
+    color: var(--menuitem-text-color);
+
+    &:hover {
+      background: var(--menuitem-hover-bg-color);
+    }
+
+    &:focus-within {
+      outline-offset: -0.5rem;
+    }
+  }
+
+  &__item &__item a {
+    padding-left: 2.5rem;
+  }
+
+  &__item &__item &__item a {
+    padding-left: 3rem;
+  }
+
+  &__item &__item &__item &__item a {
+    padding-left: 3.5rem;
+  }
+
+  &__item-icon {
+    margin-right: 0.5rem;
+    color: var(--menuitem-icon-color);
+  }
+
+  &__children-toggle {
+    margin-left: auto;
+
+    transition: transform var(--transition-duration);
+  }
+
+  &__children {
+    overflow: hidden;
+  }
+
+  &__item:focus-within, &__item--open {
+    & > * > .submenu__children-toggle {
+      transform: rotate(180deg);
+    }
+
+    & > .submenu__children-wrapper {
+      grid-template-rows: 1fr;
+    }
+  }
+}
+
+.submenu__children-wrapper {
+  display: grid;
+  transition: grid-template-rows var(--transition-duration);
+
+  grid-template-rows: 0fr;
+}
+
+.submenu__item-anchor--active {
+  font-weight: bold;
+}
+
+@media screen and (min-width: 992px) {
+  .submenu {
+    &__item-label {
+      overflow: hidden;
+      transition: opacity var(--transition-duration);
+      opacity: 0;
+    }
+
+    &__item-icon {
+      font-size: 1.25rem;
+    }
+
+    &__children-toggle {
+      font-size: 75%;
+      display: none;
+    }
+
+    &__item a {
+      transition: padding-left var(--transition-duration);
+    }
+
+    &__item &__item a {
+      padding-left: 2rem;
+    }
+
+    &__item &__item &__item a {
+      padding-left: 2rem;
+    }
+
+    &__item &__item &__item &__item a {
+      padding-left: 2rem;
+    }
+  }
+
+  :host-context(
+    .sidebar:hover,
+    .sidebar:focus-within,
+    .sidebar:has(.sidebar__anchor-btn:checked)
+  ) {
+    .submenu__item .submenu__item a {
+      padding-left: 2.5rem;
+    }
+
+    .submenu__item .submenu__item .submenu__item a {
+      padding-left: 3rem;
+    }
+
+    .submenu__item .submenu__item .submenu__item .submenu__item a {
+      padding-left: 3.5rem;
+    }
+
+    .submenu__item-label {
+      opacity: 1;
+    }
+
+    .submenu__children-toggle {
+      display: block;
+    }
+  }
+}

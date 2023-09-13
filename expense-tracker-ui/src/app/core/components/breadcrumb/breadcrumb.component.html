@@ -1,0 +1,6 @@
+<ol class="breadcrumb">
+  <ng-container *ngFor="let breadcrumb of breadcrumbs | async; last as isLast">
+    <li class="breadcrumb__item"><a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a></li>
+    <li *ngIf="!isLast" class="breadcrumb-chevron">/</li>
+  </ng-container>
+</ol>

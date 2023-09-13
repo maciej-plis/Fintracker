@@ -1,0 +1,13 @@
+# Purchases
+PurchaseId:
+  $ref: "./purchases/PurchaseId.yaml"
+
+# Common
+Page:
+  $ref: "./common/Page.yaml"
+PageSize:
+  $ref: "./common/PageSize.yaml"
+Sort:
+  $ref: "./common/Sort.yaml"
+Filter:
+  $ref: "./common/Filter.yaml"

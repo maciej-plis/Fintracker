@@ -1,70 +1,48 @@
 package matthias.expense_tracker.purchase
 
-import matthias.expense_tracker.common.jpa.TransactionExecutor
-import matthias.expense_tracker.openapi.model.AddEditProductRequest
-import matthias.expense_tracker.openapi.model.AddEditPurchaseRequest
-import matthias.expense_tracker.openapi.model.PurchaseDto
-import matthias.expense_tracker.openapi.model.PurchaseItemDto
+import matthias.expense_tracker.api.models.AddPurchaseRequest
+import matthias.expense_tracker.api.models.PurchaseDTO
+import matthias.expense_tracker.api.models.UpdateProductRequest
+import matthias.expense_tracker.api.models.UpdatePurchaseRequest
 import matthias.expense_tracker.product.toEntity
 import matthias.expense_tracker.shop.ShopEntity
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 
 @Service
 internal class PurchaseService(
-    private val purchaseRepository: PurchaseRepository,
-    private val transactionEx: TransactionExecutor
+    private val purchaseRepository: PurchaseRepository
 ) {
 
-    fun getPurchases(pageable: Pageable): Page<PurchaseDto> {
-        return purchaseRepository.findAll(pageable).map(PurchaseEntity::toDTO)
+    @Transactional
+    fun removePurchases(ids: List<UUID>) {
+        purchaseRepository.deleteAllById(ids)
     }
 
-    fun getPurchaseOrThrow(purchaseId: UUID): PurchaseDto {
+    @Transactional(readOnly = true)
+    fun getPurchaseOrThrow(purchaseId: UUID): PurchaseDTO {
         return purchaseRepository.findByIdOrThrow(purchaseId).toDTO()
     }
 
-    fun addPurchases(request: AddEditPurchaseRequest): PurchaseDto {
-        val savedPurchase = transactionEx.executeInTx {
-            return@executeInTx purchaseRepository.save(request.toEntity())
-        }
-        purchaseRepository.clearContext()
-        return getPurchaseOrThrow(savedPurchase.id)
+    @Transactional
+    fun addPurchase(request: AddPurchaseRequest) {
+        purchaseRepository.save(request.toEntity())
     }
 
-    fun updatePurchase(purchaseId: UUID, request: AddEditPurchaseRequest): PurchaseDto {
-        val updatedPurchase = transactionEx.executeInTx {
-            purchaseRepository.deletePurchaseProducts(purchaseId)
-            return@executeInTx purchaseRepository.getReferenceById(purchaseId).applyUpdate(request);
+    @Transactional
+    fun updatePurchase(purchaseId: UUID, request: UpdatePurchaseRequest) {
+        purchaseRepository.deletePurchaseProducts(purchaseId)
+        purchaseRepository.getReferenceById(purchaseId).apply {
+            shop = ShopEntity(request.shopId)
+            date = request.date
+            products.addAll(request.products.map(UpdateProductRequest::toEntity))
         }
-        purchaseRepository.clearContext()
-        return getPurchaseOrThrow(updatedPurchase.id)
     }
 
+    @Transactional
     fun removePurchase(purchaseId: UUID) {
-        transactionEx.executeInTx {
-            purchaseRepository.deleteById(purchaseId)
-        }
-    }
-
-    fun removePurchases(ids: List<UUID>) {
-        transactionEx.executeInTx {
-            purchaseRepository.deleteAllById(ids)
-        }
-    }
-
-    private fun PurchaseEntity.applyUpdate(request: AddEditPurchaseRequest): PurchaseEntity {
-        val updatedProducts = request.products.map(AddEditProductRequest::toEntity)
-        shop = ShopEntity(request.shopId)
-        date = request.date
-        products.addAll(updatedProducts)
-        return this
-    }
-
-    fun getPurchaseItems(pageable: Pageable): Page<PurchaseItemDto> {
-        return purchaseRepository.getPurchaseItems(pageable).map(PurchaseItemView::toDTO)
+        purchaseRepository.deleteById(purchaseId)
     }
 }

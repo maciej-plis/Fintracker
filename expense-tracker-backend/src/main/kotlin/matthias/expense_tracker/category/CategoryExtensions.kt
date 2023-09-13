@@ -1,10 +1,10 @@
 package matthias.expense_tracker.category
 
-import matthias.expense_tracker.openapi.model.AddCategoryRequest
-import matthias.expense_tracker.openapi.model.CategoryDto
+import matthias.expense_tracker.api.models.AddCategoryRequest
+import matthias.expense_tracker.api.models.CategoryDTO
 import java.util.*
 
-fun CategoryEntity.toDTO() = CategoryDto(
+fun CategoryEntity.toDTO() = CategoryDTO(
     id = id,
     name = name
 )

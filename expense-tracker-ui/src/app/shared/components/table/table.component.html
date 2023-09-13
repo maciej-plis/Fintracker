@@ -1,0 +1,13 @@
+<div class="table">
+  <div class="table__header">
+    <div class="table__header-start">
+      <h5 class="table__header-title">{{ header }}</h5>
+    </div>
+    <div class="table__header-end">
+      <ng-content></ng-content>
+    </div>
+  </div>
+  <ag-grid-angular class="ag-theme-alpine-dark"
+                   [gridOptions]="composeGridOptions()">
+  </ag-grid-angular>
+</div>

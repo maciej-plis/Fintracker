@@ -1,59 +1,42 @@
 package matthias.expense_tracker.purchase
 
-import matthias.expense_tracker.openapi.model.AddEditPurchaseRequest
-import matthias.expense_tracker.openapi.model.BulkDeleteRequest
-import matthias.expense_tracker.openapi.model.PurchaseDto
-import matthias.expense_tracker.openapi.model.PurchaseItemDto
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Sort.Direction.DESC
-import org.springframework.data.web.PageableDefault
+import matthias.expense_tracker.api.apis.PurchasesApi
+import matthias.expense_tracker.api.models.AddPurchaseRequest
+import matthias.expense_tracker.api.models.PurchaseDTO
+import matthias.expense_tracker.api.models.RemovePurchasesRequest
+import matthias.expense_tracker.api.models.UpdatePurchaseRequest
 import org.springframework.http.ResponseEntity
+import org.springframework.http.ResponseEntity.noContent
 import org.springframework.http.ResponseEntity.ok
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
 @RestController
-@RequestMapping("/api")
-internal class PurchaseController(private val purchaseService: PurchaseService) {
+internal class PurchaseController(
+    private val purchaseService: PurchaseService
+) : PurchasesApi {
 
-    @GetMapping("/purchases")
-    fun getPurchases(@PageableDefault(sort = ["date"], direction = DESC) pageable: Pageable): ResponseEntity<Page<PurchaseDto>> {
-        return ok(purchaseService.getPurchases(pageable))
+    override fun removePurchases(removePurchasesRequest: RemovePurchasesRequest): ResponseEntity<Unit> {
+        purchaseService.removePurchases(removePurchasesRequest.ids)
+        return noContent().build()
     }
 
-    @PostMapping("/purchases")
-    fun addPurchase(@RequestBody addEditPurchaseRequest: AddEditPurchaseRequest): ResponseEntity<PurchaseDto> {
-        return ok(purchaseService.addPurchases(addEditPurchaseRequest))
-    }
-
-    @DeleteMapping("/purchases")
-    fun removePurchases(@RequestBody bulkDeleteRequest: BulkDeleteRequest): ResponseEntity<Unit> {
-        purchaseService.removePurchases(bulkDeleteRequest.ids);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/purchases/{purchaseId}")
-    fun getPurchase(@PathVariable purchaseId: UUID): ResponseEntity<PurchaseDto> {
+    override fun getPurchase(purchaseId: UUID): ResponseEntity<PurchaseDTO> {
         return ok(purchaseService.getPurchaseOrThrow(purchaseId))
     }
 
-    @PutMapping("/purchases/{purchaseId}")
-    fun updatePurchase(
-        @PathVariable purchaseId: UUID,
-        @RequestBody addEditPurchaseRequest: AddEditPurchaseRequest
-    ): ResponseEntity<PurchaseDto> {
-        return ok(purchaseService.updatePurchase(purchaseId, addEditPurchaseRequest))
+    override fun addPurchase(addPurchaseRequest: AddPurchaseRequest): ResponseEntity<Unit> {
+        purchaseService.addPurchase(addPurchaseRequest)
+        return noContent().build()
     }
 
-    @DeleteMapping("/purchases/{purchaseId}")
-    fun removePurchase(@PathVariable purchaseId: UUID): ResponseEntity<Unit> {
+    override fun updatePurchase(purchaseId: UUID, updatePurchaseRequest: UpdatePurchaseRequest): ResponseEntity<Unit> {
+        purchaseService.updatePurchase(purchaseId, updatePurchaseRequest)
+        return noContent().build()
+    }
+
+    override fun removePurchase(purchaseId: UUID): ResponseEntity<Unit> {
         purchaseService.removePurchase(purchaseId)
-        return ResponseEntity.noContent().build()
-    }
-
-    @GetMapping("purchase-items")
-    fun getPurchaseItems(@PageableDefault(sort = ["date"], direction = DESC) pageable: Pageable): ResponseEntity<Page<PurchaseItemDto>> {
-        return ok(purchaseService.getPurchaseItems(pageable))
+        return noContent().build()
     }
 }

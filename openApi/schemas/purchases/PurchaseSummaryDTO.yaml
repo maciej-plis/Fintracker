@@ -1,0 +1,31 @@
+properties:
+  id:
+    type: string
+    format: uuid
+    example: '4a807620-7e35-4824-bbe9-acf4a597c97f'
+  shopName:
+    type: string
+    example: 'Walmart'
+  date:
+    type: string
+    format: date
+    example: '2020-07-27'
+  productsCount:
+    type: integer
+    format: int64
+    example: 5
+  totalPrice:
+    type: number
+    format: double
+    example: 199.99
+  createdAt:
+    type: string
+    format: date-time
+
+required:
+  - id
+  - date
+  - shopName
+  - productsCount
+  - totalPrice
+  - createdAt

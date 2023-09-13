@@ -1,7 +1,7 @@
 package matthias.expense_tracker.purchase.category
 
 import matthias.expense_tracker.category.CategoryMapper
-import matthias.expense_tracker.openapi.model.CategoryDto
+import matthias.expense_tracker.api.models.CategoryDto
 import spock.lang.Specification
 import spock.lang.Subject
 

@@ -1,0 +1,6 @@
+fullnameOverride: prometheus
+
+alertmanager:
+  ingress:
+    enabled: true
+    hostname: alert-manager.tools.com

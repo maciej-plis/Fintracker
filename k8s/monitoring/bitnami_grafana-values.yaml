@@ -1,0 +1,14 @@
+fullnameOverride: grafana
+
+admin:
+  user: admin
+  password: admin
+
+persistence:
+  existingClaim: grafana-pvc
+
+ingress:
+  enabled: true
+  hostname: grafana.tools.com
+
+plugins: "volkovlabs-variable-panel"

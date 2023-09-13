@@ -4,6 +4,9 @@ metadata:
   name: pgadmin-deployment
   labels:
     app: pgadmin
+  annotations:
+    operator.1password.io/item-path: "vaults/local-server/items/pgAdmin"
+    operator.1password.io/item-name: "pgadmin-credentials"
 spec:
   revisionHistoryLimit: 0
   replicas: 1
@@ -24,21 +27,21 @@ spec:
             - name: pgadmin-storage
               mountPath: /var/lib/pgadmin
           env:
-            - name: PGADMIN_LISTEN_PORT
-              value: "80"
             - name: PGADMIN_DEFAULT_EMAIL
               valueFrom:
                 secretKeyRef:
-                  name: pgadmin-secret
-                  key: pgadmin-email
+                  name: pgadmin-credentials
+                  key: username
             - name: PGADMIN_DEFAULT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: pgadmin-secret
-                  key: pgadmin-password
+                  name: pgadmin-credentials
+                  key: password
+            - name: PGADMIN_LISTEN_PORT
+              value: "80"
       volumes:
         - name: pgadmin-storage
           persistentVolumeClaim:
-            claimName: pgadmin-persistent-volume-claim
+            claimName: pgadmin-pvc
       securityContext:
-        fsGroup: 1000
+        fsGroup: 5050

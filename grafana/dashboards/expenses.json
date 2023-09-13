@@ -1,0 +1,613 @@
+gi{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "a86add7b-0405-4721-8079-efb8a74f764f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "fieldMinMax": false,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "id": 4,
+      "options": {
+        "alwaysVisibleFilter": true,
+        "autoScroll": false,
+        "displayMode": "minimize",
+        "emptyValue": false,
+        "favorites": false,
+        "filter": false,
+        "groupSelection": false,
+        "header": true,
+        "padding": 10,
+        "showName": false,
+        "statusSort": false,
+        "sticky": false,
+        "variable": "selectedCategories"
+      },
+      "title": "Categories",
+      "type": "volkovlabs-variable-panel"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "a86add7b-0405-4721-8079-efb8a74f764f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyPLN"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 18,
+        "x": 6,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": false
+        },
+        "orientation": "horizontal",
+        "showValue": "never",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 200
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "a86add7b-0405-4721-8079-efb8a74f764f"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select c.name, ROUND(sum(p.amount * p.price)::numeric, 2) as total\nfrom product p\ninner join purchase pg on pg.id = p.purchase_id\ninner join purchase_shop ps on ps.id = pg.shop_id\ninner join product_category c on c.id = p.category_id\nwhere pg.date between '${__from:date:DD-MMM-YYYY}' and '${__to:date:DD-MMM-YYYY}' and ps.id IN ($selectedShops) and c.id IN ($selectedCategories)\ngroup by c.name",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Category expenses",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "a86add7b-0405-4721-8079-efb8a74f764f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 3
+      },
+      "id": 5,
+      "options": {
+        "alwaysVisibleFilter": false,
+        "autoScroll": false,
+        "displayMode": "minimize",
+        "emptyValue": false,
+        "favorites": false,
+        "filter": false,
+        "groupSelection": false,
+        "header": true,
+        "padding": 10,
+        "showName": false,
+        "statusSort": false,
+        "sticky": false,
+        "variable": "selectedShops"
+      },
+      "title": "Shops",
+      "type": "volkovlabs-variable-panel"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "a86add7b-0405-4721-8079-efb8a74f764f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 2000
+              },
+              {
+                "color": "orange",
+                "value": 3000
+              },
+              {
+                "color": "red",
+                "value": 4000
+              }
+            ]
+          },
+          "unit": "currencyPLN"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 6
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "a86add7b-0405-4721-8079-efb8a74f764f"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select ROUND(sum(p.amount * p.price)::numeric, 2) as total\nfrom product p\ninner join purchase pg on pg.id = p.purchase_id\ninner join purchase_shop ps on ps.id = pg.shop_id\ninner join product_category c on c.id = p.category_id\nwhere pg.date between '${__from:date:DD-MMM-YYYY}' and '${__to:date:DD-MMM-YYYY}' and ps.id IN ($selectedShops) and c.id IN ($selectedCategories)",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Total expenses",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "a86add7b-0405-4721-8079-efb8a74f764f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyPLN"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 0,
+        "y": 12
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "date"
+          }
+        ]
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "a86add7b-0405-4721-8079-efb8a74f764f"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select g.date, s.name, sum( round( cast( (p.price * p.amount) as numeric ) , 2) ) as total\nfrom purchase g\ninner join product p on p.purchase_id = g.id\ninner join purchase_shop s on s.id = g.shop_id\nwhere g.date between '${__from:date:DD-MMM-YYYY}' and '${__to:date:DD-MMM-YYYY}' and s.id IN ($selectedShops)\ngroup by g.id, g.date, s.name\norder by g.date desc, total asc",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "id",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "shop_id",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [],
+              "id": "8ababaaa-89ab-4cde-b012-318bd145f7a4",
+              "type": "group"
+            }
+          },
+          "table": "purchase"
+        }
+      ],
+      "title": "Expenses",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "a86add7b-0405-4721-8079-efb8a74f764f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "price"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyPLN"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyPLN"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 12,
+        "y": 12
+      },
+      "id": 6,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "total"
+          }
+        ]
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "a86add7b-0405-4721-8079-efb8a74f764f"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT p.name, p.amount, p.price, round( cast( (p.price * p.amount) as numeric ) , 2) as total\nFROM purchase g\nINNER JOIN product p on p.purchase_id = g.id\nINNER JOIN product_category c on c.id = p.category_id\nINNER JOIN purchase_shop ps on ps.id = g.shop_id\nwhere g.date between '${__from:date:DD-MMM-YYYY}' and '${__to:date:DD-MMM-YYYY}' and ps.id IN ($selectedShops) and c.id IN ($selectedCategories)\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Products",
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "a86add7b-0405-4721-8079-efb8a74f764f"
+        },
+        "definition": "SELECT DISTINCT CONCAT(pc.name, '|', pc.id)\nFROM purchase pu\nINNER JOIN product pr ON pr.purchase_id = pu.id\nINNER JOIN product_category pc ON pc.id = pr.category_id\nWHERE pu.date BETWEEN '${__from:date:DD-MMM-YYYY}' AND '${__to:date:DD-MMM-YYYY}'",
+        "hide": 2,
+        "includeAll": true,
+        "label": "Categories",
+        "multi": false,
+        "name": "selectedCategories",
+        "options": [],
+        "query": "SELECT DISTINCT CONCAT(pc.name, '|', pc.id)\nFROM purchase pu\nINNER JOIN product pr ON pr.purchase_id = pu.id\nINNER JOIN product_category pc ON pc.id = pr.category_id\nWHERE pu.date BETWEEN '${__from:date:DD-MMM-YYYY}' AND '${__to:date:DD-MMM-YYYY}'",
+        "refresh": 2,
+        "regex": "/(?<text>[^|]+)\\|(?<value>.+)/g",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "a86add7b-0405-4721-8079-efb8a74f764f"
+        },
+        "definition": "SELECT DISTINCT CONCAT(ps.name, '|', ps.id)\nFROM purchase pu\nINNER JOIN purchase_shop ps ON ps.id = pu.shop_id\nWHERE pu.date BETWEEN '${__from:date:DD-MMM-YYYY}' AND '${__to:date:DD-MMM-YYYY}'",
+        "hide": 2,
+        "includeAll": true,
+        "label": "Shops",
+        "multi": false,
+        "name": "selectedShops",
+        "options": [],
+        "query": "SELECT DISTINCT CONCAT(ps.name, '|', ps.id)\nFROM purchase pu\nINNER JOIN purchase_shop ps ON ps.id = pu.shop_id\nWHERE pu.date BETWEEN '${__from:date:DD-MMM-YYYY}' AND '${__to:date:DD-MMM-YYYY}'",
+        "refresh": 2,
+        "regex": "/(?<text>[^|]+)\\|(?<value>.+)/g",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now/M",
+    "to": "now/M"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Expenses",
+  "uid": "db190eb2-b5fa-4cb8-812e-934e2c88ff92",
+  "version": 11,
+  "weekStart": "monday"
+}

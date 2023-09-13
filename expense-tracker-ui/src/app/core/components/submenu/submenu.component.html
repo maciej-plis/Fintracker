@@ -1,0 +1,15 @@
+<ul class="submenu">
+  <li #menuItem *ngFor="let item of menuItems" class="submenu__item">
+    <a pRipple noFocus
+       [routerLink]="item.routerLink" routerLinkActive='submenu__item-anchor--active'
+       class="submenu__item-anchor"
+       (click)="activate(item, menuItem)">
+      <i *ngIf="item.icon" class="pi submenu__item-icon" [ngClass]="item.icon"></i>
+      <span *ngIf="item.label" class="submenu__item-label">{{ item.label }}</span>
+      <i *ngIf="item.items" class="pi pi-angle-up submenu__children-toggle"></i>
+    </a>
+    <div *ngIf="item.items" class="submenu__children-wrapper">
+      <app-submenu [menuItems]="item.items!" class="submenu__children"></app-submenu>
+    </div>
+  </li>
+</ul>

@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: postgres-persistent-volume
+  name: postgres-pv
   labels:
     type: local
 spec:
   claimRef:
     namespace: default
-    name: postgres-persistent-volume-claim
-  storageClassName: manual
+    name: postgres-pvc
+  storageClassName: hostpath
   capacity:
     storage: 5Gi
   accessModes:

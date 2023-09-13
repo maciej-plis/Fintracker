@@ -1,0 +1,43 @@
+<form [formGroup]="formGroup" (ngSubmit)="savePurchase()" class="purchase-form">
+  <div class="row">
+    <div>
+      <span class="p-float-label">
+        <p-autoComplete id="shop"
+                        appendTo="body"
+                        formControlName="shop"
+                        optionLabel="name"
+                        spellcheck="false"
+                        [completeOnFocus]="true"
+                        [forceSelection]="true"
+                        [autoHighlight]="false"
+                        [selectOnFocus]="false"
+                        [minLength]="0"
+                        [suggestions]="filteredShops$()"
+                        (completeMethod)="shopFilter$.set($event.query)"
+                        (onSelect)="onShopSelection($event)">
+        </p-autoComplete>
+        <label>Purchase Shop</label>
+      </span>
+      <small *ngIf=" shopControl.dirty && !shopControl.valid" class="p-error">Invalid shop value</small>
+    </div>
+    <div>
+        <span class="p-float-label">
+        <p-calendar id="date"
+                    formControlName="date"
+                    dateFormat="d MM yy"
+                    [showButtonBar]="true">
+        </p-calendar>
+        <label for="date">Purchase Date</label>
+      </span>
+      <small *ngIf=" dateControl.dirty && !dateControl.valid" class="p-error">Invalid date value</small>
+    </div>
+  </div>
+  <app-products-input-table id="products"
+                            formControlName="products">
+  </app-products-input-table>
+  <div class="row controls">
+    <p-button (onClick)="cancel()" label="Cancel" styleClass="p-button-danger"></p-button>
+    <p-button type="submit" label="Save & Exit"></p-button>
+  </div>
+</form>
+

@@ -1,0 +1,15 @@
+get:
+  summary: Get shop by id
+  tags: [ shops ]
+  operationId: getShop
+  parameters:
+    - $ref: "./../../parameters/shops/ShopId.yaml"
+  responses:
+    200:
+      description: Success response containing shop
+      content:
+        application/json:
+          schema:
+            $ref: './../../schemas/shops/ShopDTO.yaml'
+    404:
+      $ref: "./../../responses/common/NotFoundResponse.yaml"

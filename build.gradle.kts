@@ -1,2 +1,5 @@
 group = "matthias"
-version = "0.2.0-SNAPSHOT"
+version = "0.3.0-SNAPSHOT"
+
+extra["apiSchema"] = "$rootDir/openApi/build/schema.yaml"
+extra["javaVersion"] = JavaLanguageVersion.of(17)

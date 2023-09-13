@@ -1,0 +1,6 @@
+in: path
+name: purchaseId
+required: true
+schema:
+  type: string
+  format: uuid

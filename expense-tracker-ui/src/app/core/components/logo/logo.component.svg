@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 25" xmlns="http://www.w3.org/2000/svg">
+  <text fill="currentColor" dominant-baseline="central" x="4" y="12.5" font-family="Poppins, sans-serif" font-size="26"
+        font-weight="600">$
+  </text>
+  <text fill="currentColor" dominant-baseline="central" x="28" y="12.5" font-family="Poppins, sans-serif" font-size="20"
+        font-weight="600">FINTRACKER
+  </text>
+</svg>

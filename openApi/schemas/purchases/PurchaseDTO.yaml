@@ -1,0 +1,21 @@
+properties:
+  id:
+    type: string
+    format: uuid
+    example: '4a807620-7e35-4824-bbe9-acf4a597c97f'
+  shop:
+    $ref: './../shops/ShopDTO.yaml'
+  date:
+    type: string
+    format: date
+    example: '2020-07-27'
+  products:
+    type: array
+    items:
+      $ref: './../products/ProductDTO.yaml'
+
+required:
+  - id
+  - date
+  - shop
+  - products

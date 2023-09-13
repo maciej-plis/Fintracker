@@ -1,5 +1,5 @@
 database:
-  url: localhost:5432/expense-tracker-dev
+  url: 192.168.49.2:30966/expense-tracker-dev
   user: pgUser
   password: pgPassword
 
@@ -8,5 +8,3 @@ spring:
     generate_statistics: true
     show_sql: true
     format_sql: true
-
-logging.level.org.hibernate.type: trace

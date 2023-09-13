@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: expense-tracker
-          image: localhost:5000/expense-tracker:0.2.0-SNAPSHOT
+          image: localhost:5000/expense-tracker:0.1.5
           ports:
             - containerPort: 8080
           volumeMounts:
@@ -31,23 +31,23 @@ spec:
             - name: DATABASE_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
-                  key: postgres-username
+                  name: postgres-configuration-test
+                  key: username
             - name: DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
-                  key: postgres-password
+                  name: postgres-configuration-test
+                  key: password
             - name: DATABASE_NAME
               valueFrom:
-                configMapKeyRef:
-                  name: postgres-config
-                  key: database-name
+                secretKeyRef:
+                  name: postgres-configuration-test
+                  key: database
             - name: DATABASE_URL
-              value: "postgres:5432/$(DATABASE_NAME)"
+              value: "postgres-postgresql:5432/$(DATABASE_NAME)"
       volumes:
         - name: expense-tracker-storage
           persistentVolumeClaim:
-            claimName: expense-tracker-persistent-volume-claim
+            claimName: expense-tracker-pvc
       securityContext:
-        fsGroup: 1000
+        fsGroup: 1001

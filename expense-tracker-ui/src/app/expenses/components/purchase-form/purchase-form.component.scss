@@ -1,0 +1,14 @@
+form {
+  display: flex;
+  flex-flow: column;
+  gap: 1.5rem;
+}
+
+.row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.controls {
+  justify-content: flex-end;
+}

@@ -1,6 +1,6 @@
 package matthias.expense_tracker.purchase.shop
 
-import matthias.expense_tracker.openapi.model.ShopDto
+import matthias.expense_tracker.api.models.ShopDto
 import matthias.expense_tracker.shop.ShopMapper
 import spock.lang.Specification
 import spock.lang.Subject

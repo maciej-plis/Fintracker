@@ -1,0 +1,16 @@
+get:
+  summary: Get purchase summaries
+  tags: [ purchaseSummaries ]
+  operationId: getPurchaseSummaries
+  parameters:
+    - $ref: "./../../parameters/common/Page.yaml"
+    - $ref: "./../../parameters/common/PageSize.yaml"
+    - $ref: "./../../parameters/common/Sort.yaml"
+    - $ref: "./../../parameters/common/Filter.yaml"
+  responses:
+    200:
+      description: Success response containing page of purchase summaries
+      content:
+        application/json:
+          schema:
+            $ref: "./../../schemas/purchases/PurchaseSummariesPage.yaml"

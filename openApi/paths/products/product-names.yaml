@@ -1,0 +1,19 @@
+get:
+  summary: Get list of distinct product names
+  tags: [ products ]
+  operationId: getProductNames
+  parameters:
+    - in: query
+      required: true
+      name: filter
+      schema:
+        type: string
+  responses:
+    200:
+      description: Success response with distinct product names
+      content:
+        application/json:
+          schema:
+            $ref: './../../schemas/products/ProductNames.yaml'
+    400:
+      $ref: "./../../responses/common/ValidationErrorResponse.yaml"

@@ -1,0 +1,6 @@
+<app-table [gridOptions]="gridOptions"
+           header="Products"
+           (onGridReady)="onGridReady($event)"
+           (blur)="onTouched()">
+  <small class="table-error p-error">Invalid products value</small>
+</app-table>

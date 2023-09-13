@@ -1,0 +1,34 @@
+# Purchases
+PurchaseSummariesPage:
+  $ref: "./purchases/PurchaseSummariesPage.yaml"
+PurchaseSummaryDTO:
+  $ref: "./purchases/PurchaseSummaryDTO.yaml"
+PurchaseDTO:
+  $ref: "./purchases/PurchaseDTO.yaml"
+AddPurchaseRequest:
+  $ref: "./purchases/AddPurchaseRequest.yaml"
+UpdatePurchaseRequest:
+  $ref: "./purchases/UpdatePurchaseRequest.yaml"
+
+# Products
+ProductDTO:
+  $ref: "./products/ProductDTO.yaml"
+ProductNames:
+  $ref: "./products/ProductNames.yaml"
+AddProductRequest:
+  $ref: "./products/AddProductRequest.yaml"
+UpdateProductRequest:
+  $ref: "./products/UpdateProductRequest.yaml"
+
+# Shops
+ShopDTO:
+  $ref: "./shops/ShopDTO.yaml"
+AddShopRequest:
+  $ref: "./shops/AddShopRequest.yaml"
+
+# Categories
+CategoryDTO:
+  $ref: "./categories/CategoryDTO.yaml"
+AddCategoryRequest:
+  $ref: "./categories/AddCategoryRequest.yaml"
+

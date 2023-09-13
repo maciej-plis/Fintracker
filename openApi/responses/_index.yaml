@@ -1,0 +1,7 @@
+# Common
+NoContentResponse:
+  $ref: "./common/NoContentResponse.yaml"
+NotFoundResponse:
+  $ref: "./common/NotFoundResponse.yaml"
+ValidationErrorResponse:
+  $ref: "./common/ValidationErrorResponse.yaml"

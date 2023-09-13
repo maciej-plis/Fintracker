@@ -3,63 +3,29 @@ post:
   tags: [ purchases ]
   operationId: addPurchase
   requestBody:
-    description: Request containing new purchase to be added
+    description: Request with purchase to be added
     required: true
     content:
       application/json:
         schema:
-          $ref: '../../schema.yaml#/components/schemas/AddEditPurchaseRequest'
+          $ref: "./../../schemas/purchases/AddPurchaseRequest.yaml"
   responses:
-    200:
-      description: (OK) Success response containing added purchase
-      content:
-        application/json:
-          schema:
-            $ref: '../../schema.yaml#/components/schemas/PurchaseDto'
+    204:
+      $ref: "./../../responses/common/NoContentResponse.yaml"
     400:
-      description: (BAD_REQUEST) Failure response when request body is invalid
-      content:
-        application/json:
-          schema:
-            $ref: '../../schema.yaml#/components/schemas/ValidationError'
-get:
-  summary: Get purchases
-  tags: [ purchases ]
-  operationId: getPurchases
-  parameters:
-    - in: query
-      name: page
-      schema:
-        type: integer
-      default: 0
-    - in: query
-      name: size
-      schema:
-        type: integer
-      default: 10
-    - in: query
-      name: sort
-      schema:
-        type: string
-      default: date,desc
-  responses:
-    200:
-      description: (OK) Success response containing page of purchases
-      content:
-        application/json:
-          schema:
-            $ref: '../../schema.yaml#/components/schemas/PurchasesPage'
+      $ref: "./../../responses/common/ValidationErrorResponse.yaml"
+
 delete:
-  summary: Delete multiple purchases
+  summary: Remove multiple purchases
   tags: [ purchases ]
   operationId: removePurchases
   requestBody:
-    description: Request containing ids of purchases to be deleted
+    description: Request with purchase ids to remove
     required: true
     content:
       application/json:
         schema:
-          $ref: '../../schema.yaml#/components/schemas/BulkDeleteRequest'
+          $ref: "./../../schemas/common/BulkDeleteRequest.yaml"
   responses:
     204:
-      description: (NO_CONTENT) Success response
+      $ref: "./../../responses/common/NoContentResponse.yaml"

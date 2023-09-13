@@ -1,0 +1,18 @@
+properties:
+  shopId:
+    type: string
+    format: uuid
+    example: "4a807620-7e35-4824-bbe9-acf4a597c97f"
+  date:
+    type: string
+    format: date
+    example: "2020-07-27"
+  products:
+    type: array
+    items:
+        $ref: "./../products/AddProductRequest.yaml"
+
+required:
+  - shopId
+  - date
+  - products

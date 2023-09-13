@@ -1,0 +1,6 @@
+<app-table #table [gridOptions]="gridOptions" header="Purchases">
+  <ng-container>
+    <p-button label="Add" icon="pi pi-plus" styleClass="p-button-sm" (click)="addNewItem.emit()"></p-button>
+    <p-button label="Delete Selected" icon="pi pi-trash" styleClass="p-button-sm p-button-danger" (click)="onDeleteSelected()"></p-button>
+  </ng-container>
+</app-table>

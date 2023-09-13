@@ -1,57 +1,48 @@
 get:
-  summary: Get purchase
+  summary: Get purchase by id
   tags: [ purchases ]
   operationId: getPurchase
   parameters:
-    - in: path
-      name: purchaseId
-      schema:
-        type: string
-        format: uuid
-      required: true
+    - $ref: "./../../parameters/purchases/PurchaseId.yaml"
   responses:
     200:
-      description: (OK) Success response containing purchase
+      description: Success response containing purchase
       content:
         application/json:
           schema:
-            $ref: '../../schema.yaml#/components/schemas/PurchaseDto'
+            $ref: './../../schemas/purchases/PurchaseDTO.yaml'
+    404:
+      $ref: "./../../responses/common/NotFoundResponse.yaml"
+
 put:
-  summary: Update purchase
+  summary: Update purchase by id
   tags: [ purchases ]
   operationId: updatePurchase
   parameters:
-    - in: path
-      name: purchaseId
-      schema:
-        type: string
-        format: uuid
-      required: true
+    - $ref: "./../../parameters/purchases/PurchaseId.yaml"
   requestBody:
-    description: Request containing new purchase to be added
+    description: Request with purchase update
     required: true
     content:
       application/json:
         schema:
-          $ref: '../../schema.yaml#/components/schemas/AddEditPurchaseRequest'
+          $ref: './../../schemas/purchases/UpdatePurchaseRequest.yaml'
   responses:
-    200:
-      description: (OK) Success response containing updated purchase
-      content:
-        application/json:
-          schema:
-            $ref: '../../schema.yaml#/components/schemas/PurchaseDto'
+    204:
+      $ref: "./../../responses/common/NoContentResponse.yaml"
+    400:
+      $ref: "./../../responses/common/ValidationErrorResponse.yaml"
+    404:
+      $ref: "./../../responses/common/NotFoundResponse.yaml"
+
 delete:
-  summary: Remove purchase
+  summary: Remove purchase by id
   tags: [ purchases ]
   operationId: removePurchase
   parameters:
-    - in: path
-      name: purchaseId
-      schema:
-        type: string
-        format: uuid
-      required: true
+    - $ref: "./../../parameters/purchases/PurchaseId.yaml"
   responses:
     204:
-      description: (NO_CONTENT) Success response
+      $ref: "./../../responses/common/NoContentResponse.yaml"
+    404:
+      $ref: "./../../responses/common/NotFoundResponse.yaml"

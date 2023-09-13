@@ -1,36 +1,35 @@
 get:
-  summary: Get list of purchase shops
+  summary: Get list of shops
   tags: [ shops ]
-  operationId: getPurchaseShops
+  operationId: getShops
   responses:
     200:
-      description: (OK) Success response containing list of purchase shops
+      description: Success response with shops
       content:
         application/json:
           schema:
-            $ref: '../../schema.yaml#/components/schemas/ShopList'
+            type: array
+            items:
+              $ref: './../../schemas/shops/ShopDTO.yaml'
 
 post:
-  summary: Add new purchase shop
+  summary: Add new shop
   tags: [ shops ]
-  operationId: addPurchaseShop
+  operationId: addShop
   requestBody:
-    description: Request containing new purchase shop to be added
+    description: Request with shop to be added
     required: true
     content:
       application/json:
         schema:
-          $ref: '../../schema.yaml#/components/schemas/AddShopRequest'
+          $ref: './../../schemas/shops/AddShopRequest.yaml'
   responses:
     200:
-      description: (OK) Success response containing added purchase shop
+      description: Success response with created resource id
       content:
         application/json:
           schema:
-            $ref: '../../schema.yaml#/components/schemas/ShopDto'
+            type: string
+            format: uuid
     400:
-      description: (BAD_REQUEST) Failure response when request body is invalid
-      content:
-        application/json:
-          schema:
-            $ref: '../../schema.yaml#/components/schemas/ValidationError'
+      $ref: "./../../responses/common/ValidationErrorResponse.yaml"

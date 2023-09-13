@@ -1,5 +1,0 @@
-spring.r2dbc:
-  url: r2dbc:postgresql://localhost:5432/expense-tracker-dev
-  username: pgUser
-  password: pgPassword
-logging.level.org.springframework.r2dbc: TRACE

@@ -1,0 +1,6 @@
+in: path
+name: shopId
+required: true
+schema:
+  type: string
+  format: uuid

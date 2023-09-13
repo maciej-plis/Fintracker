@@ -1,0 +1,23 @@
+# Purchases
+/api/purchases:
+  $ref: "./purchases/purchases.yaml"
+/api/purchases/{purchaseId}:
+  $ref: "./purchases/purchase.yaml"
+
+# Purchase Summaries
+/api/purchase-summaries:
+  $ref: "./purchase-summaries/purchase-summaries.yaml"
+
+# Products
+/api/products/names:
+  $ref: "./products/product-names.yaml"
+
+# Shops
+/api/shops:
+  $ref: "./shops/shops.yaml"
+/api/shops/{shopId}:
+  $ref: "./shops/shop.yaml"
+
+# Categories
+/api/categories:
+  $ref: "./categories/categories.yaml"

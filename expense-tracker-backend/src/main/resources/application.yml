@@ -1,3 +1,8 @@
+database:
+  url: ${DATABASE_URL}
+  user: ${DATABASE_USER}
+  password: ${DATABASE_PASSWORD}
+
 spring:
   jpa:
     database: postgresql
@@ -6,8 +11,9 @@ spring:
     properties.hibernate.jdbc.batch_size: 20
   datasource:
     driver-class-name: org.postgresql.Driver
-    username: pgUser
-    password: pgPassword
+    url: jdbc:postgresql://${database.url}
+    username: ${database.user}
+    password: ${database.password}
   liquibase:
     change-log: db/db.changelog-master.yaml
     database-change-log-table: database_change_log

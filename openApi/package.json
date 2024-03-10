@@ -1,7 +1,0 @@
-{
-  "name": "open-api",
-  "version": "1.0.0-SNAPSHOT",
-  "devDependencies": {
-    "swagger-cli": "4.x"
-  }
-}

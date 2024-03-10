@@ -7,9 +7,9 @@ plugins {
     id("io.spring.dependency-management") version "1.1.4"
     id("org.openapi.generator") version "7.0.1"
     id("com.bmuschko.docker-spring-boot-application") version "9.3.4"
-    kotlin("jvm") version "1.9.10"
-    kotlin("plugin.jpa") version "1.9.10"
-    kotlin("plugin.spring") version "1.9.10"
+    kotlin("jvm") version "1.9.23"
+    kotlin("plugin.jpa") version "1.9.23"
+    kotlin("plugin.spring") version "1.9.23"
 }
 
 group = rootProject.group
@@ -157,7 +157,7 @@ openApiGenerate {
 
 docker {
     springBootApplication {
-        baseImage.set("openjdk:17-oracle")
+        baseImage.set("openjdk:21-oracle")
         ports.set(listOf(8080))
         jvmArgs.set(listOf("-Xms256m", "-Xmx512m"))
         images.set(

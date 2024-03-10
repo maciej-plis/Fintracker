@@ -3,10 +3,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("java")
     id("groovy")
-    id("org.springframework.boot") version "2.7.18"
+    id("org.springframework.boot") version "3.2.3"
     id("io.spring.dependency-management") version "1.1.4"
-    id("org.openapi.generator") version "7.0.1"
-    id("com.bmuschko.docker-spring-boot-application") version "9.3.4"
+    id("org.openapi.generator") version "7.3.0"
+    id("com.bmuschko.docker-spring-boot-application") version "9.4.0"
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.jpa") version "1.9.23"
     kotlin("plugin.spring") version "1.9.23"
@@ -59,9 +59,9 @@ dependencies {
 
     // Database
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("io.github.perplexhub:rsql-jpa-spring-boot-starter:5.1.1")
-    runtimeOnly("org.postgresql:postgresql:42.7.0")
-    runtimeOnly("org.liquibase:liquibase-core:4.17.0")
+    implementation("io.github.perplexhub:rsql-jpa-spring-boot-starter:6.0.20")
+    runtimeOnly("org.postgresql:postgresql:42.7.2")
+    runtimeOnly("org.liquibase:liquibase-core:4.26.0")
 
     // Kotlin Support
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -69,16 +69,15 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     // Openapi
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.16")
-//    implementation("io.swagger.parser.v3:swagger-parser:2.1.16")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.20")
 
     // UI
 //    runtimeOnly(project(":expense-tracker-frontend"))
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.spockframework:spock-spring:2.3-groovy-3.0")
-    testImplementation("org.codehaus.groovy:groovy-json:3.0.13")
+    testImplementation("org.spockframework:spock-spring:2.4-M2-groovy-4.0")
+    testImplementation("org.apache.groovy:groovy-json:4.0.19")
 
     // Integration Test
     integrationTestRuntimeOnly("com.h2database:h2:2.1.214")
@@ -145,7 +144,7 @@ openApiGenerate {
             "serializableModel" to "true",
             "interfaceOnly" to "true",
             "skipDefaultInterface" to "true",
-            "useSpringBoot3" to "false"
+            "useSpringBoot3" to "true"
         )
     )
     typeMappings.set(

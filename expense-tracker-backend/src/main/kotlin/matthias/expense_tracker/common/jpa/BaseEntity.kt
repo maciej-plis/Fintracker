@@ -1,10 +1,10 @@
 package matthias.expense_tracker.common.jpa
 
+import jakarta.persistence.Column
+import jakarta.persistence.Id
+import jakarta.persistence.MappedSuperclass
 import java.util.*
 import java.util.UUID.randomUUID
-import javax.persistence.Column
-import javax.persistence.Id
-import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
 abstract class BaseEntity(id: UUID? = null) {

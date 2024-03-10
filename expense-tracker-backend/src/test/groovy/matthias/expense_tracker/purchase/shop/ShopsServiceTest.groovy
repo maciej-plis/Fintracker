@@ -1,11 +1,10 @@
 package matthias.expense_tracker.purchase.shop
 
+import jakarta.persistence.EntityExistsException
 import matthias.expense_tracker.api.models.ShopDto
 import matthias.expense_tracker.shop.ShopMapper
 import spock.lang.Specification
 import spock.lang.Subject
-
-import javax.persistence.EntityExistsException
 
 import static java.util.UUID.randomUUID
 import static org.mapstruct.factory.Mappers.getMapper

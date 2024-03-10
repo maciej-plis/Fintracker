@@ -1,11 +1,11 @@
 package matthias.expense_tracker.category
 
+import jakarta.persistence.EntityExistsException
 import matthias.expense_tracker.api.models.AddCategoryRequest
 import matthias.expense_tracker.api.models.CategoryDTO
 import matthias.expense_tracker.common.jpa.TransactionExecutor
 import org.springframework.stereotype.Service
 import java.util.*
-import javax.persistence.EntityExistsException
 
 @Service
 internal class CategoryService(

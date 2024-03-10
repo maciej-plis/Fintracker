@@ -6,7 +6,7 @@ database:
 spring:
   jpa:
     database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate.ddl-auto: validate
     properties.hibernate.jdbc.batch_size: 20
   datasource:

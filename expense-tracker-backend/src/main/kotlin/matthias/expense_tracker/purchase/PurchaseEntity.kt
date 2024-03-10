@@ -1,5 +1,8 @@
 package matthias.expense_tracker.purchase
 
+import jakarta.persistence.*
+import jakarta.persistence.CascadeType.ALL
+import jakarta.persistence.FetchType.EAGER
 import matthias.expense_tracker.common.jpa.AuditEntity
 import matthias.expense_tracker.product.ProductEntity
 import matthias.expense_tracker.shop.ShopEntity
@@ -9,9 +12,6 @@ import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.Where
 import java.time.LocalDate
 import java.util.*
-import javax.persistence.*
-import javax.persistence.CascadeType.ALL
-import javax.persistence.FetchType.EAGER
 
 @Entity
 @Table(name = "purchase")

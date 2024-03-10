@@ -1,5 +1,6 @@
 package matthias.expense_tracker.purchase
 
+import jakarta.persistence.EntityManager
 import matthias.expense_tracker.api.models.CategoryDto
 import matthias.expense_tracker.api.models.ProductDto
 import matthias.expense_tracker.api.models.PurchaseDto
@@ -8,7 +9,6 @@ import matthias.expense_tracker.product.ProductsMapper
 import spock.lang.Specification
 import spock.lang.Subject
 
-import javax.persistence.EntityManager
 import java.time.LocalDate
 
 import static java.util.UUID.randomUUID

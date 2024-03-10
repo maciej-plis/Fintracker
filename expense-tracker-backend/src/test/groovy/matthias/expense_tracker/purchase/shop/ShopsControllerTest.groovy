@@ -1,12 +1,11 @@
 package matthias.expense_tracker.purchase.shop
 
-import matthias.expense_tracker.configuration.ResponseExceptionHandler
+import jakarta.persistence.EntityExistsException
 import matthias.expense_tracker.api.models.ShopDto
+import matthias.expense_tracker.configuration.ResponseExceptionHandler
 import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification
 import spock.lang.Subject
-
-import javax.persistence.EntityExistsException
 
 import static groovy.json.JsonOutput.toJson
 import static java.util.UUID.randomUUID

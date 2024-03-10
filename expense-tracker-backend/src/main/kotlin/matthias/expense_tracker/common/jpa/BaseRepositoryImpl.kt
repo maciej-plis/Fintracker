@@ -1,11 +1,11 @@
 package matthias.expense_tracker.common.jpa
 
+import jakarta.persistence.EntityManager
+import jakarta.persistence.EntityNotFoundException
 import org.springframework.data.jpa.repository.support.JpaEntityInformation
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository
 import org.springframework.transaction.annotation.Transactional
 import java.io.Serializable
-import javax.persistence.EntityManager
-import javax.persistence.EntityNotFoundException
 
 class BaseRepositoryImpl<T, ID : Serializable>(
     jpaEntityInformation: JpaEntityInformation<T, ID>,

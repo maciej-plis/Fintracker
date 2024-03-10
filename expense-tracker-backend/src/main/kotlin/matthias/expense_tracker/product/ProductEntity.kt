@@ -1,13 +1,13 @@
 package matthias.expense_tracker.product
 
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.FetchType.EAGER
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.Table
 import matthias.expense_tracker.category.CategoryEntity
 import matthias.expense_tracker.common.jpa.BaseEntity
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.FetchType.EAGER
-import javax.persistence.ManyToOne
-import javax.persistence.Table
 
 
 @Entity

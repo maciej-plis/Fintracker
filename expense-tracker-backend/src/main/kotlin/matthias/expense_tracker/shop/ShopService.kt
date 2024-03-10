@@ -1,12 +1,12 @@
 package matthias.expense_tracker.shop
 
+import jakarta.persistence.EntityExistsException
 import matthias.expense_tracker.api.models.AddShopRequest
 import matthias.expense_tracker.api.models.ShopDTO
 import matthias.expense_tracker.common.jpa.TransactionExecutor
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
-import javax.persistence.EntityExistsException
 
 @Service
 internal class ShopService(

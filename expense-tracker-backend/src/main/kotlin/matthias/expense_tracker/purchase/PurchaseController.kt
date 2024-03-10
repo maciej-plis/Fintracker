@@ -2,8 +2,8 @@ package matthias.expense_tracker.purchase
 
 import matthias.expense_tracker.api.apis.PurchasesApi
 import matthias.expense_tracker.api.models.AddPurchaseRequest
+import matthias.expense_tracker.api.models.BulkDeleteRequest
 import matthias.expense_tracker.api.models.PurchaseDTO
-import matthias.expense_tracker.api.models.RemovePurchasesRequest
 import matthias.expense_tracker.api.models.UpdatePurchaseRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.noContent
@@ -16,8 +16,8 @@ internal class PurchaseController(
     private val purchaseService: PurchaseService
 ) : PurchasesApi {
 
-    override fun removePurchases(removePurchasesRequest: RemovePurchasesRequest): ResponseEntity<Unit> {
-        purchaseService.removePurchases(removePurchasesRequest.ids)
+    override fun removePurchases(bulkDeleteRequest: BulkDeleteRequest): ResponseEntity<Unit> {
+        purchaseService.removePurchases(bulkDeleteRequest.ids)
         return noContent().build()
     }
 

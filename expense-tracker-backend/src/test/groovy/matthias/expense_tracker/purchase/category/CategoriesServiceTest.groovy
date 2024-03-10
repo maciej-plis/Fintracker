@@ -1,11 +1,10 @@
 package matthias.expense_tracker.purchase.category
 
-import matthias.expense_tracker.category.CategoryMapper
+import jakarta.persistence.EntityExistsException
 import matthias.expense_tracker.api.models.CategoryDto
+import matthias.expense_tracker.category.CategoryMapper
 import spock.lang.Specification
 import spock.lang.Subject
-
-import javax.persistence.EntityExistsException
 
 import static java.util.UUID.randomUUID
 import static org.mapstruct.factory.Mappers.getMapper

@@ -1,10 +1,10 @@
 package matthias.expense_tracker.shop
 
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Table
 import matthias.expense_tracker.common.jpa.BaseEntity
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Table
 
 @Entity
 @Table(name = "purchase_shop")

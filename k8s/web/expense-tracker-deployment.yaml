@@ -17,12 +17,12 @@ spec:
     spec:
       containers:
         - name: expense-tracker
-          image: localhost:5000/expense-tracker:0.1.5
+          image: localhost:5000/expense-tracker:0.3.0-SNAPSHOT
           ports:
             - containerPort: 8080
           volumeMounts:
             - name: expense-tracker-storage
-              mountPath: /app
+              mountPath: /app-data
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "prod"

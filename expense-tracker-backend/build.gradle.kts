@@ -72,7 +72,7 @@ dependencies {
     implementation("io.swagger.core.v3:swagger-annotations:2.2.20")
 
     // UI
-//    runtimeOnly(project(":expense-tracker-frontend"))
+    runtimeOnly(project(":expense-tracker-ui"))
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -161,9 +161,18 @@ docker {
         jvmArgs.set(listOf("-Xms256m", "-Xmx512m"))
         images.set(
             listOf(
+                "${rootProject.name}:latest",
                 "${rootProject.name}:${rootProject.version}",
-                "${rootProject.name}:latest"
+                "registry.minikube.com/${rootProject.name}:${rootProject.version}",
             )
         )
     }
+}
+
+tasks.dockerPushImage {
+    images.set(
+        listOf(
+            "registry.minikube.com/${rootProject.name}:${rootProject.version}"
+        )
+    )
 }

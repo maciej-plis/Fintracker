@@ -1,4 +1,4 @@
-gi{
+{
   "annotations": {
     "list": [
       {
@@ -608,6 +608,6 @@ gi{
   "timezone": "",
   "title": "Expenses",
   "uid": "db190eb2-b5fa-4cb8-812e-934e2c88ff92",
-  "version": 11,
+  "version": 1,
   "weekStart": "monday"
 }

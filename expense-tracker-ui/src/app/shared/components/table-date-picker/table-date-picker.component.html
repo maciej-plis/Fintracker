@@ -1,10 +1,11 @@
-<p-calendar #calendar
-            appendTo="body"
-            panelStyleClass="ag-custom-component-popup"
-            [showButtonBar]="true"
-            [(ngModel)]="date"
-            (ngModelChange)="params.onDateChanged"
-            (onSelect)="onSelect()"
+<p-calendar (ngModelChange)="params.onDateChanged"
             (onClearClick)="onClearClick()"
-            (onInput)="onInput()">
+            (onInput)="onInput()"
+            (onSelect)="onSelect()"
+            [(ngModel)]="date"
+            [autofocus]="true"
+            [showButtonBar]="true"
+            appendTo="body"
+            pAutoFocus
+            panelStyleClass="ag-custom-component-popup">
 </p-calendar>

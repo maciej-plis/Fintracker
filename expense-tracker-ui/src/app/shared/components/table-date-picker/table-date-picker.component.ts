@@ -1,38 +1,29 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IDateParams } from 'ag-grid-community';
 import { IDateAngularComp } from 'ag-grid-angular';
+import { FormsModule } from '@angular/forms';
+import { CalendarModule } from 'primeng/calendar';
+import { AutoFocusModule } from 'primeng/autofocus';
 
 @Component({
+  standalone: true,
   selector: 'app-table-date-picker',
   templateUrl: './table-date-picker.component.html',
-  styleUrls: ['./table-date-picker.component.scss']
+  styleUrls: ['./table-date-picker.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CalendarModule,
+    FormsModule,
+    AutoFocusModule
+  ]
 })
-export class TableDatePickerComponent implements IDateAngularComp, AfterViewInit {
+export class TableDatePickerComponent implements IDateAngularComp {
 
-  @ViewChild('calendar', {read: ElementRef})
-  public calendar: ElementRef;
-
-  public params: IDateParams;
-  public date: Date | null;
-
-  public ngAfterViewInit(): void {
-    window.setTimeout(() => this.calendar.nativeElement.querySelector('input').focus());
-  }
+  protected params: IDateParams;
+  protected date: Date | null;
 
   public agInit(params: IDateParams): void {
     this.params = params;
-  }
-
-  public onSelect() {
-    this.params.onDateChanged();
-  }
-
-  public onClearClick() {
-    this.params.onDateChanged();
-  }
-
-  public onInput() {
-    this.params.onDateChanged();
   }
 
   public getDate(): Date | null {
@@ -41,5 +32,17 @@ export class TableDatePickerComponent implements IDateAngularComp, AfterViewInit
 
   public setDate(date: Date | null): void {
     this.date = date;
+  }
+
+  protected onSelect() {
+    this.params.onDateChanged();
+  }
+
+  protected onClearClick() {
+    this.params.onDateChanged();
+  }
+
+  protected onInput() {
+    this.params.onDateChanged();
   }
 }

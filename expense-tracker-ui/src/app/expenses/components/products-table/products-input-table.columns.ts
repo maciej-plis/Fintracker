@@ -4,7 +4,7 @@ import { ProductForm, ProductsInputTableContext } from './products-input-table.c
 import { map, Observable } from 'rxjs';
 import { CategoryDTO, ProductDTO } from '@core/api';
 import { startsWithIgnoreCase } from '@shared/utils/string.utils';
-import { ActionCellEditor, ActionCellEditorParams } from '@shared/components/button-cell-editor/action-cell-editor.component';
+import { ActionCellEditor, ActionCellEditorParams } from '@shared/components/action-cell-editor/action-cell-editor.component';
 import { ButtonCellRendererComponent, ButtonCellRendererParams } from '@shared/components/button-cell-renderer/button-cell-renderer.component';
 import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Column } from 'ag-grid-community/dist/lib/entities/column';

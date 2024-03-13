@@ -87,6 +87,7 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
     suppressMultiRangeSelection: true,
     enableFillHandle: true,
     pinnedTopRowData: [buildProductForm()],
+    stopEditingWhenCellsLoseFocus: true,
     rowData: [],
     processCellForClipboard: params => JSON.stringify(params.value),
     processCellFromClipboard: params => JSON.parse(params.value),

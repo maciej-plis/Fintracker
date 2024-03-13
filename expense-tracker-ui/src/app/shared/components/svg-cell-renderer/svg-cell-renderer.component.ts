@@ -9,11 +9,13 @@ import { ICellRendererParams } from 'ag-grid-community';
   templateUrl: './svg-cell-renderer.component.html',
   styleUrl: './svg-cell-renderer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SvgAssetComponent]
+  imports: [
+    SvgAssetComponent
+  ]
 })
 export class SvgCellRenderer implements ICellRendererAngularComp {
 
-  public params: SvgCellRendererParams;
+  protected params: SvgCellRendererParams;
 
   public agInit(params: SvgCellRendererParams): void {
     this.params = params;

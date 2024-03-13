@@ -43,7 +43,6 @@ function formValueGetter(params: ValueGetterParams): any | null {
 }
 
 function formValueSetter(params: ValueSetterParams): boolean {
-  console.log(params);
   if (!hasFormGroupDataWithField(params)) return false;
   params.data.get(params.colDef.field)?.setValue(params.newValue);
   return params.newValue !== params.oldValue;

@@ -15,22 +15,25 @@ const ERROR_MESSAGES: { [error: string]: string } = {
   selector: 'app-validation-cell-renderer',
   templateUrl: './validation-cell-renderer.component.html',
   styleUrl: './validation-cell-renderer.component.scss',
-  imports: [TooltipModule, NgIf]
+  imports: [
+    TooltipModule,
+    NgIf
+  ]
 })
 export class ValidationCellRenderer implements ICellRendererAngularComp {
 
   private static readonly ERROR_SEPARATOR = '<hr/>';
 
-  public params: ICellRendererParams;
-  public isValid: boolean = true;
-  public message: string = '';
+  protected params: ICellRendererParams;
+  protected isValid: boolean = true;
+  protected message: string = '';
 
-  agInit(params: ICellRendererParams): void {
+  public agInit(params: ICellRendererParams): void {
     this.params = params;
     this.initializeValidationStatus();
   }
 
-  refresh(params: ICellRendererParams): boolean {
+  public refresh(params: ICellRendererParams): boolean {
     return false;
   }
 

@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
+import { agGridOverlayOptions } from '@shared/constants';
+import { AutoFocusModule } from 'primeng/autofocus';
 
 @Component({
   standalone: true,
@@ -15,24 +17,20 @@ import { AsyncPipe } from '@angular/common';
   imports: [
     AutoCompleteModule,
     FormsModule,
+    AutoFocusModule,
     AsyncPipe
   ]
 })
 export class AutoCompleteCellEditor implements ICellEditorAngularComp {
 
-  @ViewChild('autoComplete', {read: ElementRef})
-  public autoComplete: ElementRef;
+  protected readonly agGridOverlayOptions = agGridOverlayOptions;
 
-  public params: AutoCompleteCellEditorParams;
-  public value: any;
+  protected params: AutoCompleteCellEditorParams;
+  protected value: any;
 
-  public filterSubject = new BehaviorSubject('');
-  public filter$ = this.filterSubject.asObservable();
-  public filteredSuggestions$: Observable<string[]>;
-
-  public afterGuiAttached() {
-    this.autoComplete.nativeElement.querySelector('input').focus();
-  }
+  protected filterSubject = new BehaviorSubject('');
+  protected filter$ = this.filterSubject.asObservable();
+  protected filteredSuggestions$: Observable<string[]>;
 
   public agInit(params: AutoCompleteCellEditorParams): void {
     this.params = params;

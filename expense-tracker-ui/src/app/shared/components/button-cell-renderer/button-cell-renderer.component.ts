@@ -22,7 +22,8 @@ export class ButtonCellRendererComponent implements ICellRendererAngularComp {
   }
 
   public refresh(params: ButtonCellRendererParams): boolean {
-    return false;
+    this.params = params;
+    return true;
   }
 }
 

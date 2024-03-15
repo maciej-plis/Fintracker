@@ -14,21 +14,12 @@ export class ActionCellEditor implements ICellEditorAngularComp {
 
   public agInit(params: ActionCellEditorParams): void {
     params.api.stopEditing();
-    window.setTimeout(() => {
-      params.action(params);
-      this.refreshFocus(params);
-    });
+    if (params.eventKey === 'Enter') {
+      window.setTimeout(() => params.action(params));
+    }
   }
 
-  public getValue(): any {
-    return null;
-  }
-
-  private refreshFocus(params: ActionCellEditorParams) {
-    const focusedCell = params.api.getFocusedCell();
-    if (!focusedCell) return;
-    const {rowIndex, column, rowPinned} = focusedCell;
-    params.api.setFocusedCell(rowIndex, column, rowPinned);
+  public getValue(): void {
   }
 }
 

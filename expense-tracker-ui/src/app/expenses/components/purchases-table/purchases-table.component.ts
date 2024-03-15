@@ -1,8 +1,8 @@
 import { Component, EventEmitter, inject, Output, ViewChild } from '@angular/core';
 import { PurchaseSummariesApi, PurchaseSummaryDTO, ShopsApi } from '@core/api';
 import { ColDef, GridOptions, ICellRendererParams, IRowNode, ISetFilterParams } from 'ag-grid-community';
-import { currencyValueFormatter, dateValueFormatter } from '@shared/utils/table-formatters.utils';
-import { currencyCode, currencyFormat, locale } from '../../../app.constants';
+import { dateValueFormatter } from '@shared/utils/table-formatters.utils';
+import { locale } from '../../../app.constants';
 import { ButtonCellRendererComponent, ButtonCellRendererParams } from '@shared/components/button-cell-renderer/button-cell-renderer.component';
 import { ServerSideDatasource } from '@shared/components/table/model/ServerSideDatasource';
 import { nonNullableDateFilterOptions, nonNullableNumberFilterOptions } from '@shared/constants/table-filters.constants';
@@ -34,7 +34,7 @@ export class PurchasesTableComponent {
       checkboxSelection: true,
       maxWidth: 50,
       sortable: false,
-      suppressMenu: true
+      suppressHeaderMenuButton: true
     },
     {
       field: 'shopName',
@@ -64,12 +64,12 @@ export class PurchasesTableComponent {
       headerName: 'Total Price',
       filter: 'agNumberColumnFilter',
       filterParams: {filterOptions: nonNullableNumberFilterOptions},
-      valueFormatter: currencyValueFormatter(currencyFormat, currencyCode, 'narrow', locale)
+      cellDataType: 'currency'
     },
     {
       field: 'createdAt',
       headerName: 'Created At',
-      suppressMenu: true,
+      suppressHeaderMenuButton: true,
       sort: 'desc',
       valueFormatter: dateValueFormatter('medium', locale)
     },
@@ -82,7 +82,7 @@ export class PurchasesTableComponent {
         title: 'Edit',
         clicked: (params: ICellRendererParams) => this.rowEdit.emit(params.data)
       } as ButtonCellRendererParams,
-      suppressMenu: true,
+      suppressHeaderMenuButton: true,
       sortable: false
     }
   ];

@@ -74,7 +74,8 @@ export const columnDefs: ColDef[] = [
     pinned: 'right',
     editable: true,
     cellEditorSelector: controlsCellEditor.bind(this),
-    cellRendererSelector: controlsCellRenderer.bind(this)
+    cellRendererSelector: controlsCellRenderer.bind(this),
+    cellStyle: {lineHeight: 'normal'}
   }
 ];
 

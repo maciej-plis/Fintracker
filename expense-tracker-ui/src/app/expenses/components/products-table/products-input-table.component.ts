@@ -72,7 +72,7 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
   }
 
   private readonly defaultColDef: ColDef = {
-    suppressMenu: true,
+    suppressHeaderMenuButton: true,
     sortable: false
   };
 
@@ -91,7 +91,6 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
     rowData: [],
     processCellForClipboard: params => JSON.stringify(params.value),
     processCellFromClipboard: params => JSON.parse(params.value),
-    tabToNextCell: params => params.nextCellPosition,
     context: {
       formArray: this.formArray,
       productsApi: this.productsApi,

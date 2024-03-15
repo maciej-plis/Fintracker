@@ -67,7 +67,6 @@ export class AutoCompleteCellEditor implements ICellEditorAngularComp {
 export interface AutoCompleteCellEditorParams extends ICellEditorParams {
   suggestionsFunc: (filter: string) => Observable<any[]>;
   forceSelection?: boolean;
-  completeOnFocus?: boolean;
   minLength?: number;
   delay?: number;
   label?: string;

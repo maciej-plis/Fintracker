@@ -1,3 +1,15 @@
-<p-card header="Add Purchase">
-  <app-purchase-form></app-purchase-form>
+<p-card>
+  <ng-template pTemplate="header">
+    <div class="p-card-title">
+      <span>Add Purchase</span>
+      <p-tag *ngIf="!formPristine()">
+        <i class="pi pi-save p-tag-icon"></i>
+        <span>Unsaved Changes</span>
+      </p-tag>
+    </div>
+  </ng-template>
+  <app-purchase-form (submitted)="onSubmitted($event)"
+                     (cancelled)="onCancelled()"
+                     (pristine)="formPristine.set($event)">
+  </app-purchase-form>
 </p-card>

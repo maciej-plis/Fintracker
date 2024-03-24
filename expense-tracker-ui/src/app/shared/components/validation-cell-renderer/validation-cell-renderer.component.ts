@@ -39,7 +39,7 @@ export class ValidationCellRenderer implements ICellRendererAngularComp {
 
   private initializeValidationStatus() {
     if (!hasFormGroupDataWithField(this.params)) return;
-    const formControl = this.params.data.get(this.params.colDef.field) as FormControl;
+    const formControl = this.params.data.get(this.params.colDef!.field) as FormControl;
     this.isValid = formControl.valid || !formControl.touched;
     this.message = Object.keys(formControl.errors ?? {})
       .map(error => ERROR_MESSAGES[error] ?? 'This value is invalid')

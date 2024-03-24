@@ -23,6 +23,7 @@ import localePlExtra from '@angular/common/locales/extra/pl';
 import { provideSvgSprites } from 'ngxtension/svg-sprite';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ripple } from 'src/app/app.constants';
+import { AutoComplete } from 'primeng/autocomplete';
 
 const sprites = [
   {name: 'pin', baseUrl: 'assets/svg/pin.svg'}
@@ -70,5 +71,20 @@ export class CoreModule extends EnsureModuleLoadedOnceGuard {
     registerLocaleData(localePl, 'pl-PL', localePlExtra);
     provideSvgSprites(...sprites);
     this.primeNgConfig.ripple = ripple;
+    this.configureAutocompleteTabBehaviour();
+  }
+
+  private configureAutocompleteTabBehaviour() {
+    const origOnKeydown = AutoComplete.prototype.onKeyDown;
+    AutoComplete.prototype.onKeyDown = function (event: KeyboardEvent) {
+      if (event.key === 'Tab') {
+        if (this.focusedOptionIndex() !== -1) {
+          this.onOptionSelect(event, this.visibleOptions()[this.focusedOptionIndex()], false);
+        }
+        this.hide();
+        return;
+      }
+      origOnKeydown.apply(this, [event]);
+    };
   }
 }

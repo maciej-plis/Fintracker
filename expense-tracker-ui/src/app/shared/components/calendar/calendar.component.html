@@ -1,0 +1,10 @@
+<p-calendar appendTo="body"
+            [dateFormat]="displayFormat()"
+            [showButtonBar]="true"
+            [firstDayOfWeek]="1"
+            [disabled]="valueAccessor.disabled()"
+            [ngModel]="valueAccessor.value()"
+            (ngModelChange)="onDisplayValueChange($event)"
+            (onFocus)="onFocus()"
+            (onBlur)="onBlur()">
+</p-calendar>

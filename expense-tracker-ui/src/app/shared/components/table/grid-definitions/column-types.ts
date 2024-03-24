@@ -1,7 +1,14 @@
-import { CellClassParams, ColTypeDef, ValueGetterParams, ValueSetterParams } from 'ag-grid-community/dist/lib/entities/colDef';
 import { FormGroup } from '@angular/forms';
 import { ValidationCellRenderer } from '@shared/components/validation-cell-renderer/validation-cell-renderer.component';
-import { CellRendererSelectorResult, ICellEditorParams, ICellRendererParams } from 'ag-grid-community';
+import {
+  CellClassParams,
+  CellRendererSelectorResult,
+  ColTypeDef,
+  ICellEditorParams,
+  ICellRendererParams,
+  ValueGetterParams,
+  ValueSetterParams
+} from 'ag-grid-community';
 import { SvgCellRenderer, SvgCellRendererParams } from '@shared/components/svg-cell-renderer/svg-cell-renderer.component';
 
 export const numerator: ColTypeDef = {

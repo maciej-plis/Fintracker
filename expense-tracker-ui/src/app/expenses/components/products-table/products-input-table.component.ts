@@ -58,7 +58,7 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
     this.formArray.clear({emitEvent: false});
     products.forEach(product => {
       const productForm = buildProductForm(product);
-      this.formArray.push(productForm);
+      this.formArray.push(productForm, {emitEvent: false});
     });
     this.refreshTableData();
   }

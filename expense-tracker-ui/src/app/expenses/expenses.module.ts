@@ -15,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSvgSpriteFragment } from 'ngxtension/svg-sprite';
 import { SvgAssetComponent } from '@shared/components/svg-asset/svg-asset.component';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { TagModule } from 'primeng/tag';
+import { CalendarComponent } from '@shared/components/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
     ReactiveFormsModule,
     NgxSvgSpriteFragment,
     SvgAssetComponent,
-    DynamicDialogModule
+    DynamicDialogModule,
+    TagModule,
+    CalendarComponent
   ],
   schemas: []
 })

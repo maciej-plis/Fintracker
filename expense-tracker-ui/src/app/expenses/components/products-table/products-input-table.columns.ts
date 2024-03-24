@@ -1,4 +1,14 @@
-import { CellEditorSelectorResult, CellRendererSelectorResult, ColDef, GridApi, ICellEditorParams, ICellRendererParams, IRowNode } from 'ag-grid-community';
+import {
+  CellEditorSelectorResult,
+  CellRendererSelectorResult,
+  ColDef,
+  Column,
+  GridApi,
+  ICellEditorParams,
+  ICellRendererParams,
+  IRowNode,
+  RowPinnedType
+} from 'ag-grid-community';
 import { AutoCompleteCellEditor, AutoCompleteCellEditorParams } from '@shared/components/auto-complete-cell-editor/auto-complete-cell-editor.component';
 import { ProductForm, ProductsInputTableContext } from './products-input-table.component';
 import { map, Observable } from 'rxjs';
@@ -7,8 +17,6 @@ import { startsWithIgnoreCase } from '@shared/utils/string.utils';
 import { ActionCellEditor, ActionCellEditorParams } from '@shared/components/action-cell-editor/action-cell-editor.component';
 import { ButtonCellRendererComponent, ButtonCellRendererParams } from '@shared/components/button-cell-renderer/button-cell-renderer.component';
 import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { Column } from 'ag-grid-community/dist/lib/entities/column';
-import { RowPinnedType } from 'ag-grid-community/dist/lib/interfaces/iRowNode';
 import { v4 as randomUUID } from 'uuid';
 
 const ADD_CATEGORY_ITEM_OPTION: CategoryDTO = {id: '', name: '(Add Item)'};

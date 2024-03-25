@@ -1,4 +1,4 @@
-import { Component, Directive, forwardRef, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive, forwardRef, inject, input } from '@angular/core';
 import { CalendarModule } from 'primeng/calendar';
 import { PaginatorModule } from 'primeng/paginator';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
@@ -18,8 +18,8 @@ import { ValueAccessorDirective } from '@shared/directives/value-accessor/value-
 class CalendarValueAccessorDirector extends ValueAccessorDirective<any> {
 
   public override writeValue(value: string | null): void {
-    if (!value) return;
-    this.value.set(new Date(value));
+    const dateValue = value ? new Date(value) : value;
+    this.value.set(dateValue);
   }
 }
 
@@ -28,6 +28,7 @@ class CalendarValueAccessorDirector extends ValueAccessorDirective<any> {
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [CalendarValueAccessorDirector],
   host: {
     '[class.p-inputwrapper-focus]': 'focused',
@@ -49,7 +50,8 @@ export class CalendarComponent {
   protected focused: boolean = false;
 
   protected onDisplayValueChange(value: Date) {
-    this.valueAccessor.onChange(formatDate(value, this.modelFormat(), locale));
+    const dateStr = value ? formatDate(value, this.modelFormat(), locale) : value;
+    this.valueAccessor.valueChanged(dateStr);
   }
 
   protected onFocus() {

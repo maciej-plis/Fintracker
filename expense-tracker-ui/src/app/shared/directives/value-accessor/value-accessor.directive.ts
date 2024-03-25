@@ -18,6 +18,11 @@ export class ValueAccessorDirective<T> implements ControlValueAccessor {
   public value: WritableSignal<T | null> = signal(null);
   public disabled: WritableSignal<boolean> = signal(false);
 
+  public valueChanged(value: T | null): void {
+    this.onChange(value);
+    this.writeValue(value);
+  }
+
   public writeValue(value: T | null): void {
     this.value.set(value);
   }

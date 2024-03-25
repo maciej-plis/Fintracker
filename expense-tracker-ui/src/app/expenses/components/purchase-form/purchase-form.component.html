@@ -15,9 +15,7 @@
                         [minLength]="0"
                         [suggestions]="filteredShops$()"
                         (completeMethod)="shopFilter$.set($event.query)"
-                        (onSelect)="onShopSelection($event)"
-                        pAutoFocus
-                        [autofocus]="true">
+                        (onSelect)="onShopSelection($event)">
         </p-autoComplete>
         <label for="shop">Purchase Shop</label>
       </span>

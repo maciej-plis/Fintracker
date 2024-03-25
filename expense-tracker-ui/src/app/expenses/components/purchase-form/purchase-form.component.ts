@@ -13,7 +13,7 @@ import { startWith } from 'rxjs';
   selector: 'app-purchase-form',
   templateUrl: './purchase-form.component.html',
   styleUrls: ['./purchase-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PurchaseFormComponent {
 
@@ -34,7 +34,12 @@ export class PurchaseFormComponent {
   protected shopControl = new FormControl<ShopDTO | null>(null, [Validators.required]);
   protected dateControl = new FormControl<string | null>(null, [Validators.required]);
   protected productsControl = new FormControl<ProductDTO[]>([], {nonNullable: true, validators: [Validators.required]});
-  protected purchaseControlGroup = this.createPurchaseControlGroup();
+  protected purchaseControlGroup = new FormGroup<PurchaseForm>({
+    id: this.idControl,
+    shop: this.shopControl,
+    date: this.dateControl,
+    products: this.productsControl
+  });
 
   protected shopFilter$ = signal('', {equal: () => false});
   protected shops$ = toSignal(this.shopsService.shops$, {initialValue: []});
@@ -52,7 +57,7 @@ export class PurchaseFormComponent {
   }
 
   public onShopSelection(event: AutoCompleteSelectEvent) {
-    if (event.value != PurchaseFormComponent.ADD_SHOP_ITEM_OPTION) return;
+    if (event.value !== PurchaseFormComponent.ADD_SHOP_ITEM_OPTION) return;
     this.shopControl.setValue(null);
     this.shopControl.markAsPristine();
     this.shopsService.addShop().subscribe(shop => this.shopControl.setValue(shop));
@@ -66,15 +71,6 @@ export class PurchaseFormComponent {
 
   public onCancelBtnClick() {
     this.cancelled.emit();
-  }
-
-  private createPurchaseControlGroup() {
-    return new FormGroup<PurchaseForm>({
-      id: this.idControl,
-      shop: this.shopControl,
-      date: this.dateControl,
-      products: this.productsControl
-    });
   }
 }
 

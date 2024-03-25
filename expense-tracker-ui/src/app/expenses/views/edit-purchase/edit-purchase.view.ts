@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { PurchaseDTO, PurchasesApi } from '@core/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, switchMap } from 'rxjs';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { fromPromise } from 'rxjs/internal/observable/innerFrom';
 
 @Component({
@@ -15,6 +15,7 @@ export class EditPurchaseView {
   private readonly routeParams = inject(ActivatedRoute).params;
   private readonly purchasesApi = inject(PurchasesApi);
   private readonly messageService = inject(MessageService);
+  private readonly confirmationService = inject(ConfirmationService);
   private readonly router = inject(Router);
 
   protected readonly purchaseId = this.routeParams.pipe(map(params => params['purchaseId'] as string));
@@ -23,6 +24,33 @@ export class EditPurchaseView {
   protected readonly formPristine = signal(true);
 
   protected onSubmitted(purchase: PurchaseDTO) {
+    if (this.formPristine()) {
+      this.navigateBackToPurchasesScreen();
+      return;
+    }
+    this.confirmationService.confirm({
+      header: 'Confirmation',
+      message: 'Are you sure you want to update existing purchase?',
+      accept: () => {
+        this.updatePurchase(purchase);
+        this.navigateBackToPurchasesScreen();
+      }
+    });
+  }
+
+  protected onCancelled() {
+    if (this.formPristine()) {
+      this.navigateBackToPurchasesScreen();
+      return;
+    }
+    this.confirmationService.confirm({
+      header: 'Confirmation',
+      message: 'Are you sure you want to discard unsaved changes?',
+      accept: () => this.navigateBackToPurchasesScreen()
+    });
+  }
+
+  private updatePurchase(purchase: PurchaseDTO) {
     this.purchaseId.pipe(
       switchMap(purchaseId => this.purchasesApi.updatePurchase(purchaseId, {
         date: purchase.date,
@@ -38,12 +66,7 @@ export class EditPurchaseView {
       }))
     ).subscribe(() => {
       this.messageService.add({severity: 'info', summary: 'Success', detail: 'Purchase updated successfully.'});
-      this.navigateBackToPurchasesScreen();
     });
-  }
-
-  protected onCancelled() {
-    this.navigateBackToPurchasesScreen();
   }
 
   private navigateBackToPurchasesScreen(): Observable<boolean> {

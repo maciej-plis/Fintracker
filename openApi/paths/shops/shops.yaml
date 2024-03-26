@@ -10,7 +10,7 @@ get:
           schema:
             type: array
             items:
-              $ref: './../../schemas/shops/ShopDTO.yaml'
+              $ref: "./../../components/schemas/shops/ShopDTO.yaml"
 
 post:
   summary: Add new shop
@@ -22,7 +22,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: './../../schemas/shops/AddShopRequest.yaml'
+          $ref: "./../../components/schemas/shops/AddShopRequest.yaml"
   responses:
     200:
       description: Success response with created resource id
@@ -32,4 +32,4 @@ post:
             type: string
             format: uuid
     400:
-      $ref: "./../../responses/common/ValidationErrorResponse.yaml"
+      $ref: "./../../components/responses/common/ValidationErrorResponse.yaml"

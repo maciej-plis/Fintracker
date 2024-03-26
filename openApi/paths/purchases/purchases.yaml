@@ -8,12 +8,12 @@ post:
     content:
       application/json:
         schema:
-          $ref: "./../../schemas/purchases/AddPurchaseRequest.yaml"
+          $ref: "./../../components/schemas/purchases/AddPurchaseRequest.yaml"
   responses:
     204:
-      $ref: "./../../responses/common/NoContentResponse.yaml"
+      $ref: "./../../components/responses/common/NoContentResponse.yaml"
     400:
-      $ref: "./../../responses/common/ValidationErrorResponse.yaml"
+      $ref: "./../../components/responses/common/ValidationErrorResponse.yaml"
 
 delete:
   summary: Remove multiple purchases
@@ -25,7 +25,8 @@ delete:
     content:
       application/json:
         schema:
-          $ref: "./../../schemas/common/BulkDeleteRequest.yaml"
+          $ref: "./../../components/schemas/common/BulkDeleteRequest.yaml"
   responses:
     204:
-      $ref: "./../../responses/common/NoContentResponse.yaml"
+      $ref: "./../../components/responses/common/NoContentResponse.yaml"
+

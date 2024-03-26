@@ -2,7 +2,7 @@ properties:
   content:
     type: array
     items:
-      $ref: './PurchaseSummaryDTO.yaml'
+      $ref: "./PurchaseSummaryDTO.yaml"
   totalPages:
     type: integer
   totalItems:

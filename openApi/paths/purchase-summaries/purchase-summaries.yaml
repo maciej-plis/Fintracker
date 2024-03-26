@@ -3,14 +3,15 @@ get:
   tags: [ purchaseSummaries ]
   operationId: getPurchaseSummaries
   parameters:
-    - $ref: "./../../parameters/common/Page.yaml"
-    - $ref: "./../../parameters/common/PageSize.yaml"
-    - $ref: "./../../parameters/common/Sort.yaml"
-    - $ref: "./../../parameters/common/Filter.yaml"
+    - $ref: "./../../components/parameters/common/Page.yaml"
+    - $ref: "./../../components/parameters/common/PageSize.yaml"
+    - $ref: "./../../components/parameters/common/Sort.yaml"
+    - $ref: "./../../components/parameters/common/Filter.yaml"
   responses:
     200:
       description: Success response containing page of purchase summaries
       content:
         application/json:
           schema:
-            $ref: "./../../schemas/purchases/PurchaseSummariesPage.yaml"
+            $ref: "./../../components/schemas/purchases/PurchaseSummariesPage.yaml"
+

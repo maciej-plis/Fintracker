@@ -12,11 +12,8 @@ plugins {
     kotlin("plugin.spring") version "1.9.23"
 }
 
-group = rootProject.group
-version = rootProject.version
-
 val javaVersion: JavaLanguageVersion by rootProject.extra
-val apiSchema: String by rootProject.extra
+val openApiSchemaOutput: String by project
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.freeCompilerArgs += "-Xjsr305=strict"
@@ -117,13 +114,13 @@ tasks.clean {
 }
 
 openApiValidate {
-    inputSpec.set(apiSchema)
+    inputSpec.set(openApiSchemaOutput)
 }
 
 openApiGenerate {
     generatorName.set("kotlin-spring")
     library.set("spring-boot")
-    inputSpec.set(apiSchema)
+    inputSpec.set(openApiSchemaOutput)
     outputDir.set("$projectDir")
     globalProperties.set(
         mapOf(

@@ -17,8 +17,8 @@ paths:
 
 components:
   schemas:
-    $ref: "./schemas/_index.yaml"
+    $ref: "./components/schemas/_index.yaml"
   parameters:
-    $ref: "./parameters/_index.yaml"
+    $ref: "./components/parameters/_index.yaml"
   responses:
-    $ref: "./responses/_index.yaml"
+    $ref: "./components/responses/_index.yaml"

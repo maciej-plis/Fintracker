@@ -4,7 +4,7 @@ properties:
     format: uuid
     example: '92c58038-3267-4689-bc1c-cd0b1d90cc5f'
   category:
-    $ref: './../categories/CategoryDTO.yaml'
+    $ref: "./../categories/CategoryDTO.yaml"
   name:
     type: string
     example: 'iPhone X'

@@ -3,10 +3,7 @@ plugins {
   id("java-library")
 }
 
-group = rootProject.group
-version = rootProject.version
-
-val apiSchema: String by rootProject.extra
+val openApiSchemaOutput: String by project
 val genOutputDir = "$projectDir/src/app/core/api"
 
 tasks.clean {
@@ -34,8 +31,8 @@ tasks.jar {
 
 openApiGenerate {
   generatorName.set("typescript-angular")
-  inputSpec.set("$apiSchema")
-  outputDir.set("$genOutputDir")
+  inputSpec.set(openApiSchemaOutput)
+  outputDir.set(genOutputDir)
   globalProperties.set(
     mapOf(
       "models" to "",

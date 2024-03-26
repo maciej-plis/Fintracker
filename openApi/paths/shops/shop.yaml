@@ -3,13 +3,13 @@ get:
   tags: [ shops ]
   operationId: getShop
   parameters:
-    - $ref: "./../../parameters/shops/ShopId.yaml"
+    - $ref: "./../../components/parameters/shops/ShopId.yaml"
   responses:
     200:
       description: Success response containing shop
       content:
         application/json:
           schema:
-            $ref: './../../schemas/shops/ShopDTO.yaml'
+            $ref: "./../../components/schemas/shops/ShopDTO.yaml"
     404:
-      $ref: "./../../responses/common/NotFoundResponse.yaml"
+      $ref: "./../../components/responses/common/NotFoundResponse.yaml"

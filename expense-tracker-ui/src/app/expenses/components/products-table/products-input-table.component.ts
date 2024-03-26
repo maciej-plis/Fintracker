@@ -4,6 +4,9 @@ import { CategoryDTO, ProductDTO, ProductsApi } from '@core/api';
 import { ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 import { buildProductForm, columnDefs, Columns } from './products-input-table.columns';
 import { CategoriesService } from 'src/app/expenses/services/categories/categories.service';
+import { TotalPriceStatusPanel } from 'src/app/expenses/components/total-price-status-panel/total-price-status-panel.component';
+import { Observable } from 'rxjs';
+import { TotalItemsStatusPanel } from 'src/app/expenses/components/total-items-status-panel/total-items-status-panel.component';
 
 export const PRODUCTS_INPUT_TABLE_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -29,7 +32,8 @@ export interface ProductForm {
 export interface ProductsInputTableContext {
   formArray: FormArray<FormGroup<ProductForm>>,
   productsApi: ProductsApi,
-  categoriesService: CategoriesService
+  categoriesService: CategoriesService,
+  valueChanges: Observable<Partial<ProductDTO>[]>
 }
 
 @Component({
@@ -46,9 +50,9 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
 
   private readonly formArray = new FormArray<FormGroup<ProductForm>>([]);
 
-  public onTouched: Function;
-
   private api: GridApi;
+
+  public onTouched: Function;
 
   public validate(): ValidationErrors | null {
     return this.formArray.valid ? null : {'invalidData': true};
@@ -89,6 +93,12 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
     pinnedTopRowData: [buildProductForm()],
     stopEditingWhenCellsLoseFocus: true,
     rowData: [],
+    statusBar: {
+      statusPanels: [
+        {key: 'totalItems', statusPanel: TotalItemsStatusPanel, align: 'left'},
+        {key: 'totalPrice', statusPanel: TotalPriceStatusPanel, align: 'left'}
+      ]
+    },
     processCellForClipboard: params => JSON.stringify(params.value),
     processCellFromClipboard: params => JSON.parse(params.value),
     context: {
@@ -109,5 +119,7 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
     if (!this.api) return;
     this.api.setGridOption('rowData', this.formArray.controls);
     this.api.refreshCells({force: true});
+    (this.api.getStatusPanel('totalItems') as TotalItemsStatusPanel)?.recalculate();
+    (this.api.getStatusPanel('totalPrice') as TotalPriceStatusPanel)?.recalculate();
   }
 }

@@ -15,7 +15,7 @@ import { TableComponent } from '@shared/components/table/table.component';
 })
 export class PurchasesTableComponent {
 
-  @ViewChild('table') table: TableComponent;
+  @ViewChild(TableComponent) table: TableComponent;
 
   @Output()
   public readonly rowEdit = new EventEmitter<any>();

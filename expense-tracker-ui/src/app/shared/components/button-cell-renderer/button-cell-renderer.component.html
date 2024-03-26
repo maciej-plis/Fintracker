@@ -1,6 +1,6 @@
 <p-button (onClick)="params.clicked(params)"
-          [icon]="params.icon || ''"
-          [label]="params.label || ''"
-          [title]="params.title || ''"
+          [icon]="params.icon ?? ''"
+          [label]="params.label ?? ''"
+          [title]="params.title ?? ''"
           styleClass="p-button-text">
 </p-button>

@@ -20,7 +20,7 @@ export class PurchasesView {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
-  @ViewChild('purchasesTable')
+  @ViewChild(PurchasesTableComponent)
   private purchasesTable: PurchasesTableComponent;
 
   public onRowEdit(purchase: PurchaseDTO) {

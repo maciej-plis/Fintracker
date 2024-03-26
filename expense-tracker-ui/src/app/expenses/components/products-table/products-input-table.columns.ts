@@ -18,6 +18,7 @@ import { ActionCellEditor, ActionCellEditorParams } from '@shared/components/act
 import { ButtonCellRendererComponent, ButtonCellRendererParams } from '@shared/components/button-cell-renderer/button-cell-renderer.component';
 import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { v4 as randomUUID } from 'uuid';
+import { MenuCellRenderer, MenuCellRendererParams } from '@shared/components/menu-cell-renderer/menu-cell-renderer.component';
 
 const ADD_CATEGORY_ITEM_OPTION: CategoryDTO = {id: '', name: '(Add Item)'};
 
@@ -125,7 +126,7 @@ function nameCellEditor(params: ICellEditorParams): CellEditorSelectorResult {
 }
 
 function controlsCellEditor(params: ICellEditorParams): CellEditorSelectorResult {
-  return params.node.isRowPinned() ? actionCellEditor(addRow) : actionCellEditor(deleteRow);
+  return params.node.isRowPinned() ? actionCellEditor(addRow) : actionCellEditor(toggleMenu);
 }
 
 function actionCellEditor(action: ActionCellEditorParams['action']): CellEditorSelectorResult {
@@ -136,10 +137,10 @@ function actionCellEditor(action: ActionCellEditorParams['action']): CellEditorS
 }
 
 function controlsCellRenderer(params: ICellRendererParams): CellRendererSelectorResult {
-  return params.node.isRowPinned() ? addRowBtnRenderer() : deleteRowBtnRenderer();
+  return params.node.isRowPinned() ? addRowBtnRenderer(params) : menuRenderer(params);
 }
 
-function addRowBtnRenderer(): CellRendererSelectorResult {
+function addRowBtnRenderer(params: ICellRendererParams): CellRendererSelectorResult {
   return {
     component: ButtonCellRendererComponent,
     params: {
@@ -150,14 +151,23 @@ function addRowBtnRenderer(): CellRendererSelectorResult {
   };
 }
 
-function deleteRowBtnRenderer(): CellRendererSelectorResult {
+function menuRenderer(params: ICellRendererParams): CellRendererSelectorResult {
   return {
-    component: ButtonCellRendererComponent,
+    component: MenuCellRenderer,
     params: {
-      icon: 'pi pi-trash',
-      title: 'Edit',
-      clicked: deleteRow
-    } as ButtonCellRendererParams
+      menuItems: [
+        {
+          icon: 'pi pi-copy',
+          label: 'Clone',
+          command: _ => cloneRow(params)
+        },
+        {
+          icon: 'pi pi-trash',
+          label: 'Delete',
+          command: _ => deleteRow(params)
+        }
+      ]
+    } as MenuCellRendererParams
   };
 }
 
@@ -170,9 +180,10 @@ function addRow(params: ICellEditorParams | ICellRendererParams) {
   if (!params.data.valid) return;
 
   const context = params.context as ProductsInputTableContext;
-  context.formArray.push(params.data);
-  params.api.applyTransaction({add: [params.data]});
+  context.formArray.insert(0, params.data);
+  params.api.applyTransaction({add: [params.data], addIndex: 0});
 
+  params.api.refreshCells({columns: [Columns.NUMERATOR]});
   params.api.setGridOption('pinnedTopRowData', [buildProductForm()]);
   params.api.autoSizeColumns([Columns.NUMERATOR]);
   focusCell(params.api, 0, 'category', 'top');
@@ -189,10 +200,33 @@ function deleteRow(params: ICellEditorParams | ICellRendererParams) {
   context.formArray.removeAt(index);
   params.api.applyTransaction({remove: [params.data]});
 
-  focusedCellAfterDeletingRow(params.api);
+  focusCellAfterDeletingRow(params.api);
 }
 
-function focusedCellAfterDeletingRow(api: GridApi) {
+function cloneRow(params: ICellEditorParams | ICellRendererParams) {
+  if (!isProductForm(params.data)) return;
+
+  const context = params.context as ProductsInputTableContext;
+  const id = params.data.value.id;
+  const productIndex = context.formArray.value.findIndex(productForm => productForm?.id === id);
+  if (productIndex === -1) return;
+
+  const product = context.formArray.value[productIndex];
+  const productForm = buildProductForm(product as Partial<ProductDTO>);
+  context.formArray.insert(productIndex + 1, productForm);
+  params.api.applyTransaction({add: [productForm], addIndex: params.rowIndex + 1});
+
+  params.api.refreshCells({columns: [Columns.NUMERATOR]});
+  params.api.autoSizeColumns([Columns.NUMERATOR]);
+}
+
+function toggleMenu(params: ICellEditorParams | ICellRendererParams) {
+  const menuCellRenderer = params.api.getCellRendererInstances({rowNodes: [params.node], columns: [params.column!]})[0] as MenuCellRenderer;
+  menuCellRenderer.triggerMenuButton();
+
+}
+
+function focusCellAfterDeletingRow(api: GridApi) {
   const {rowIndex, column, rowPinned} = api.getFocusedCell()!;
   const itemsLeft = api.getDisplayedRowCount();
 

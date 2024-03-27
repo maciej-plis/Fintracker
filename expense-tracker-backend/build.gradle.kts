@@ -3,13 +3,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("java")
     id("groovy")
-    id("org.springframework.boot") version "3.2.3"
-    id("io.spring.dependency-management") version "1.1.4"
-    id("org.openapi.generator") version "7.3.0"
-    id("com.bmuschko.docker-spring-boot-application") version "9.4.0"
-    kotlin("jvm") version "1.9.23"
-    kotlin("plugin.jpa") version "1.9.23"
-    kotlin("plugin.spring") version "1.9.23"
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlinJpa)
+    alias(libs.plugins.kotlinSpring)
+    alias(libs.plugins.springBoot)
+    alias(libs.plugins.springDependencyManagement)
+    alias(libs.plugins.openApiGenerator)
+    alias(libs.plugins.dockerSpring)
 }
 
 val generateSchema by rootProject.tasks
@@ -46,39 +46,39 @@ val integrationTestRuntimeOnly: Configuration by configurations.getting {
 }
 
 dependencies {
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    developmentOnly(libs.springBoot.devtools)
 
     // Spring
-    implementation("org.springframework.boot:spring-boot-starter")
+    implementation(libs.springBoot.starter)
 
     // Web
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation(libs.springBoot.web)
+    implementation(libs.springBoot.validation)
 
     // Database
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("io.github.perplexhub:rsql-jpa-spring-boot-starter:6.0.20")
-    runtimeOnly("org.postgresql:postgresql:42.7.2")
-    runtimeOnly("org.liquibase:liquibase-core:4.26.0")
+    implementation(libs.springBoot.jpa)
+    implementation(libs.springBoot.jpaRsql)
+    runtimeOnly(libs.postgresql)
+    runtimeOnly(libs.liquibase)
 
     // Kotlin Support
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlin.reflection)
+    implementation(libs.kotlin.jackson)
 
-    // Openapi
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.20")
+    // OpenApi
+    implementation(libs.swaggerAnnotations)
 
     // UI
     runtimeOnly(project(":expense-tracker-ui"))
 
     // Test
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.spockframework:spock-spring:2.4-M2-groovy-4.0")
-    testImplementation("org.apache.groovy:groovy-json:4.0.19")
+    testImplementation(libs.springBoot.test)
+    testImplementation(libs.spock.spring)
+    testImplementation(libs.groovy.all)
 
     // Integration Test
-    integrationTestRuntimeOnly("com.h2database:h2:2.1.214")
+    integrationTestRuntimeOnly(libs.h2)
 }
 
 tasks.compileKotlin {

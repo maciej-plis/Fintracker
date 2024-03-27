@@ -1,0 +1,60 @@
+[versions]
+# General
+kotlin = "1.9.23"
+groovy = "4.0.20"
+springBoot = "3.2.4"
+
+# Plugins
+springDependencyManagementPlugin = "1.1.4"
+openApiGeneratorPlugin = "7.4.0"
+dockerSpringPlugin = "9.4.0"
+nodePlugin = "7.0.2"
+
+# Implementation
+springBootJpaRsql = "6.0.20"
+postgresql = "42.7.3"
+h2 = "2.1.214"
+liquibase = "4.26.0"
+swaggerAnnotations = "2.2.20"
+
+# Test
+spock = "2.4-M2-groovy-4.0"
+
+[libraries]
+# Kotlin
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib" }
+kotlin-reflection = { group = "org.jetbrains.kotlin", name = "kotlin-reflect" }
+kotlin-jackson = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin" }
+
+# Spring
+springBoot-devtools = { group = "org.springframework.boot", name = "spring-boot-devtools" }
+springBoot-starter = { group = "org.springframework.boot", name = "spring-boot-starter" }
+springBoot-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
+springBoot-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
+springBoot-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa" }
+springBoot-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
+springBoot-jpaRsql = { group = "io.github.perplexhub", name = "rsql-jpa-spring-boot-starter", version.ref = "springBootJpaRsql" }
+
+# Database
+postgresql = { group = "org.postgresql", name = "postgresql", version.ref = "postgresql" }
+h2 = { group = "com.h2database", name = "h2", version.ref = "h2" }
+
+# Miscellaneous
+liquibase = { group = "org.liquibase", name = "liquibase-core", version.ref = "liquibase" }
+swaggerAnnotations = { group = "io.swagger.core.v3", name = "swagger-annotations", version.ref = "swaggerAnnotations" }
+
+# Test
+spock-spring = { group = "org.spockframework", name = "spock-spring", version.ref = "spock" }
+groovy-all = { group = "org.apache.groovy", name = "groovy-all", version.ref = "groovy" }
+
+[bundles]
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlinJpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin" }
+kotlinSpring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }
+springDependencyManagement = { id = "io.spring.dependency-management", version.ref = "springDependencyManagementPlugin" }
+openApiGenerator = { id = "org.openapi.generator", version.ref = "openApiGeneratorPlugin" }
+dockerSpring = { id = "com.bmuschko.docker-spring-boot-application", version.ref = "dockerSpringPlugin" }
+node = { id = "com.github.node-gradle.node", version.ref = "nodePlugin" }

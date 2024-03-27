@@ -1,9 +1,9 @@
 import com.github.gradle.node.npm.task.NpmTask
 
 plugins {
-  id("org.openapi.generator") version "7.3.0"
-  id("com.github.node-gradle.node") version "7.0.2"
   id("java-library")
+  alias(libs.plugins.openApiGenerator)
+  alias(libs.plugins.node)
 }
 
 val generateSchema by rootProject.tasks

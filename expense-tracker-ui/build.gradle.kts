@@ -1,38 +1,63 @@
+import com.github.gradle.node.npm.task.NpmTask
+
 plugins {
   id("org.openapi.generator") version "7.3.0"
+  id("com.github.node-gradle.node") version "7.0.2"
   id("java-library")
 }
 
+val generateSchema by rootProject.tasks
+
 val openApiSchemaOutput: String by project
-val genOutputDir = "$projectDir/src/app/core/api"
+val openApiGenerationOutput = "$projectDir/src/app/core/api"
 
-tasks.clean {
-  delete += listOf(
-    "$projectDir/dist",
-    genOutputDir
-  )
-}
+val angularInputDir = "src/"
+val angularInputFiles = listOf("angular.json", "package.json", "package-lock.json", "tsconfig.json", "tsconfig.app.json", "tsconfig.spec.json")
+val angularOutputDir = "${project.buildDir}/expense-tracker-ui/"
 
-tasks.register<Exec>("buildAngular") {
+val angularBuild by tasks.registering(NpmTask::class) {
   description = "Builds angular application"
-  group = "build"
-
-  inputs.dir("$projectDir/src")
-  outputs.dir("$projectDir/dist")
+  group = "angular"
+  dependsOn(tasks.npmInstall, tasks.openApiGenerate)
+  inputs.dir(angularInputDir)
+  inputs.files(angularInputFiles)
+  outputs.dir(project.buildDir)
 
   workingDir = projectDir
-  commandLine("npm", "run", "build")
+  args = listOf("run", "build")
+}
+
+val angularTest by tasks.registering(NpmTask::class) {
+  description = "Test angular application"
+  group = "angular"
+  dependsOn(tasks.npmInstall, tasks.openApiGenerate)
+  inputs.dir(angularInputDir)
+  angularInputFiles.forEach { inputs.file(it) }
+  outputs.upToDateWhen { true }
+
+  workingDir = projectDir
+  args = listOf("run", "test")
+}
+
+tasks.clean {
+  delete += listOf(openApiGenerationOutput, ".angular/")
+}
+
+tasks.check {
+  dependsOn(angularTest)
 }
 
 tasks.jar {
-  dependsOn("buildAngular")
-  from("$projectDir/dist/expense-tracker-ui").into("static")
+  dependsOn(angularBuild)
+  from(angularOutputDir).into("static")
 }
 
-openApiGenerate {
+tasks.openApiGenerate {
+  dependsOn(generateSchema)
+
   generatorName.set("typescript-angular")
   inputSpec.set(openApiSchemaOutput)
-  outputDir.set(genOutputDir)
+  outputDir.set(openApiGenerationOutput)
   globalProperties.set(
     mapOf(
       "models" to "",
@@ -42,9 +67,8 @@ openApiGenerate {
   )
   configOptions.set(
     mapOf(
-      "ngVersion" to "16.2.0",
       "serviceSuffix" to "Api",
-      "enumPropertyNamingto" to "UPPERCASE"
+      "enumPropertyNaming" to "UPPERCASE"
     )
   )
 }

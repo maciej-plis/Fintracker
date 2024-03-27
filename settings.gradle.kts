@@ -11,7 +11,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "expense-tracker"
+rootProject.name = extra["name"] as String
 
 include(
     "expense-tracker-backend",

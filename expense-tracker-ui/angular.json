@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/expense-tracker-ui",
+            "outputPath": "build/expense-tracker-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [

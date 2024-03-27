@@ -12,7 +12,10 @@ plugins {
     kotlin("plugin.spring") version "1.9.23"
 }
 
-val javaVersion: JavaLanguageVersion by rootProject.extra
+val generateSchema by rootProject.tasks
+
+val javaVersionNumber: String by project
+val javaVersion: JavaLanguageVersion by project
 val openApiSchemaOutput: String by project
 
 tasks.withType<KotlinCompile> {
@@ -35,13 +38,11 @@ sourceSets.create("integrationTest") {
 }
 
 val integrationTestImplementation: Configuration by configurations.getting {
-    val testImplementation: Configuration by configurations
-    extendsFrom(testImplementation)
+    extendsFrom(configurations.testImplementation.get())
 }
 
 val integrationTestRuntimeOnly: Configuration by configurations.getting {
-    val testRuntimeOnly: Configuration by configurations
-    extendsFrom(testRuntimeOnly)
+    extendsFrom(configurations.testRuntimeOnly.get())
 }
 
 dependencies {
@@ -80,12 +81,20 @@ dependencies {
     integrationTestRuntimeOnly("com.h2database:h2:2.1.214")
 }
 
+tasks.compileKotlin {
+    dependsOn(tasks.openApiGenerate)
+}
+
+tasks.processResources {
+    dependsOn(tasks.openApiGenerate)
+}
+
 tasks.test {
     useJUnitPlatform()
 }
 
-val integrationTest = tasks.register<Test>("integrationTest") {
-    description = "Run integration tests."
+val integrationTest by tasks.registering(Test::class) {
+    description = "Run integration tests"
     group = "verification"
 
     testClassesDirs = sourceSets["integrationTest"].output.classesDirs
@@ -101,27 +110,25 @@ tasks.check {
 
 tasks.bootJar {
     manifest.attributes(
-        "Implementation-Title" to "Expense Tracker",
-        "Implementation-Version" to project.version
+        "Implementation-Title" to rootProject.name,
+        "Implementation-Version" to rootProject.version
     )
 }
 
 tasks.clean {
     delete += listOf(
-        "$projectDir/.openapi-generator",
-        "$projectDir/src/main/kotlin/matthias/expense_tracker/api"
+        ".openapi-generator",
+        "src/main/kotlin/matthias/expense_tracker/api"
     )
 }
 
-openApiValidate {
-    inputSpec.set(openApiSchemaOutput)
-}
+tasks.openApiGenerate {
+    dependsOn(generateSchema)
 
-openApiGenerate {
     generatorName.set("kotlin-spring")
     library.set("spring-boot")
     inputSpec.set(openApiSchemaOutput)
-    outputDir.set("$projectDir")
+    outputDir.set(projectDir.path)
     globalProperties.set(
         mapOf(
             "supportingFiles" to "false",
@@ -153,7 +160,7 @@ openApiGenerate {
 
 docker {
     springBootApplication {
-        baseImage.set("openjdk:21-oracle")
+        baseImage.set("openjdk:$javaVersionNumber-oracle")
         ports.set(listOf(8080))
         jvmArgs.set(listOf("-Xms256m", "-Xmx512m"))
         images.set(

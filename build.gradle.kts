@@ -2,14 +2,15 @@ plugins {
     id("java-library")
 }
 
-val javaVersion by extra { JavaLanguageVersion.of(21) }
+val javaVersionNumber: String by project
+val javaVersion by extra { JavaLanguageVersion.of(javaVersionNumber) }
 
-val openApiSchemaName = "schema.yaml"
+val openApiSchemaName by extra { "schema.yaml" }
 val openApiSchemaRootInput by extra { "$rootDir/openApi/$openApiSchemaName" }
 val openApiSchemaOutput by extra { "$rootDir/build/$openApiSchemaName" }
 val openApiSchemaComponents by extra { listOf("$rootDir/openApi/paths", "$rootDir/openApi/components") }
 
-tasks.register<Exec>("generateSchema") {
+val generateSchema by tasks.registering(Exec::class) {
     group = "openapi"
     description = "Generate complete openapi schema"
     inputs.file(openApiSchemaRootInput)

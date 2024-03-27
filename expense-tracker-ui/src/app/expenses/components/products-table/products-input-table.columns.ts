@@ -182,10 +182,9 @@ function addRow(params: ICellEditorParams | ICellRendererParams) {
   const context = params.context as ProductsInputTableContext;
   context.formArray.insert(0, params.data);
   params.api.applyTransaction({add: [params.data], addIndex: 0});
+  refreshNumeratorColumn(params.api);
 
-  params.api.refreshCells({columns: [Columns.NUMERATOR]});
   params.api.setGridOption('pinnedTopRowData', [buildProductForm()]);
-  params.api.autoSizeColumns([Columns.NUMERATOR]);
   focusCell(params.api, 0, 'category', 'top');
 }
 
@@ -199,6 +198,7 @@ function deleteRow(params: ICellEditorParams | ICellRendererParams) {
 
   context.formArray.removeAt(index);
   params.api.applyTransaction({remove: [params.data]});
+  refreshNumeratorColumn(params.api);
 
   focusCellAfterDeletingRow(params.api);
 }
@@ -215,15 +215,12 @@ function cloneRow(params: ICellEditorParams | ICellRendererParams) {
   const productForm = buildProductForm(product as Partial<ProductDTO>);
   context.formArray.insert(productIndex + 1, productForm);
   params.api.applyTransaction({add: [productForm], addIndex: params.rowIndex + 1});
-
-  params.api.refreshCells({columns: [Columns.NUMERATOR]});
-  params.api.autoSizeColumns([Columns.NUMERATOR]);
+  refreshNumeratorColumn(params.api);
 }
 
 function toggleMenu(params: ICellEditorParams | ICellRendererParams) {
   const menuCellRenderer = params.api.getCellRendererInstances({rowNodes: [params.node], columns: [params.column!]})[0] as MenuCellRenderer;
   menuCellRenderer.triggerMenuButton();
-
 }
 
 function focusCellAfterDeletingRow(api: GridApi) {
@@ -237,6 +234,11 @@ function focusCellAfterDeletingRow(api: GridApi) {
 
 function refreshPinnedRows(api: GridApi) {
   api.refreshCells({force: true, rowNodes: getPinnedRowNodes(api)});
+}
+
+function refreshNumeratorColumn(api: GridApi) {
+  api.refreshCells({columns: [Columns.NUMERATOR]});
+  api.autoSizeColumns([Columns.NUMERATOR]);
 }
 
 function getPinnedRowNodes(api: GridApi): IRowNode[] {

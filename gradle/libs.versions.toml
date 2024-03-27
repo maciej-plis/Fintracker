@@ -1,24 +1,24 @@
 [versions]
 # General
-kotlin = "1.9.23"
-groovy = "4.0.20"
-springBoot = "3.2.4"
+kotlin = "1.+"
+groovy = "4.+"
+springBoot = "3.+"
 
 # Plugins
-springDependencyManagementPlugin = "1.1.4"
-openApiGeneratorPlugin = "7.4.0"
-dockerSpringPlugin = "9.4.0"
-nodePlugin = "7.0.2"
+springDependencyManagementPlugin = "1.+"
+openApiGeneratorPlugin = "7.+"
+dockerSpringPlugin = "9.+"
+nodePlugin = "7.+"
 
 # Implementation
-springBootJpaRsql = "6.0.20"
-postgresql = "42.7.3"
-h2 = "2.1.214"
-liquibase = "4.26.0"
-swaggerAnnotations = "2.2.20"
+springBootJpaRsql = "6.+"
+postgresql = "42.+"
+h2 = "2.+"
+liquibase = "4.+"
+swaggerAnnotations = "2.+"
 
 # Test
-spock = "2.4-M2-groovy-4.0"
+spock = "2.+"
 
 [libraries]
 # Kotlin

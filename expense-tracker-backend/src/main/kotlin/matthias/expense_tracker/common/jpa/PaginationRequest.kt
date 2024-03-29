@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable
 
 private const val DEFAULT_PAGE = 0
 private const val DEFAULT_PAGE_SIZE = 10
-private val DEFAULT_SORT = ""
+private const val DEFAULT_SORT = ""
 private const val DEFAULT_FILTER = ""
 
 

@@ -45,7 +45,7 @@ spec:
                   name: postgres-configuration-test
                   key: database
             - name: DATABASE_URL
-              value: "postgres-postgresql:5432/$(DATABASE_NAME)"
+              value: "jdbc:postgresql://postgres-postgresql:5432/$(DATABASE_NAME)"
       volumes:
         - name: expense-tracker-storage
           persistentVolumeClaim:

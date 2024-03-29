@@ -9,12 +9,17 @@ import org.springframework.transaction.annotation.Transactional
 class TransactionExecutor {
 
     @Transactional(propagation = REQUIRED)
-    fun <T> executeInTx(action: () -> T): T {
-        return action.invoke();
+    fun <T> tx(action: () -> T): T {
+        return action.invoke()
     }
 
     @Transactional(propagation = REQUIRES_NEW)
-    fun <T> executeInNewTx(action: () -> T): T {
-        return action.invoke();
+    fun <T> newTx(action: () -> T): T {
+        return action.invoke()
+    }
+
+    @Transactional(readOnly = true)
+    fun <T> readTx(action: () -> T): T {
+        return action.invoke()
     }
 }

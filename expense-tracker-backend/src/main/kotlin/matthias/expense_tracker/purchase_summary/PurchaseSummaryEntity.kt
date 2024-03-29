@@ -12,12 +12,16 @@ import java.util.*
 @Entity
 @Immutable
 @Table(name = "v_purchase_summary")
-internal class PurchaseSummaryEntity(
-    val date: LocalDate,
+class PurchaseSummaryEntity(id: UUID) : BaseEntity(id) {
+
+    lateinit var date: LocalDate
+
     @Column(columnDefinition = "citext")
-    val shopName: String,
-    val productsCount: Long,
-    val totalPrice: Double,
-    val createdAt: Instant,
-    id: UUID
-) : BaseEntity(id)
+    lateinit var shopName: String
+
+    var productsCount: Long = 0
+
+    var totalPrice: Double = 0.0
+
+    lateinit var createdAt: Instant
+}

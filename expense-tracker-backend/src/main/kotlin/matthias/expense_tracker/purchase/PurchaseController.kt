@@ -16,18 +16,12 @@ internal class PurchaseController(
     private val purchaseService: PurchaseService
 ) : PurchasesApi {
 
-    override fun removePurchases(bulkDeleteRequest: BulkDeleteRequest): ResponseEntity<Unit> {
-        purchaseService.removePurchases(bulkDeleteRequest.ids)
-        return noContent().build()
-    }
-
     override fun getPurchase(purchaseId: UUID): ResponseEntity<PurchaseDTO> {
         return ok(purchaseService.getPurchaseOrThrow(purchaseId))
     }
 
-    override fun addPurchase(addPurchaseRequest: AddPurchaseRequest): ResponseEntity<Unit> {
-        purchaseService.addPurchase(addPurchaseRequest)
-        return noContent().build()
+    override fun addPurchase(addPurchaseRequest: AddPurchaseRequest): ResponseEntity<UUID> {
+        return ok(purchaseService.addPurchase(addPurchaseRequest))
     }
 
     override fun updatePurchase(purchaseId: UUID, updatePurchaseRequest: UpdatePurchaseRequest): ResponseEntity<Unit> {
@@ -37,6 +31,11 @@ internal class PurchaseController(
 
     override fun removePurchase(purchaseId: UUID): ResponseEntity<Unit> {
         purchaseService.removePurchase(purchaseId)
+        return noContent().build()
+    }
+
+    override fun removePurchases(bulkDeleteRequest: BulkDeleteRequest): ResponseEntity<Unit> {
+        purchaseService.removePurchases(bulkDeleteRequest.ids)
         return noContent().build()
     }
 }

@@ -5,28 +5,24 @@ import matthias.expense_tracker.api.models.AddShopRequest
 import matthias.expense_tracker.api.models.ShopDTO
 import matthias.expense_tracker.common.jpa.TransactionExecutor
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
 internal class ShopService(
     private val shopRepository: ShopRepository,
-    private val transactionEx: TransactionExecutor
+    private val txExecutor: TransactionExecutor
 ) {
 
-    fun getPurchaseShops(): List<ShopDTO> {
-        return shopRepository.findAll().map { it.toDTO() }
+    fun getPurchaseShops(): List<ShopDTO> = txExecutor.readTx {
+        return@readTx shopRepository.findAllByOrderByName().map { it.toDTO() }
     }
 
-    @Transactional(readOnly = true)
-    fun getShopOrThrow(shopId: UUID): ShopDTO {
-        return shopRepository.findByIdOrThrow(shopId).toDTO()
+    fun getShopOrThrow(shopId: UUID): ShopDTO = txExecutor.readTx {
+        return@readTx shopRepository.findByIdOrThrow(shopId).toDTO()
     }
 
-    fun addPurchaseShop(request: AddShopRequest): UUID {
-        return transactionEx.executeInTx {
-            shopRepository.existsByName(request.name) && throw EntityExistsException("Shop with name '${request.name}' already exist")
-            return@executeInTx shopRepository.save(request.toEntity()).id
-        }
+    fun addPurchaseShop(request: AddShopRequest): UUID = txExecutor.tx {
+        shopRepository.existsByName(request.name) && throw EntityExistsException("Shop with name '${request.name}' already exist")
+        return@tx shopRepository.save(request.toEntity()).id
     }
 }

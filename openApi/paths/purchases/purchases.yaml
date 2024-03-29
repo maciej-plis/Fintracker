@@ -10,8 +10,13 @@ post:
         schema:
           $ref: "./../../components/schemas/purchases/AddPurchaseRequest.yaml"
   responses:
-    204:
-      $ref: "./../../components/responses/common/NoContentResponse.yaml"
+    200:
+      description: Success response with created resource id
+      content:
+        application/json:
+          schema:
+            type: string
+            format: uuid
     400:
       $ref: "./../../components/responses/common/ValidationErrorResponse.yaml"
 

@@ -7,6 +7,6 @@ import java.util.*
 
 @Repository
 internal interface CategoryRepository : BaseRepository<CategoryEntity, UUID> {
-
     fun existsByName(name: String): Boolean
+    fun findAllByOrderByName(): List<CategoryEntity>
 }

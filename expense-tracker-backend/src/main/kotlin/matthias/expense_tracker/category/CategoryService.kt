@@ -10,21 +10,19 @@ import java.util.*
 @Service
 internal class CategoryService(
     private val categoryRepository: CategoryRepository,
-    private val transactionEx: TransactionExecutor
+    private val txExecutor: TransactionExecutor
 ) {
 
-    fun getProductCategories(): List<CategoryDTO> {
-        return categoryRepository.findAll().map { it.toDTO() }
+    fun getProductCategories(): List<CategoryDTO> = txExecutor.readTx {
+        return@readTx categoryRepository.findAllByOrderByName().map { it.toDTO() }
     }
 
-    fun getCategoryOrThrow(categoryId: UUID): CategoryEntity {
-        return categoryRepository.findByIdOrThrow(categoryId)
+    fun getCategoryOrThrow(categoryId: UUID): CategoryDTO = txExecutor.readTx {
+        return@readTx categoryRepository.findByIdOrThrow(categoryId).toDTO()
     }
 
-    fun addProductCategory(request: AddCategoryRequest): UUID {
-        return transactionEx.executeInTx {
-            categoryRepository.existsByName(request.name) && throw EntityExistsException("Category with name '${request.name}' already exist")
-            return@executeInTx categoryRepository.save(request.toEntity()).id
-        }
+    fun addProductCategory(request: AddCategoryRequest): UUID = txExecutor.tx {
+        categoryRepository.existsByName(request.name) && throw EntityExistsException("Category with name '${request.name}' already exist")
+        return@tx categoryRepository.save(request.toEntity()).id
     }
 }

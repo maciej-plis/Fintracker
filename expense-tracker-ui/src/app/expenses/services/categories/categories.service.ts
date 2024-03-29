@@ -32,6 +32,7 @@ export class CategoriesService {
   public addCategory(): Observable<CategoryDTO | never> {
     return this.openAddCategoryDialog().pipe(
       switchMap(category => this.categoriesApi.addCategory(category)),
+      switchMap(categoryId => this.categoriesApi.getCategory(categoryId)),
       tap(category => {
         this.categoriesSubject.next([...this.categoriesSubject.value, category]);
         this.messageService.add({severity: 'info', summary: 'Success', detail: 'Category added successfully'});

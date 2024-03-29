@@ -6,6 +6,7 @@ import matthias.expense_tracker.api.models.CategoryDTO
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
 internal class CategoryController(
@@ -16,8 +17,11 @@ internal class CategoryController(
         return ok(categoryService.getProductCategories())
     }
 
-    override fun addCategory(addCategoryRequest: AddCategoryRequest): ResponseEntity<CategoryDTO> {
-        val categoryId = categoryService.addProductCategory(addCategoryRequest)
-        return ok(categoryService.getCategoryOrThrow(categoryId).toDTO())
+    override fun getCategory(categoryId: UUID): ResponseEntity<CategoryDTO> {
+        return ok(categoryService.getCategoryOrThrow(categoryId))
+    }
+
+    override fun addCategory(addCategoryRequest: AddCategoryRequest): ResponseEntity<UUID> {
+        return ok(categoryService.addProductCategory(addCategoryRequest))
     }
 }

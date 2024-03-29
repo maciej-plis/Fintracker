@@ -1,3 +1,5 @@
 databaseChangeLog:
   - includeAll:
+      path: db/init/
+  - includeAll:
       path: db/changelog/

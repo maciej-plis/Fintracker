@@ -11,7 +11,7 @@ spring:
     properties.hibernate.jdbc.batch_size: 20
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${database.url}
+    url: ${database.url}
     username: ${database.user}
     password: ${database.password}
   liquibase:

@@ -19,6 +19,7 @@ swaggerAnnotations = "2.+"
 
 # Test
 spock = "2.+"
+testContainers = "1.19.7"
 
 [libraries]
 # Kotlin
@@ -46,6 +47,8 @@ swaggerAnnotations = { group = "io.swagger.core.v3", name = "swagger-annotations
 # Test
 spock-spring = { group = "org.spockframework", name = "spock-spring", version.ref = "spock" }
 groovy-all = { group = "org.apache.groovy", name = "groovy-all", version.ref = "groovy" }
+testContainers-postgresql = { group = "org.testcontainers", name = "postgresql", version.ref = "testContainers" }
+testContainers-spock = { group = "org.testcontainers", name = "spock", version.ref = "testContainers" }
 
 [bundles]
 

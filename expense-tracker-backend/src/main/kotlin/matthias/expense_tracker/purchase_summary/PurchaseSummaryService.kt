@@ -4,18 +4,18 @@ import io.github.perplexhub.rsql.RSQLJPASupport.toSort
 import io.github.perplexhub.rsql.RSQLJPASupport.toSpecification
 import matthias.expense_tracker.api.models.PurchaseSummariesPage
 import matthias.expense_tracker.common.jpa.PaginationRequest
+import matthias.expense_tracker.common.jpa.TransactionExecutor
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 internal class PurchaseSummaryService(
-    private val purchaseSummaryRepository: PurchaseSummaryRepository
+    private val purchaseSummaryRepository: PurchaseSummaryRepository,
+    private val txExecutor: TransactionExecutor
 ) {
 
-    @Transactional(readOnly = true)
-    fun getPurchaseSummaries(paginationRequest: PaginationRequest): PurchaseSummariesPage {
-        return purchaseSummaryRepository.findAll(
-            toSpecification<PurchaseSummaryEntity?>(paginationRequest.filter).and(toSort(paginationRequest.sort)),
+    fun getPurchaseSummaries(paginationRequest: PaginationRequest): PurchaseSummariesPage = txExecutor.readTx {
+        return@readTx purchaseSummaryRepository.findAll(
+            toSpecification<PurchaseSummaryEntity>(paginationRequest.filter).and(toSort(paginationRequest.sort)),
             paginationRequest.pageable
         ).toDTO()
     }

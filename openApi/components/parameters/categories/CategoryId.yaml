@@ -1,0 +1,6 @@
+in: path
+name: categoryId
+required: true
+schema:
+  type: string
+  format: uuid

@@ -25,10 +25,11 @@ post:
           $ref: "./../../components/schemas/categories/AddCategoryRequest.yaml"
   responses:
     200:
-      description: Success response with created resource
+      description: Success response with created resource id
       content:
         application/json:
           schema:
-            $ref: "./../../components/schemas/categories/CategoryDTO.yaml"
+            type: string
+            format: uuid
     400:
       $ref: "./../../components/responses/common/ValidationErrorResponse.yaml"

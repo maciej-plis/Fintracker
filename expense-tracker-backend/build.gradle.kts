@@ -78,15 +78,8 @@ dependencies {
     testImplementation(libs.groovy.all)
 
     // Integration Test
-    integrationTestRuntimeOnly(libs.h2)
-}
-
-tasks.compileKotlin {
-    dependsOn(tasks.openApiGenerate)
-}
-
-tasks.processResources {
-    dependsOn(tasks.openApiGenerate)
+    integrationTestImplementation(libs.testContainers.postgresql)
+    integrationTestImplementation(libs.testContainers.spock)
 }
 
 tasks.test {
@@ -120,6 +113,14 @@ tasks.clean {
         ".openapi-generator",
         "src/main/kotlin/matthias/expense_tracker/api"
     )
+}
+
+tasks.compileKotlin {
+    dependsOn(tasks.openApiGenerate)
+}
+
+tasks.withType<ProcessResources> {
+    dependsOn(tasks.openApiGenerate)
 }
 
 tasks.openApiGenerate {

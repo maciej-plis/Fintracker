@@ -4,10 +4,14 @@ import jakarta.persistence.*
 import jakarta.persistence.FetchType.EAGER
 import matthias.expense_tracker.category.CategoryEntity
 import matthias.expense_tracker.common.jpa.BaseEntity
+import org.hibernate.annotations.SQLDelete
+import org.hibernate.annotations.SQLRestriction
 import java.util.*
 
 
 @Entity
+@SQLRestriction("deleted = false")
+@SQLDelete(sql = "UPDATE product SET deleted = true where id = ?")
 @Table(name = "product")
 class ProductEntity : BaseEntity {
 
@@ -29,4 +33,7 @@ class ProductEntity : BaseEntity {
 
     @Column(nullable = true)
     var description: String? = null
+
+    @Column(nullable = false)
+    var deleted: Boolean = false
 }

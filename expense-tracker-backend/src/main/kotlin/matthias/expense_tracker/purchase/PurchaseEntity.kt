@@ -1,7 +1,7 @@
 package matthias.expense_tracker.purchase
 
 import jakarta.persistence.*
-import jakarta.persistence.CascadeType.*
+import jakarta.persistence.CascadeType.ALL
 import jakarta.persistence.FetchType.EAGER
 import matthias.expense_tracker.common.jpa.AuditEntity
 import matthias.expense_tracker.product.ProductEntity
@@ -30,7 +30,7 @@ class PurchaseEntity : AuditEntity {
     lateinit var shop: ShopEntity
 
     @Fetch(SUBSELECT)
-    @OneToMany(cascade = [PERSIST, MERGE, REFRESH, DETACH], orphanRemoval = false)
+    @OneToMany(cascade = [ALL], orphanRemoval = true)
     @JoinColumn(name = "purchase_id", nullable = false, updatable = false)
     @OrderColumn(columnDefinition = "int2", name = "ordinal", nullable = false)
     lateinit var products: MutableList<ProductEntity>

@@ -16,6 +16,6 @@ spring:
     username: ${database.user}
     password: ${database.password}
   liquibase:
-    change-log: db/db.changelog-master.yaml
-    database-change-log-table: database_change_log
-    database-change-log-lock-table: database_change_log_lock
+    change-log: ${changeLogFile}
+    database-change-log-table: ${databaseChangeLogTableName}
+    database-change-log-lock-table: ${databaseChangeLogLockTableName}

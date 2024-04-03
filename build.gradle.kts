@@ -18,7 +18,6 @@ val generateSchema by tasks.registering(Exec::class) {
     outputs.file(openApiSchemaOutput)
 
     workingDir(projectDir)
-    println("${project.layout.buildDirectory.asFile.get()}")
     commandLine("npx", "@redocly/cli", "bundle", openApiSchemaRootInput, "-o", openApiSchemaOutput)
 }
 

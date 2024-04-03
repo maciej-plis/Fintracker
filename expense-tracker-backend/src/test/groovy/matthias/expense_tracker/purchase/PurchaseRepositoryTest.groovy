@@ -2,6 +2,7 @@ package matthias.expense_tracker.purchase
 
 
 import matthias.expense_tracker.JpaTestSpecification
+import matthias.expense_tracker.product.TestProductRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.jdbc.Sql
 import spock.lang.Subject
@@ -19,6 +20,9 @@ class PurchaseRepositoryTest extends JpaTestSpecification {
 
     @Autowired
     TestPurchaseRepository testPurchaseRepository
+
+    @Autowired
+    TestProductRepository testProductRepository
 
     def "Should return purchase products sorted by ordinal"() {
         given:
@@ -38,16 +42,25 @@ class PurchaseRepositoryTest extends JpaTestSpecification {
     def "When deleting purchase should set flag deleted to true without actually removing anything"() {
         given:
             def purchaseId = UUID.fromString("4e172c43-2877-49ef-972c-432877b9ef96")
+            def productIds = [
+                UUID.fromString("ee826338-8946-4030-8263-3889468030fe"),
+                UUID.fromString("c619dedb-78fc-479b-99de-db78fcb79be1"),
+                UUID.fromString("aaf640fa-b488-4907-b640-fab4886907ef")
+            ]
 
         when:
             purchaseRepository.deleteById(purchaseId)
 
         then:
-            def entity = testPurchaseRepository.getDeletedById(purchaseId)
-            verifyAll(entity) {
-                entity != null
-                entity.deleted
-                entity.products.size() == 3
+            def purchaseEntity = testPurchaseRepository.getDeletedById(purchaseId)
+            purchaseEntity != null
+            purchaseEntity.deleted
+            productIds.each {
+                def productEntity = testProductRepository.getDeletedById(it)
+                verifyAll {
+                    productEntity != null
+                    productEntity.deleted
+                }
             }
     }
 }

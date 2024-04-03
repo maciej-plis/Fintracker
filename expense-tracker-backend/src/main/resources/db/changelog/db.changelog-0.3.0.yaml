@@ -1,6 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: CHG-8
+      comment: "Create purchase summary view"
       author: Maciej Plis
       changes:
         - createView:
@@ -14,3 +15,36 @@ databaseChangeLog:
               INNER JOIN purchase_shop pu_s ON pu_s.id = pu.shop_id
               WHERE pu.deleted = false
               GROUP BY pu.id, pu.date, pu_s.name, pu.created_at;
+  - changeSet:
+      id: CHG-9
+      comment: "Add product deleted flag"
+      author: Maciej Plis
+      changes:
+        - addColumn:
+            tableName: product
+            columns:
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValue: false
+        - addNotNullConstraint:
+            tableName: product
+            columnName: deleted
+            defaultNullValue: false
+  - changeSet:
+      id: CHG-10
+      comment: "Reconcile deleted purchases and products"
+      author: Maciej Plis
+      changes:
+        - sql:
+            sql: |
+              DELETE FROM purchase pu WHERE pu.deleted = true AND (SELECT COUNT(*) FROM product WHERE purchase_id = pu.id) = 0; -- Remove purchases without products
+              UPDATE product SET deleted = true WHERE purchase_id IN (SELECT id from purchase WHERE deleted = true); -- Set products as deleted if purchase was previously deleted
+      rollback: empty
+#  - changeSet:
+#      id: CHG-11
+#      comment: "Tag version 0.3.0"
+#      author: Maciej Plis
+#      changes:
+#        - tagDatabase:
+#            tag: 0.3.0

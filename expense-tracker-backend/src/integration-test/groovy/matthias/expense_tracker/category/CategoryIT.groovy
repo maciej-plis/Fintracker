@@ -65,7 +65,7 @@ class CategoryIT extends MvcIntegrationTestSpecification {
 
     def "Should add category and return 200 (OK) with category id"() {
         given:
-            def requestBody = createCategoryRequestBody()
+            def requestBody = newCategoryRequestBody()
 
         when:
             def result = mvc.perform(
@@ -88,7 +88,7 @@ class CategoryIT extends MvcIntegrationTestSpecification {
             }
     }
 
-    private static String createCategoryRequestBody() {
+    private static String newCategoryRequestBody() {
         return toJson([
             name: "Transport"
         ])

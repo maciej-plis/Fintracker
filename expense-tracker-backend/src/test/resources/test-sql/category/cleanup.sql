@@ -1,0 +1,2 @@
+-- CLEANUP CATEGORIES --
+TRUNCATE TABLE product_category CASCADE;

@@ -65,7 +65,7 @@ class ShopIT extends MvcIntegrationTestSpecification {
 
     def "Should add shop and return 200 (OK) with shop id"() {
         given:
-            def requestBody = createShopRequestBody()
+            def requestBody = newShopRequestBody()
 
         when:
             def result = mvc.perform(
@@ -88,7 +88,7 @@ class ShopIT extends MvcIntegrationTestSpecification {
             }
     }
 
-    private static String createShopRequestBody() {
+    private static String newShopRequestBody() {
         return toJson([
             name: "The Home Depot"
         ])

@@ -9,6 +9,6 @@ class WebAppController : ErrorController {
 
     @GetMapping("/app/**", "/error")
     fun app(): String {
-        return "forward:/index.html";
+        return "forward:/index.html"
     }
 }

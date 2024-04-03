@@ -1,7 +1,5 @@
 package matthias.expense_tracker.purchase_summary
 
-import io.github.perplexhub.rsql.RSQLJPASupport.toSort
-import io.github.perplexhub.rsql.RSQLJPASupport.toSpecification
 import matthias.expense_tracker.api.models.PurchaseSummariesPage
 import matthias.expense_tracker.common.jpa.PaginationRequest
 import matthias.expense_tracker.common.jpa.TransactionExecutor
@@ -14,9 +12,6 @@ internal class PurchaseSummaryService(
 ) {
 
     fun getPurchaseSummaries(paginationRequest: PaginationRequest): PurchaseSummariesPage = txExecutor.readTx {
-        return@readTx purchaseSummaryRepository.findAll(
-            toSpecification<PurchaseSummaryEntity>(paginationRequest.filter).and(toSort(paginationRequest.sort)),
-            paginationRequest.pageable
-        ).toDTO()
+        return@readTx purchaseSummaryRepository.findAll(paginationRequest).toDTO()
     }
 }

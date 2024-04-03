@@ -76,10 +76,7 @@ dependencies {
     testImplementation(libs.springBoot.test)
     testImplementation(libs.spock.spring)
     testImplementation(libs.groovy.all)
-
-    // Integration Test
-    integrationTestImplementation(libs.testContainers.postgresql)
-    integrationTestImplementation(libs.testContainers.spock)
+    testImplementation(libs.testContainers.postgresql)
 }
 
 tasks.test {

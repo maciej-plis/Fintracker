@@ -1,0 +1,9 @@
+spring:
+  test.database.replace: none
+  jpa:
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
+logging.level:
+  org.hibernate.orm.jdbc.bind: trace

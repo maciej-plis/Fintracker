@@ -8,7 +8,8 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate.ddl-auto: validate
-    properties.hibernate.jdbc.batch_size: 20
+    properties:
+      hibernate.jdbc.batch_size: 20
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${database.url}

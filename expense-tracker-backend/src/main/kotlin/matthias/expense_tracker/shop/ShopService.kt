@@ -17,12 +17,12 @@ internal class ShopService(
         return@readTx shopRepository.findAllByOrderByName().map { it.toDTO() }
     }
 
-    fun getShopOrThrow(shopId: UUID): ShopDTO = txExecutor.readTx {
+    fun getPurchaseShopOrThrow(shopId: UUID): ShopDTO = txExecutor.readTx {
         return@readTx shopRepository.findByIdOrThrow(shopId).toDTO()
     }
 
     fun addPurchaseShop(request: AddShopRequest): UUID = txExecutor.tx {
-        shopRepository.existsByName(request.name) && throw EntityExistsException("Shop with name '${request.name}' already exist")
+        shopRepository.existsByNameIgnoreCase(request.name) && throw EntityExistsException("Shop with name '${request.name}' already exist")
         return@tx shopRepository.save(request.toEntity()).id
     }
 }

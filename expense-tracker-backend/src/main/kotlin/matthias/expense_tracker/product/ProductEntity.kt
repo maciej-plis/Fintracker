@@ -1,10 +1,7 @@
 package matthias.expense_tracker.product
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
+import jakarta.persistence.*
 import jakarta.persistence.FetchType.EAGER
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
 import matthias.expense_tracker.category.CategoryEntity
 import matthias.expense_tracker.common.jpa.BaseEntity
 import java.util.*
@@ -27,6 +24,7 @@ class ProductEntity : BaseEntity {
     var amount: Double = 0.0
 
     @ManyToOne(optional = false, fetch = EAGER)
+    @JoinColumn(name = "category_id", nullable = false)
     lateinit var category: CategoryEntity
 
     @Column(nullable = true)

@@ -18,7 +18,7 @@ internal class ShopController(
     }
 
     override fun getShop(shopId: UUID): ResponseEntity<ShopDTO> {
-        return ok(shopService.getShopOrThrow(shopId))
+        return ok(shopService.getPurchaseShopOrThrow(shopId))
     }
 
     override fun addShop(addShopRequest: AddShopRequest): ResponseEntity<UUID> {

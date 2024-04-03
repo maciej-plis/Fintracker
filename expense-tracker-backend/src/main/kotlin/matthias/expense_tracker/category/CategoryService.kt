@@ -17,12 +17,12 @@ internal class CategoryService(
         return@readTx categoryRepository.findAllByOrderByName().map { it.toDTO() }
     }
 
-    fun getCategoryOrThrow(categoryId: UUID): CategoryDTO = txExecutor.readTx {
+    fun getProductCategoryOrThrow(categoryId: UUID): CategoryDTO = txExecutor.readTx {
         return@readTx categoryRepository.findByIdOrThrow(categoryId).toDTO()
     }
 
     fun addProductCategory(request: AddCategoryRequest): UUID = txExecutor.tx {
-        categoryRepository.existsByName(request.name) && throw EntityExistsException("Category with name '${request.name}' already exist")
+        categoryRepository.existsByNameIgnoreCase(request.name) && throw EntityExistsException("Category with name '${request.name}' already exist")
         return@tx categoryRepository.save(request.toEntity()).id
     }
 }

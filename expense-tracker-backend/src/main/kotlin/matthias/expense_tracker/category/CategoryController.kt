@@ -18,7 +18,7 @@ internal class CategoryController(
     }
 
     override fun getCategory(categoryId: UUID): ResponseEntity<CategoryDTO> {
-        return ok(categoryService.getCategoryOrThrow(categoryId))
+        return ok(categoryService.getProductCategoryOrThrow(categoryId))
     }
 
     override fun addCategory(addCategoryRequest: AddCategoryRequest): ResponseEntity<UUID> {

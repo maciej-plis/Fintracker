@@ -28,7 +28,7 @@
     "primeng": "17.x",
     "rxjs": "7.8.x",
     "tslib": "2.x",
-    "uuid": "^9.0.1",
+    "uuid": "9.x",
     "zone.js": "0.14.x"
   },
   "devDependencies": {
@@ -36,7 +36,7 @@
     "@angular/cli": "17.x",
     "@angular/compiler-cli": "17.x",
     "@types/jasmine": "4.3.x",
-    "@types/uuid": "^9.0.8",
+    "@types/uuid": "9.x",
     "jasmine-core": "4.6.x",
     "karma": "6.4.x",
     "karma-chrome-launcher": "3.2.x",

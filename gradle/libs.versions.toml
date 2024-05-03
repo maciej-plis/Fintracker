@@ -8,6 +8,7 @@ springBoot = "3.+"
 springDependencyManagementPlugin = "1.+"
 openApiGeneratorPlugin = "7.+"
 dockerSpringPlugin = "9.+"
+gitProperties = "2.+"
 nodePlugin = "7.+"
 
 # Implementation
@@ -16,6 +17,7 @@ postgresql = "42.+"
 h2 = "2.+"
 liquibase = "4.+"
 swaggerAnnotations = "2.+"
+opConnect = "0.+"
 
 # Test
 spock = "2.+"
@@ -33,16 +35,20 @@ springBoot-starter = { group = "org.springframework.boot", name = "spring-boot-s
 springBoot-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
 springBoot-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
 springBoot-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa" }
+springBoot-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
 springBoot-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
 springBoot-jpaRsql = { group = "io.github.perplexhub", name = "rsql-jpa-spring-boot-starter", version.ref = "springBootJpaRsql" }
 
 # Database
 postgresql = { group = "org.postgresql", name = "postgresql", version.ref = "postgresql" }
 h2 = { group = "com.h2database", name = "h2", version.ref = "h2" }
+liquibase = { group = "org.liquibase", name = "liquibase-core", version.ref = "liquibase" }
+
+# OpenApi Generator
+swaggerAnnotations = { group = "io.swagger.core.v3", name = "swagger-annotations", version.ref = "swaggerAnnotations" }
 
 # Miscellaneous
-liquibase = { group = "org.liquibase", name = "liquibase-core", version.ref = "liquibase" }
-swaggerAnnotations = { group = "io.swagger.core.v3", name = "swagger-annotations", version.ref = "swaggerAnnotations" }
+opConnect = { group = "com.sanctionco.opconnect", name = "opconnect-java", version.ref = "opConnect" }
 
 # Test
 spock-spring = { group = "org.spockframework", name = "spock-spring", version.ref = "spock" }
@@ -59,4 +65,5 @@ springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }
 springDependencyManagement = { id = "io.spring.dependency-management", version.ref = "springDependencyManagementPlugin" }
 openApiGenerator = { id = "org.openapi.generator", version.ref = "openApiGeneratorPlugin" }
 dockerSpring = { id = "com.bmuschko.docker-spring-boot-application", version.ref = "dockerSpringPlugin" }
+gitProperties = { id = "com.gorylenko.gradle-git-properties", version.ref = "gitProperties" }
 node = { id = "com.github.node-gradle.node", version.ref = "nodePlugin" }

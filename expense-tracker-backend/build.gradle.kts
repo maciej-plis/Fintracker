@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.springDependencyManagement)
     alias(libs.plugins.openApiGenerator)
     alias(libs.plugins.dockerSpring)
+    alias(libs.plugins.gitProperties)
 }
 
 val generateSchema by rootProject.tasks
@@ -54,6 +55,7 @@ dependencies {
     // Web
     implementation(libs.springBoot.web)
     implementation(libs.springBoot.validation)
+    implementation(libs.springBoot.actuator)
 
     // Database
     implementation(libs.springBoot.jpa)
@@ -71,6 +73,9 @@ dependencies {
 
     // UI
     runtimeOnly(project(":expense-tracker-ui"))
+
+    // OnePassword
+    implementation(libs.opConnect)
 
     // Test
     testImplementation(libs.springBoot.test)

@@ -11,11 +11,11 @@ resources:
   #  - postgres/postgres-pvc.yaml
   #  - postgres/postgres-service.yaml
   #  - postgres/postgres-deployment.yaml
-  - web/expense-tracker-pv.yaml
-  - web/expense-tracker-pvc.yaml
-  - web/expense-tracker-service.yaml
-  - web/expense-tracker-ingress.yaml
-  - web/expense-tracker-deployment.yaml
+  - app/fintracker-pv.yaml
+  - app/fintracker-pvc.yaml
+  - app/fintracker-service.yaml
+  - app/fintracker-ingress.yaml
+  - app/fintracker-deployment.yaml
 #  - pgadmin/pgadmin-pv.yaml
 #  - pgadmin/pgadmin-pvc.yaml
 #  - pgadmin/pgadmin-service.yaml

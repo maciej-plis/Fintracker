@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fintracker-deployment
+  labels:
+    app: fintracker
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fintracker
+  template:
+    metadata:
+      labels:
+        app: fintracker
+    spec:
+      containers:
+        - name: fintracker
+          image: localhost:5000/fintracker:0.3.0-SNAPSHOT
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: fintracker-storage
+              mountPath: /app-data
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: TZ
+              value: "UTC"
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-configuration-test
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-configuration-test
+                  key: password
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-configuration-test
+                  key: database
+            - name: DATABASE_URL
+              value: "jdbc:postgresql://postgres-postgresql:5432/$(DATABASE_NAME)"
+      volumes:
+        - name: fintracker-storage
+          persistentVolumeClaim:
+            claimName: fintracker-pvc
+      securityContext:
+        fsGroup: 1001

@@ -1,0 +1,48 @@
+{
+  "name": "fintracker-ui",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve -o --proxy-config proxy.conf.json",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "17.x",
+    "@angular/common": "17.x",
+    "@angular/compiler": "17.x",
+    "@angular/core": "17.x",
+    "@angular/forms": "17.x",
+    "@angular/platform-browser": "17.x",
+    "@angular/platform-browser-dynamic": "17.x",
+    "@angular/router": "17.x",
+    "@rsql/ast": "1.6.x",
+    "@rsql/emitter": "1.6.x",
+    "ag-grid-angular": "31.x",
+    "ag-grid-community": "31.x",
+    "ag-grid-enterprise": "31.x",
+    "ngxtension": "2.x",
+    "primeicons": "6.x",
+    "primeng": "17.x",
+    "rxjs": "7.8.x",
+    "tslib": "2.x",
+    "uuid": "9.x",
+    "zone.js": "0.14.x"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "17.x",
+    "@angular/cli": "17.x",
+    "@angular/compiler-cli": "17.x",
+    "@types/jasmine": "4.3.x",
+    "@types/uuid": "9.x",
+    "jasmine-core": "4.6.x",
+    "karma": "6.4.x",
+    "karma-chrome-launcher": "3.2.x",
+    "karma-coverage": "2.2.x",
+    "karma-jasmine": "5.1.x",
+    "karma-jasmine-html-reporter": "2.1.x",
+    "typescript": "5.3.x"
+  }
+}

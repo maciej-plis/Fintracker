@@ -14,6 +14,6 @@ dependencyResolutionManagement {
 rootProject.name = extra["name"] as String
 
 include(
-    "expense-tracker-backend",
-    "expense-tracker-ui",
+    "fintracker-backend",
+    "fintracker-ui",
 )

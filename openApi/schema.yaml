@@ -10,7 +10,7 @@ servers:
 
 info:
   version: 1.0.0-SNAPSHOT
-  title: Expense Tracker API Contract
+  title: FinTracker API Contract
 
 paths:
   $ref: "./paths/_index.yaml"

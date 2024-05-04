@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: fintracker
-          image: localhost:5000/fintracker:0.3.0-SNAPSHOT
+          image: localhost:5000/fintracker:0.3.0
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

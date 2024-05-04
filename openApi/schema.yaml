@@ -9,7 +9,7 @@ servers:
     description: "Production server"
 
 info:
-  version: 1.0.0-SNAPSHOT
+  version: 0.3.0
   title: FinTracker API Contract
 
 paths:

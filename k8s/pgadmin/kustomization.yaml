@@ -1,0 +1,9 @@
+kind: Kustomization
+
+resources:
+  - pgadmin-pv.yaml
+  - pgadmin-pvc.yaml
+  - pgadmin-service.yaml
+  - pgadmin-ingress.yaml
+  - pgadmin-credentials.yaml
+  - pgadmin-deployment.yaml

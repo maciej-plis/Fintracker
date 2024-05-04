@@ -6,7 +6,7 @@ metadata:
     type: local
 spec:
   claimRef:
-    namespace: default
+    namespace: monitoring
     name: grafana-pvc
   storageClassName: hostpath
   capacity:

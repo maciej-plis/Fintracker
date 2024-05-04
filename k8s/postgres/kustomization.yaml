@@ -1,0 +1,5 @@
+kind: Kustomization
+
+resources:
+  - postgres-pv.yaml
+  - postgres-pvc.yaml

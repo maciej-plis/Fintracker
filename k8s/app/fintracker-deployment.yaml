@@ -29,23 +29,11 @@ spec:
               value: "prod"
             - name: TZ
               value: "UTC"
-            - name: DATABASE_USER
+            - name: OP_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: postgres-configuration-test
-                  key: username
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-configuration-test
-                  key: password
-            - name: DATABASE_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-configuration-test
-                  key: database
-            - name: DATABASE_URL
-              value: "jdbc:postgresql://postgres-postgresql:5432/$(DATABASE_NAME)"
+                  name: vault-token
+                  key: credential
       volumes:
         - name: fintracker-storage
           persistentVolumeClaim:

@@ -9,4 +9,5 @@ connect:
 
 operator:
   create: true
-  token.value: {{ op://local-server/connect-token/credential }}
+  token:
+    value: {{ op://local-server/connect-token/credential }}

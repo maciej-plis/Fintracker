@@ -4,9 +4,6 @@ metadata:
   name: pgadmin-deployment
   labels:
     app: pgadmin
-  annotations:
-    operator.1password.io/item-path: "vaults/local-server/items/pgAdmin"
-    operator.1password.io/item-name: "pgadmin-credentials"
 spec:
   revisionHistoryLimit: 0
   replicas: 1

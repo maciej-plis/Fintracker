@@ -1,0 +1,9 @@
+kind: Kustomization
+
+resources:
+  - fintracker-pv.yaml
+  - fintracker-pvc.yaml
+  - fintracker-service.yaml
+  - fintracker-ingress.yaml
+  - fintracker-deployment.yaml
+

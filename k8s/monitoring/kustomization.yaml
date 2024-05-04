@@ -1,0 +1,8 @@
+kind: Kustomization
+
+resources:
+  - grafana-pv.yaml
+  - grafana-pvc.yaml
+#  - prometheus-pv.yaml
+#  - prometheus-pvc.yaml
+

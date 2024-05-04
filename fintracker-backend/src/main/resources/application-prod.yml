@@ -1,3 +1,6 @@
 one-password.data-sources:
-  - vault: wa4rm5ykk2gsagvdhhuyreu5be
-    item: wsbyqrtdmppaphjlqmxfuqjd4y
+  - vault: qvvqao3eeychjdm4si2srmhqly
+    item: 5sp5iz4u4c2ixzi4hrlfjeri5i
+
+one-password:
+  endpoint: http://onepassword-connect.vault:8080

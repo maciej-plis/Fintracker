@@ -76,4 +76,4 @@ gradle-app.setting
 ### OpenApi Generator ###
 
 **/.openapi-generator/
-src/main/kotlin/matthias/fintracker/api
+src/main/kotlin/com/matthias/fintracker/api

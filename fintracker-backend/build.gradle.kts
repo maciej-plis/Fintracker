@@ -113,7 +113,7 @@ tasks.bootJar {
 tasks.clean {
     delete += listOf(
         ".openapi-generator",
-        "src/main/kotlin/matthias/fintracker/api"
+        "src/main/kotlin/com/matthias/fintracker/api"
     )
 }
 
@@ -144,7 +144,7 @@ tasks.openApiGenerate {
         mapOf(
             "title" to rootProject.name,
             "artifactId" to rootProject.name,
-            "packageName" to "matthias.fintracker.api",
+            "packageName" to "com.matthias.fintracker.api",
             "useBeanValidation" to "false",
             "useTags" to "true",
             "dateLibrary" to "java8",

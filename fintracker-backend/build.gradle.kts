@@ -1,7 +1,10 @@
+import org.gradle.api.attributes.TestSuiteType.INTEGRATION_TEST
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.utils.extendsFrom
 
 plugins {
     id("java")
+    id("jvm-test-suite")
     id("groovy")
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kotlinJpa)
@@ -16,34 +19,47 @@ plugins {
 val generateSchema by rootProject.tasks
 
 val javaVersionNumber: String by project
-val javaVersion: JavaLanguageVersion by project
 val openApiSchemaOutput: String by project
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.freeCompilerArgs += "-Xjsr305=strict"
-}
-
 kotlin {
-    jvmToolchain {
-        languageVersion.set(javaVersion)
+    jvmToolchain(javaVersionNumber.toInt())
+}
+
+tasks.withType<KotlinCompile> {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
     }
 }
 
-sourceSets.create("integrationTest") {
-    groovy {
-        groovy.srcDir("$projectDir/src/integration-test/groovy")
-        resources.srcDir("$projectDir/src/integration-test/resources")
-        compileClasspath += sourceSets.main.get().output
-        runtimeClasspath += sourceSets.main.get().output
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class)
+        val integrationTest by registering(JvmTestSuite::class) {
+            testType = INTEGRATION_TEST
+            targets.all {
+                testTask.configure {
+                    shouldRunAfter(test)
+                }
+            }
+        }
+        withType<JvmTestSuite> {
+            useSpock(libs.versions.spock)
+            dependencies {
+                implementation(project())
+                implementation(libs.springBoot.test)
+                implementation(libs.spock.spring)
+                implementation(libs.groovy.all)
+                implementation(libs.testContainers.postgresql)
+            }
+        }
     }
 }
 
-val integrationTestImplementation: Configuration by configurations.getting {
-    extendsFrom(configurations.testImplementation.get())
-}
+configurations.named("integrationTestImplementation")
+    .extendsFrom(configurations.implementation)
 
-val integrationTestRuntimeOnly: Configuration by configurations.getting {
-    extendsFrom(configurations.testRuntimeOnly.get())
+tasks.withType<Test> {
+    environment("LIQUIBASE_DUPLICATE_FILE_MODE", "WARN")
 }
 
 dependencies {
@@ -76,31 +92,6 @@ dependencies {
 
     // OnePassword
     implementation(libs.opConnect)
-
-    // Test
-    testImplementation(libs.springBoot.test)
-    testImplementation(libs.spock.spring)
-    testImplementation(libs.groovy.all)
-    testImplementation(libs.testContainers.postgresql)
-}
-
-tasks.test {
-    useJUnitPlatform()
-}
-
-val integrationTest by tasks.registering(Test::class) {
-    description = "Run integration tests"
-    group = "verification"
-
-    testClassesDirs = sourceSets["integrationTest"].output.classesDirs
-    classpath = sourceSets["integrationTest"].runtimeClasspath
-
-    shouldRunAfter("test")
-    useJUnitPlatform()
-}
-
-tasks.check {
-    dependsOn(integrationTest)
 }
 
 tasks.bootJar {

@@ -1,6 +1,6 @@
 [versions]
 # General
-kotlin = "1.+"
+kotlin = "2.+"
 groovy = "4.+"
 springBoot = "3.+"
 

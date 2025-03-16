@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { IStatusPanelAngularComp } from 'ag-grid-angular';
 import { IStatusPanelParams } from 'ag-grid-community';
-import { ProductsInputTableContext } from 'src/app/expenses/components/products-table/products-input-table.component';
-import { map } from 'rxjs';
+import { ProductForm } from 'src/app/expenses/components/products-table/products-input-table.component';
 import { CurrencyPipe } from '@angular/common';
 import { currencyCode, currencyFormat, locale } from 'src/app/app.constants';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   standalone: true,
@@ -18,8 +18,6 @@ import { currencyCode, currencyFormat, locale } from 'src/app/app.constants';
 })
 export class TotalPriceStatusPanel implements IStatusPanelAngularComp {
 
-  private params: IStatusPanelParams;
-
   protected totalPrice = signal(0);
 
   protected currencyCode = currencyCode;
@@ -27,31 +25,35 @@ export class TotalPriceStatusPanel implements IStatusPanelAngularComp {
   protected currencyFormat = currencyFormat;
   protected locale = locale;
 
-  public agInit(params: IStatusPanelParams): void {
-    this.params = params;
-    this.recalculate();
-    this.context.formArray.valueChanges
-      .pipe(map(products => this.calculateTotalPrice(products)))
-      .subscribe(totalPrice => this.totalPrice.set(totalPrice));
+  public agInit(params: IStatusPanelParams<FormGroup<ProductForm>>): void {
+    params.api.addEventListener('rowDataUpdated', () => this.updateTotalPrice(params));
+    params.api.addEventListener('cellValueChanged', () => this.updateTotalPrice(params));
   }
 
   public refresh(params: IStatusPanelParams): boolean {
-    this.params = params;
     return true;
   }
 
-  public recalculate() {
-    this.totalPrice.set(this.calculateTotalPrice(this.context.formArray.getRawValue()));
+  private updateTotalPrice(params: IStatusPanelParams<FormGroup<ProductForm>>): void {
+    const rowData = this.getRowData(params);
+    this.totalPrice.set(this.calculateTotalPrice(rowData));
   }
 
-  private calculateTotalPrice(products: any[]): number {
-    if (products.length === 0) return 0;
-    return products
-      .map(product => (product?.price ?? 0) * (product?.amount ?? 0))
-      .reduce((acc, value) => acc + value);
+  private calculateTotalPrice(rowData: FormGroup<ProductForm>[]): number {
+    if (rowData.length == 0) return 0;
+    return rowData
+      .map(row => this.calculatePrice(row))
+      .reduce((a, b) => a + b);
   }
 
-  private get context(): ProductsInputTableContext {
-    return this.params.context as ProductsInputTableContext;
+  private calculatePrice(product: FormGroup<ProductForm>): number {
+    const {amount, price} = product.getRawValue();
+    return (amount ?? 0) * (price ?? 0);
+  }
+
+  private getRowData({api}: IStatusPanelParams<FormGroup<ProductForm>>): FormGroup<ProductForm>[] {
+    let rowData: FormGroup<ProductForm>[] = [];
+    api.forEachNode(node => node.data && rowData.push(node.data));
+    return rowData;
   }
 }

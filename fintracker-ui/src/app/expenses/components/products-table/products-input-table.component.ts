@@ -123,7 +123,5 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
     if (!this.api) return;
     this.api.setGridOption('rowData', this.formArray.controls);
     this.api.refreshCells({force: true});
-    (this.api.getStatusPanel('totalItems') as TotalItemsStatusPanel)?.recalculate();
-    (this.api.getStatusPanel('totalPrice') as TotalPriceStatusPanel)?.recalculate();
   }
 }

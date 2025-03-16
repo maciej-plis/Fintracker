@@ -1,23 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TotalPriceStatusPanel } from 'src/app/expenses/components/total-price-status-panel/total-price-status-panel.component';
+import { MockBuilder, MockRender } from 'ng-mocks';
 
-describe('TotalPriceStatusBarComponent', () => {
-  let component: TotalPriceStatusPanel;
-  let fixture: ComponentFixture<TotalPriceStatusPanel>;
+describe('TotalPriceStatusPanel', () => {
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TotalPriceStatusPanel]
-    })
-      .compileComponents();
+  beforeEach(() => MockBuilder(TotalPriceStatusPanel));
 
-    fixture = TestBed.createComponent(TotalPriceStatusPanel);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(TotalPriceStatusPanel);
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });

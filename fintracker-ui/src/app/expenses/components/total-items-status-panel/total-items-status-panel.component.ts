@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { IStatusPanelAngularComp } from 'ag-grid-angular';
 import { IStatusPanelParams } from 'ag-grid-community';
-import { ProductsInputTableContext } from 'src/app/expenses/components/products-table/products-input-table.component';
+import { ProductForm } from 'src/app/expenses/components/products-table/products-input-table.component';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   standalone: true,
@@ -12,27 +13,22 @@ import { ProductsInputTableContext } from 'src/app/expenses/components/products-
 })
 export class TotalItemsStatusPanel implements IStatusPanelAngularComp {
 
-  private params: IStatusPanelParams;
+  protected readonly totalItems = signal(0);
 
-  protected totalItems = signal(0);
-
-  public agInit(params: IStatusPanelParams): void {
-    this.params = params;
-    this.recalculate();
-    this.context.formArray.valueChanges
-      .subscribe(products => this.totalItems.set(products.length));
+  public agInit(params: IStatusPanelParams<FormGroup<ProductForm>>): void {
+    params.api.addEventListener('rowDataUpdated', () => {
+      const rowData = this.getRowData(params);
+      this.totalItems.set(rowData.length);
+    });
   }
 
   public refresh(params: IStatusPanelParams): boolean {
-    this.params = params;
     return true;
   }
 
-  public recalculate() {
-    this.totalItems.set(this.context.formArray.getRawValue().length);
-  }
-
-  private get context(): ProductsInputTableContext {
-    return this.params.context as ProductsInputTableContext;
+  private getRowData({api}: IStatusPanelParams<FormGroup<ProductForm>>): FormGroup<ProductForm>[] {
+    let rowData: FormGroup<ProductForm>[] = [];
+    api.forEachNode(node => node.data && rowData.push(node.data));
+    return rowData;
   }
 }

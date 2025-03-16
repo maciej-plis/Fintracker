@@ -1,15 +1,28 @@
-<div class="content">
-  <form [formGroup]="shopFormGroup">
-    <span class="p-float-label">
-      <input [autofocus]="true" formControlName="name" id="shopName" pAutoFocus pInputText type="text">
-      <label for="shopName">Shop Name</label>
-    </span>
-    <small *ngIf="nameControl.dirty && !nameControl.valid" class="p-error">Invalid shop name</small>
-  </form>
-</div>
-<div class="controls">
-  <p-button (click)="cancel()" label="Cancel" severity="danger"></p-button>
-  <p-button (click)="save()" label="Save"></p-button>
-</div>
+<form [formGroup]="form" [disableForm]="loading()" (ngSubmit)="onSubmit()">
+  <div [ngxErrors]="form">
+    <p-message *ngxError="'unknownError'" class="p-inline-message p-inline-message-error w-full mb-4" text="Unknown error has occurred."/>
+  </div>
+  <div class="mt-6 mb-8">
+    <div>
+      <span class="p-float-label">
+        <input type="text" id="categoryName"
+               class="w-full"
+               [formControl]="form.controls.name"
+               pInputText
+               pAutoFocus [autofocus]="true">
+        <label for="categoryName">Shop Name</label>
+      </span>
+      <div [ngxErrors]="form.controls.name">
+        <small *ngxError="'required'" class="p-error block mt-2">Shop name cannot be empty.</small>
+        <small *ngxError="'maxlength'; let err" class="p-error block mt-2">Shop name can have at most {{ err.requiredLength }} characters.</small>
+        <small *ngxError="'unique'" class="p-error block mt-2">Shop with such name already exists.</small>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center justify-end gap-2">
+    <button pButton type="button" severity="danger" (click)="onCancel()">Cancel</button>
+    <button pButton type="submit" [loading]="loading()">Save</button>
+  </div>
+</form>
 
 

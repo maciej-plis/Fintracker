@@ -18,11 +18,13 @@
     "@angular/platform-browser": "17.x",
     "@angular/platform-browser-dynamic": "17.x",
     "@angular/router": "17.x",
+    "@ngspot/ngx-errors": "4.x",
     "@rsql/ast": "1.6.x",
     "@rsql/emitter": "1.6.x",
     "ag-grid-angular": "31.x",
     "ag-grid-community": "31.x",
     "ag-grid-enterprise": "31.x",
+    "ng-mocks": "14.13.x",
     "ngxtension": "2.x",
     "primeicons": "6.x",
     "primeng": "17.x",
@@ -43,6 +45,7 @@
     "karma-coverage": "2.2.x",
     "karma-jasmine": "5.1.x",
     "karma-jasmine-html-reporter": "2.1.x",
+    "tailwindcss": "3.x",
     "typescript": "5.3.x"
   }
 }

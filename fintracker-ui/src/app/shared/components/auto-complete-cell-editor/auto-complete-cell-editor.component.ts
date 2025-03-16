@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
-import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { FormsModule } from '@angular/forms';
-import { AsyncPipe } from '@angular/common';
 import { agGridOverlayOptions } from '@shared/constants';
 import { AutoFocusModule } from 'primeng/autofocus';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -70,5 +70,5 @@ export interface AutoCompleteCellEditorParams extends ICellEditorParams {
   minLength?: number;
   delay?: number;
   label?: string;
-  onSelect?: (event: AutoCompleteSelectEvent, valueSetter: (value: any) => void) => void;
+  onSelect?: (event: AutoCompleteSelectEvent, filter: string, valueSetter: (value: any) => void) => void;
 }

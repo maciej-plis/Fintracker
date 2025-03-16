@@ -4,10 +4,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { startsWithIgnoreCase } from '@shared/utils/string.utils';
 import { AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { ShopsService } from 'src/app/expenses/services';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { markFormAsDirty } from '@shared/utils/form.utils';
 import { v4 as randomUUID } from 'uuid';
 import { startWith } from 'rxjs';
+import { DialogService } from '@shared/services';
+import { AddShopDialog } from 'src/app/expenses/dialogs';
+import { AddShopDialogData } from 'src/app/expenses/dialogs/add-shop/add-shop.dialog';
 
 @Component({
   selector: 'app-purchase-form',
@@ -29,6 +31,7 @@ export class PurchaseFormComponent {
   protected readonly pristine = output<boolean>();
 
   private readonly shopsService = inject(ShopsService);
+  private readonly dialogService = inject(DialogService);
 
   protected idControl = new FormControl<string>(randomUUID(), {nonNullable: true, validators: [Validators.required]});
   protected shopControl = new FormControl<ShopDTO | null>(null, [Validators.required]);
@@ -42,7 +45,7 @@ export class PurchaseFormComponent {
   });
 
   protected shopFilter$ = signal('', {equal: () => false});
-  protected shops$ = toSignal(this.shopsService.shops$, {initialValue: []});
+  protected shops$ = this.shopsService.shops;
   protected filteredShops$ = computed(() => {
     const filteredShops = this.shops$().filter(shop => startsWithIgnoreCase(shop.name, this.shopFilter$()));
     return [...filteredShops, PurchaseFormComponent.ADD_SHOP_ITEM_OPTION];
@@ -58,9 +61,12 @@ export class PurchaseFormComponent {
 
   public onShopSelection(event: AutoCompleteSelectEvent) {
     if (event.value !== PurchaseFormComponent.ADD_SHOP_ITEM_OPTION) return;
-    this.shopControl.setValue(null);
-    this.shopControl.markAsPristine();
-    this.shopsService.addShop().subscribe(shop => this.shopControl.setValue(shop));
+    this.shopControl.reset();
+    this.dialogService.open<ShopDTO>(AddShopDialog, {
+      data: {
+        name: this.shopFilter$()
+      } as AddShopDialogData
+    }).subscribe(shop => this.shopControl.setValue(shop));
   }
 
   public onFormSubmit() {

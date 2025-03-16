@@ -1,10 +1,6 @@
-import { inject, Injectable } from '@angular/core';
-import { CategoriesApi, CategoryDTO } from '@core/api';
-import { MessageService } from 'primeng/api';
-import { BehaviorSubject, catchError, Observable, switchMap, tap } from 'rxjs';
-import { AddCategoryDialog } from 'src/app/expenses/dialogs';
-import { ErrorService } from '@shared/services/error/error.service';
-import { DialogService } from '@shared/services';
+import { inject, Injectable, signal } from '@angular/core';
+import { AddCategoryRequest, CategoriesApi, CategoryDTO } from '@core/api';
+import { Observable, switchMap, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +8,9 @@ import { DialogService } from '@shared/services';
 export class CategoriesService {
 
   private readonly categoriesApi = inject(CategoriesApi);
-  private readonly dialogService = inject(DialogService);
-  private readonly messageService = inject(MessageService);
-  private readonly errorService = inject(ErrorService);
 
-  private readonly categoriesSubject = new BehaviorSubject([] as CategoryDTO[]);
-  public readonly categories$ = this.categoriesSubject.asObservable();
+  private readonly _categories = signal<CategoryDTO[]>([]);
+  public readonly categories = this._categories.asReadonly();
 
   constructor() {
     this.refreshCategories();
@@ -25,25 +18,14 @@ export class CategoriesService {
 
   public refreshCategories() {
     this.categoriesApi.getCategories().subscribe(categories =>
-      this.categoriesSubject.next(categories)
+      this._categories.set(categories)
     );
   }
 
-  public addCategory(): Observable<CategoryDTO | never> {
-    return this.openAddCategoryDialog().pipe(
-      switchMap(category => this.categoriesApi.addCategory(category)),
+  public saveCategory(dto: AddCategoryRequest): Observable<CategoryDTO> {
+    return this.categoriesApi.addCategory(dto).pipe(
       switchMap(categoryId => this.categoriesApi.getCategory(categoryId)),
-      tap(category => {
-        this.categoriesSubject.next([...this.categoriesSubject.value, category]);
-        this.messageService.add({severity: 'info', summary: 'Success', detail: 'Category added successfully'});
-      }),
-      catchError(this.errorService.handleApiError('Failed to add new category'))
+      tap(category => this._categories.update(categories => [...categories, category]))
     );
-  }
-
-  private openAddCategoryDialog(): Observable<CategoryDTO> {
-    return this.dialogService.open(AddCategoryDialog, {
-      header: 'Add new category'
-    });
   }
 }

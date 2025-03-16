@@ -22,7 +22,7 @@ export class DialogService {
   private readonly dialogService = inject(NgDialogService);
   private readonly focusService = inject(FocusService);
 
-  public open<T extends any>(componentType: Type<any>, config: DynamicDialogConfig): Observable<T> {
+  public open<T extends any>(componentType: Type<any>, config: DynamicDialogConfig = {}): Observable<T> {
     this.focusService.captureFocusedElement();
     return this.dialogService.open(componentType, {...DialogService.DEFAULT_DIALOG_CONFIG, ...config}).onClose.pipe(
       tap(() => this.focusService.focusLastCapturedElement()),

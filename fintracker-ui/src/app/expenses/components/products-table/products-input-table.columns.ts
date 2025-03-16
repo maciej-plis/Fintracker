@@ -11,7 +11,6 @@ import {
 } from 'ag-grid-community';
 import { AutoCompleteCellEditor, AutoCompleteCellEditorParams } from '@shared/components/auto-complete-cell-editor/auto-complete-cell-editor.component';
 import { ProductForm, ProductsInputTableContext } from './products-input-table.component';
-import { map, Observable } from 'rxjs';
 import { CategoryDTO, ProductDTO } from '@core/api';
 import { startsWithIgnoreCase } from '@shared/utils/string.utils';
 import { ActionCellEditor, ActionCellEditorParams } from '@shared/components/action-cell-editor/action-cell-editor.component';
@@ -19,6 +18,9 @@ import { ButtonCellRendererComponent, ButtonCellRendererParams } from '@shared/c
 import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { v4 as randomUUID } from 'uuid';
 import { MenuCellRenderer, MenuCellRendererParams } from '@shared/components/menu-cell-renderer/menu-cell-renderer.component';
+import { AddCategoryDialog } from 'src/app/expenses/dialogs';
+import { AddCategoryDialogData } from 'src/app/expenses/dialogs/add-category/add-category.dialog';
+import { Observable, of } from 'rxjs';
 
 const ADD_CATEGORY_ITEM_OPTION: CategoryDTO = {id: '', name: '(Add Item)'};
 
@@ -93,12 +95,15 @@ function categoryCellEditor(params: ICellEditorParams): CellEditorSelectorResult
   return {
     component: AutoCompleteCellEditor,
     params: {
-      suggestionsFunc: filter => filterCategorySuggestions(context.categoriesService.categories$, filter),
-      onSelect: (event, valueSetter) => {
+      suggestionsFunc: filter => filterCategorySuggestions(context.categoriesService.categories(), filter),
+      onSelect: (event, filter, valueSetter) => {
         if (event.value !== ADD_CATEGORY_ITEM_OPTION) return;
         valueSetter(undefined);
-        context.categoriesService.addCategory()
-          .subscribe(category => valueSetter(category));
+        context.dialogService.open(AddCategoryDialog, {
+          data: {
+            name: filter
+          } as AddCategoryDialogData
+        }).subscribe(category => valueSetter(category));
       },
       forceSelection: true,
       label: 'name'
@@ -106,11 +111,9 @@ function categoryCellEditor(params: ICellEditorParams): CellEditorSelectorResult
   };
 }
 
-function filterCategorySuggestions(categorySuggestions$: Observable<CategoryDTO[]>, filter: string): Observable<CategoryDTO[]> {
-  return categorySuggestions$.pipe(
-    map(suggestions => suggestions.filter(suggestion => startsWithIgnoreCase(suggestion.name, filter))),
-    map(categories => [...categories, ADD_CATEGORY_ITEM_OPTION])
-  );
+function filterCategorySuggestions(categories: CategoryDTO[], filter: string): Observable<CategoryDTO[]> {
+  const filteredCategories = categories.filter(suggestion => startsWithIgnoreCase(suggestion.name, filter));
+  return of([...filteredCategories, ADD_CATEGORY_ITEM_OPTION]);
 }
 
 function nameCellEditor(params: ICellEditorParams): CellEditorSelectorResult {

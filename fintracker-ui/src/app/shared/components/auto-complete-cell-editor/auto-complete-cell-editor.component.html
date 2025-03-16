@@ -1,6 +1,6 @@
 <p-autoComplete (completeMethod)="filterSubject.next($event.query)"
                 (keydown)="value && params.onKeyDown($event)"
-                (onSelect)="params.onSelect?.($event, this.setValue.bind(this))"
+                (onSelect)="params.onSelect?.($event, filterSubject.getValue(), this.setValue.bind(this))"
                 [(ngModel)]="value"
                 [autofocus]="true"
                 [completeOnFocus]="true"

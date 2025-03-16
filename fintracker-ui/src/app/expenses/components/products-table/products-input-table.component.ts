@@ -7,6 +7,7 @@ import { CategoriesService } from 'src/app/expenses/services/categories/categori
 import { TotalPriceStatusPanel } from 'src/app/expenses/components/total-price-status-panel/total-price-status-panel.component';
 import { Observable } from 'rxjs';
 import { TotalItemsStatusPanel } from 'src/app/expenses/components/total-items-status-panel/total-items-status-panel.component';
+import { DialogService } from '@shared/services';
 
 export const PRODUCTS_INPUT_TABLE_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -33,6 +34,7 @@ export interface ProductsInputTableContext {
   formArray: FormArray<FormGroup<ProductForm>>,
   productsApi: ProductsApi,
   categoriesService: CategoriesService,
+  dialogService: DialogService,
   valueChanges: Observable<Partial<ProductDTO>[]>
 }
 
@@ -47,6 +49,7 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
 
   private readonly categoriesService = inject(CategoriesService);
   private readonly productsApi = inject(ProductsApi);
+  private readonly dialogService = inject(DialogService);
 
   private readonly formArray = new FormArray<FormGroup<ProductForm>>([]);
 
@@ -104,7 +107,8 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
     context: {
       formArray: this.formArray,
       productsApi: this.productsApi,
-      categoriesService: this.categoriesService
+      categoriesService: this.categoriesService,
+      dialogService: this.dialogService
     } as ProductsInputTableContext
   };
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { ButtonModule } from 'primeng/button';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -10,7 +10,6 @@ import { catchError, EMPTY } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MessageModule } from 'primeng/message';
 import { NGX_ERRORS_DECLARATIONS } from '@ngspot/ngx-errors';
-import { DisableFormDirective } from '@shared/directives/disable-form/disable-form.directive';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -25,8 +24,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     InputTextModule,
     ReactiveFormsModule,
     MessageModule,
-    NGX_ERRORS_DECLARATIONS,
-    DisableFormDirective
+    NGX_ERRORS_DECLARATIONS
   ]
 })
 export class AddCategoryDialog {
@@ -45,6 +43,7 @@ export class AddCategoryDialog {
 
   public constructor() {
     this.config.header = 'Add new category';
+    effect(() => this.loading() ? this.form.disable() : this.form.enable());
   }
 
   protected onSubmit(): void {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,7 +11,6 @@ import { ShopsService } from 'src/app/expenses/services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, EMPTY } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { DisableFormDirective } from '@shared/directives/disable-form/disable-form.directive';
 
 @Component({
   standalone: true,
@@ -25,8 +24,7 @@ import { DisableFormDirective } from '@shared/directives/disable-form/disable-fo
     InputTextModule,
     ReactiveFormsModule,
     MessageModule,
-    NGX_ERRORS_DECLARATIONS,
-    DisableFormDirective
+    NGX_ERRORS_DECLARATIONS
   ]
 })
 export class AddShopDialog {
@@ -45,6 +43,7 @@ export class AddShopDialog {
 
   public constructor() {
     this.config.header = 'Add new shop';
+    effect(() => this.loading() ? this.form.disable() : this.form.enable());
   }
 
   protected onSubmit(): void {

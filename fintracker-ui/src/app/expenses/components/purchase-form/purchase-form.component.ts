@@ -62,11 +62,11 @@ export class PurchaseFormComponent {
   public onShopSelection(event: AutoCompleteSelectEvent) {
     if (event.value !== PurchaseFormComponent.ADD_SHOP_ITEM_OPTION) return;
     this.shopControl.reset();
-    this.dialogService.open<ShopDTO>(AddShopDialog, {
+    this.dialogService.open<ShopDTO | null>(AddShopDialog, {
       data: {
         name: this.shopFilter$()
       } as AddShopDialogData
-    }).subscribe(shop => this.shopControl.setValue(shop));
+    }).subscribe(shop => shop && this.shopControl.setValue(shop));
   }
 
   public onFormSubmit() {

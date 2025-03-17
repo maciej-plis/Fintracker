@@ -98,12 +98,16 @@ function categoryCellEditor(params: ICellEditorParams): CellEditorSelectorResult
       suggestionsFunc: filter => filterCategorySuggestions(context.categoriesService.categories(), filter),
       onSelect: (event, filter, valueSetter) => {
         if (event.value !== ADD_CATEGORY_ITEM_OPTION) return;
+        const cell = params.api.getFocusedCell();
         valueSetter(undefined);
-        context.dialogService.open(AddCategoryDialog, {
+        context.dialogService.open<CategoryDTO | null>(AddCategoryDialog, {
           data: {
             name: filter
           } as AddCategoryDialogData
-        }).subscribe(category => valueSetter(category));
+        }).subscribe(category => {
+          cell && params.api.startEditingCell({rowIndex: cell.rowIndex, colKey: cell.column.getColId(), rowPinned: cell.rowPinned});
+          (params.api.getCellEditorInstances()[0] as AutoCompleteCellEditor).setValue(category);
+        });
       },
       forceSelection: true,
       label: 'name'

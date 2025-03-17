@@ -1,16 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-
 import { ErrorService } from 'src/app/shared/services/error/error.service';
+import { MockBuilder, MockRender } from 'ng-mocks';
 
 describe('ErrorService', () => {
-  let service: ErrorService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(ErrorService);
-  });
+  beforeEach(() => MockBuilder(ErrorService));
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('Should be created', () => {
+    const service = MockRender(ErrorService);
+    expect(service.componentInstance).toBeDefined();
   });
 });

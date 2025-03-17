@@ -1,6 +1,6 @@
 <ul class="submenu">
   <li #menuItem *ngFor="let item of menuItems" class="submenu__item">
-    <a pRipple noFocus
+    <a pRipple
        [routerLink]="item.routerLink" routerLinkActive='submenu__item-anchor--active'
        class="submenu__item-anchor"
        (click)="activate(item, menuItem)">

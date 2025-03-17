@@ -3,8 +3,11 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 @Component({
   standalone: true,
   selector: '[disableForm]',
-  templateUrl: './disable-form.component.html',
-  styleUrl: './disable-form.component.scss',
+  template: `
+    <fieldset class="contents" [disabled]="disableForm()">
+      <ng-content/>
+    </fieldset>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: []
 })

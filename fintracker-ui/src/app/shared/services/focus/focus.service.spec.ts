@@ -1,16 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-
 import { FocusService } from 'src/app/shared/services/focus/focus.service';
+import { MockBuilder, MockRender } from 'ng-mocks';
 
 describe('FocusService', () => {
-  let service: FocusService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(FocusService);
-  });
+  beforeEach(() => MockBuilder(FocusService));
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('Should be created', () => {
+    const service = MockRender(FocusService);
+    expect(service.componentInstance).toBeDefined();
   });
 });

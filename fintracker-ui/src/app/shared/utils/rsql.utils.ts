@@ -10,7 +10,7 @@ import {
   LogicOperator,
   OR
 } from '@rsql/ast';
-import { RsqlOperators } from '@shared/constants/rsql.constants';
+import { RsqlOperators } from '@shared/constants/rsql-operators.constants';
 
 type ComparisonValue = string | number | null;
 

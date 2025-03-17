@@ -1,8 +1,12 @@
 import { ValueAccessorDirective } from './value-accessor.directive';
+import { MockBuilder, MockRender } from 'ng-mocks';
 
 describe('ValueAccessorDirective', () => {
-  it('should create an instance', () => {
-    const directive = new ValueAccessorDirective();
-    expect(directive).toBeTruthy();
+
+  beforeEach(() => MockBuilder(ValueAccessorDirective));
+
+  it('Should be created', () => {
+    const directive = MockRender('<input appValueAccessor>');
+    expect(directive.componentInstance).toBeDefined();
   });
 });

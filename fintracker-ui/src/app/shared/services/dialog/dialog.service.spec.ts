@@ -1,16 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-
 import { DialogService } from 'src/app/shared/services/dialog/dialog.service';
+import { MockBuilder, MockRender } from 'ng-mocks';
 
-describe('DiaalogService', () => {
-  let service: DialogService;
+describe('DialogService', () => {
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(DialogService);
-  });
+  beforeEach(() => MockBuilder(DialogService));
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('Should be created', () => {
+    const service = MockRender(DialogService);
+    expect(service.componentInstance).toBeDefined();
   });
 });

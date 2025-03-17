@@ -1,10 +1,10 @@
 <div class="sidebar" [ngClass]="{'sidebar--open': isOpen()}">
   <div class="sidebar__header">
-    <a noFocus routerLink="/">
+    <a routerLink="/">
       <app-logo></app-logo>
       <app-logo-small></app-logo-small>
     </a>
-    <input noFocus type="checkbox" class="sidebar__anchor-btn">
+    <input type="checkbox" class="sidebar__anchor-btn">
   </div>
   <app-menu [menuItems]="menuItems"></app-menu>
 </div>

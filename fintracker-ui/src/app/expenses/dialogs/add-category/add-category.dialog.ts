@@ -10,7 +10,7 @@ import { catchError, EMPTY } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MessageModule } from 'primeng/message';
 import { NGX_ERRORS_DECLARATIONS } from '@ngspot/ngx-errors';
-import { DisableFormDirective } from '@shared/directives/disable-form/disable-form.component';
+import { DisableFormDirective } from '@shared/directives/disable-form/disable-form.directive';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({

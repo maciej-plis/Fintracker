@@ -11,7 +11,7 @@ import { ShopsService } from 'src/app/expenses/services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, EMPTY } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { DisableFormDirective } from '@shared/directives/disable-form/disable-form.component';
+import { DisableFormDirective } from '@shared/directives/disable-form/disable-form.directive';
 
 @Component({
   standalone: true,

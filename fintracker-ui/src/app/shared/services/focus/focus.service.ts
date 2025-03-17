@@ -7,19 +7,19 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class FocusService {
 
-  public focusedElement$ = toSignal(fromEvent(window, 'focusin').pipe(
+  private focusedElement = toSignal(fromEvent(window, 'focusin').pipe(
     map(({target}) => target),
     filter(this.isHtmlElement)
   ), {initialValue: null});
 
-  public capturedFocusedElement$ = signal(this.focusedElement$());
+  private _capturedFocusedElement = signal(this.focusedElement());
 
   public captureFocusedElement() {
-    this.capturedFocusedElement$.set(this.focusedElement$());
+    this._capturedFocusedElement.set(this.focusedElement());
   }
 
   public focusLastCapturedElement() {
-    this.capturedFocusedElement$()?.focus();
+    this._capturedFocusedElement()?.focus();
   }
 
   private isHtmlElement(eventTarget: EventTarget | null): eventTarget is HTMLElement {

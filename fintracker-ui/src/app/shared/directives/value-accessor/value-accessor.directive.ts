@@ -1,4 +1,4 @@
-import { Directive, forwardRef, signal, WritableSignal } from '@angular/core';
+import { Directive, forwardRef, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Directive({
@@ -15,8 +15,8 @@ export class ValueAccessorDirective<T> implements ControlValueAccessor {
   public onChange: (value: T | null) => {};
   public onTouched: () => {};
 
-  public value: WritableSignal<T | null> = signal(null);
-  public disabled: WritableSignal<boolean> = signal(false);
+  public value = signal<T | null>(null);
+  public disabled = signal(false);
 
   public valueChanged(value: T | null): void {
     this.onChange(value);

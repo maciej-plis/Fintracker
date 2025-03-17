@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ErrorMessagesConverterPipe } from './pipes';
-import { NoFocusDirective } from '@shared/directives';
 import { TableComponent, TextFilterComponent } from '@shared/components';
 import { AgGridModule } from 'ag-grid-angular';
 import { ButtonModule } from 'primeng/button';
@@ -13,8 +11,6 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
-    ErrorMessagesConverterPipe,
-    NoFocusDirective,
     TableComponent,
     TextFilterComponent
   ],
@@ -29,9 +25,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     ReactiveFormsModule
   ],
   exports: [
-    ErrorMessagesConverterPipe,
     CommonModule,
-    NoFocusDirective,
     TableComponent
   ]
 })

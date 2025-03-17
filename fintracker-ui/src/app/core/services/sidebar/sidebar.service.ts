@@ -5,14 +5,14 @@ import { Injectable, signal } from '@angular/core';
 })
 export class SidebarService {
 
-  public readonly sidebarVisible$ = signal(false);
-  public readonly sidebarVisible = this.sidebarVisible$.asReadonly();
+  private readonly _sidebarVisible = signal(false);
+  public readonly sidebarVisible = this._sidebarVisible.asReadonly();
 
   public showSidebar() {
-    this.sidebarVisible$.set(true);
+    this._sidebarVisible.set(true);
   }
 
   public hideSidebar() {
-    this.sidebarVisible$.set(false);
+    this._sidebarVisible.set(false);
   }
 }

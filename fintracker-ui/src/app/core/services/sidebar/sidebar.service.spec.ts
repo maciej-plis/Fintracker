@@ -1,16 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-
 import { SidebarService } from './sidebar.service';
+import { MockBuilder, MockRender } from 'ng-mocks';
 
 describe('SidebarService', () => {
-  let service: SidebarService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(SidebarService);
-  });
+  beforeEach(() => MockBuilder(SidebarService));
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('Should create', () => {
+    const service = MockRender(SidebarService);
+    expect(service.componentInstance).toBeDefined();
   });
 });

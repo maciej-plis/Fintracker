@@ -6,5 +6,8 @@
             [ngModel]="valueAccessor.value()"
             (ngModelChange)="onDisplayValueChange($event)"
             (onFocus)="onFocus()"
-            (onBlur)="onBlur()">
-</p-calendar>
+            (onBlur)="onBlur()"
+            [class.ng-touched]="ngControl.touched"
+            [class.ng-dirty]="ngControl.dirty"
+            [class.ng-valid]="ngControl.valid"
+            [class.ng-invalid]="ngControl.invalid"/>

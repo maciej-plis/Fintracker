@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Directive, forwardRef, inject, input } from '@angular/core';
+import { Component, Directive, forwardRef, inject, input, signal } from '@angular/core';
 import { CalendarModule } from 'primeng/calendar';
 import { PaginatorModule } from 'primeng/paginator';
-import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { locale } from 'src/app/app.constants';
 import { ValueAccessorDirective } from '@shared/directives/value-accessor/value-accessor.directive';
@@ -28,10 +28,9 @@ class CalendarValueAccessorDirector extends ValueAccessorDirective<any> {
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [CalendarValueAccessorDirector],
   host: {
-    '[class.p-inputwrapper-focus]': 'focused',
+    '[class.p-inputwrapper-focus]': 'focused()',
     '[class.p-inputwrapper-filled]': 'valueAccessor.value()'
   },
   imports: [
@@ -42,12 +41,13 @@ class CalendarValueAccessorDirector extends ValueAccessorDirective<any> {
 })
 export class CalendarComponent {
 
+  protected readonly ngControl = inject(NgControl, {self: true});
+  protected readonly valueAccessor = inject(CalendarValueAccessorDirector);
+
   public readonly displayFormat = input.required<string>();
   public readonly modelFormat = input.required<string>();
 
-  protected readonly valueAccessor = inject(CalendarValueAccessorDirector);
-
-  protected focused: boolean = false;
+  protected readonly focused = signal(false);
 
   protected onDisplayValueChange(value: Date) {
     const dateStr = value ? formatDate(value, this.modelFormat(), locale) : value;
@@ -55,11 +55,11 @@ export class CalendarComponent {
   }
 
   protected onFocus() {
-    this.focused = true;
+    this.focused.set(true);
   }
 
   protected onBlur() {
-    this.focused = false;
+    this.focused.set(false);
     this.valueAccessor.onTouched();
   }
 }

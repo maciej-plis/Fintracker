@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output, ViewChild } from '@angular/core';
+import { Component, inject, output, viewChild } from '@angular/core';
 import { PurchaseSummariesApi, PurchaseSummaryDTO, ShopsApi } from '@core/api';
 import { ColDef, GridOptions, ICellRendererParams, IRowNode, ISetFilterParams } from 'ag-grid-community';
 import { dateValueFormatter } from '@shared/utils/table-formatters.utils';
@@ -15,19 +15,14 @@ import { TableComponent } from '@shared/components/table/table.component';
 })
 export class PurchasesTableComponent {
 
-  @ViewChild(TableComponent) table: TableComponent;
-
-  @Output()
-  public readonly rowEdit = new EventEmitter<any>();
-
-  @Output()
-  public readonly deleteSelected = new EventEmitter<IRowNode[]>();
-
-  @Output()
-  public readonly addNewItem = new EventEmitter<void>();
-
   private readonly purchaseSummariesApi = inject(PurchaseSummariesApi);
   private readonly shopsApi = inject(ShopsApi);
+
+  public readonly table = viewChild.required(TableComponent);
+
+  public readonly rowEdit = output<any>();
+  public readonly deleteSelected = output<IRowNode[]>();
+  public readonly addNewItem = output<void>();
 
   private readonly columnDefs: ColDef[] = [
     {
@@ -57,7 +52,7 @@ export class PurchasesTableComponent {
       field: 'productsCount',
       headerName: 'Products Count',
       filter: 'agNumberColumnFilter',
-      filterParams: {filterOptions: nonNullableNumberFilterOptions},
+      filterParams: {filterOptions: nonNullableNumberFilterOptions}
     },
     {
       field: 'totalPrice',
@@ -94,7 +89,7 @@ export class PurchasesTableComponent {
   };
 
   public onDeleteSelected() {
-    const selection = this.table.api.getSelectedNodes();
+    const selection = this.table().api?.getSelectedNodes() ?? [];
     this.deleteSelected.emit(selection);
   }
 }

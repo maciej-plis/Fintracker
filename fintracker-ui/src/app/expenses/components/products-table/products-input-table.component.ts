@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, forwardRef, inject } from '@angular/core';
-import { ColDef, GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
+import { ChangeDetectionStrategy, Component, forwardRef, inject, viewChild } from '@angular/core';
+import { ColDef, GridOptions } from 'ag-grid-community';
 import { CategoryDTO, ProductDTO, ProductsApi } from '@core/api';
 import { ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 import { buildProductForm, columnDefs, Columns } from './products-input-table.columns';
@@ -8,6 +8,7 @@ import { TotalPriceStatusPanel } from 'src/app/expenses/components/total-price-s
 import { Observable } from 'rxjs';
 import { TotalItemsStatusPanel } from 'src/app/expenses/components/total-items-status-panel/total-items-status-panel.component';
 import { DialogService } from '@shared/services';
+import { TableComponent } from '@shared/components';
 
 export const PRODUCTS_INPUT_TABLE_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -53,7 +54,7 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
 
   private readonly formArray = new FormArray<FormGroup<ProductForm>>([]);
 
-  private api: GridApi;
+  private readonly table = viewChild.required(TableComponent);
 
   public onTouched: Function;
 
@@ -109,19 +110,13 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
       productsApi: this.productsApi,
       categoriesService: this.categoriesService,
       dialogService: this.dialogService
-    } as ProductsInputTableContext
+    } as ProductsInputTableContext,
+    onGridReady: () => this.refreshTableData()
   };
 
-  public onGridReady(event: GridReadyEvent) {
-    this.api = event.api;
-    this.api.autoSizeColumns([Columns.NUMERATOR]);
-    this.refreshTableData();
-  }
-
-
   private refreshTableData() {
-    if (!this.api) return;
-    this.api.setGridOption('rowData', this.formArray.controls);
-    this.api.refreshCells({force: true});
+    this.table().api?.autoSizeColumns([Columns.NUMERATOR]);
+    this.table().api?.setGridOption('rowData', this.formArray.controls);
+    this.table().api?.refreshCells({force: true});
   }
 }

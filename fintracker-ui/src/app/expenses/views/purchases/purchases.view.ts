@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
 import { IRowNode } from 'ag-grid-community';
 import { PurchaseDTO, PurchasesApi } from '@core/api';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -20,8 +20,7 @@ export class PurchasesView {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
-  @ViewChild(PurchasesTableComponent)
-  private purchasesTable: PurchasesTableComponent;
+  private purchasesTable = viewChild.required(PurchasesTableComponent);
 
   public onRowEdit(purchase: PurchaseDTO) {
     this.router.navigate(['expenses', 'purchases', `edit`, purchase.id]);
@@ -45,7 +44,7 @@ export class PurchasesView {
     this.purchasesApi.removePurchases(request).subscribe({
       next: () => {
         this.messageService.add({severity: 'info', summary: 'Success', detail: 'Purchases removed successfully.'});
-        this.purchasesTable.table.api.applyServerSideTransaction({remove: rows.map(row => row.data)});
+        this.purchasesTable().table().api?.applyServerSideTransaction({remove: rows.map(row => row.data)});
       },
       error: () => this.messageService.add({severity: 'error', summary: 'Failure', detail: 'Failed to remove purchases', sticky: true})
     });

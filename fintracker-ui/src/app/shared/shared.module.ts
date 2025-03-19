@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TableComponent, TextFilterComponent } from '@shared/components';
+import { TableComponent } from '@shared/components';
 import { AgGridModule } from 'ag-grid-angular';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
@@ -11,8 +11,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
-    TableComponent,
-    TextFilterComponent
+    TableComponent
   ],
   imports: [
     CommonModule,

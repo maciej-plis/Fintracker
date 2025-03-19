@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { ColDef, GridApi, GridOptions, GridReadyEvent, ITextFilterParams } from 'ag-grid-community';
 import { TableDatePickerComponent } from '@shared/components/table-date-picker/table-date-picker.component';
 import { AutoCompleteCellEditor } from '@shared/components/auto-complete-cell-editor/auto-complete-cell-editor.component';
@@ -13,12 +13,12 @@ import { currency } from '@shared/components/table/grid-definitions/data-types';
 })
 export class TableComponent {
 
-  public readonly components = {
+  private static readonly COMPONENTS = {
     agDateInput: TableDatePickerComponent,
     agAutoCompleteInput: AutoCompleteCellEditor
   };
 
-  public readonly defaultColDef: ColDef = {
+  private static readonly DEFAULT_COL_DEF: ColDef = {
     flex: 1,
     menuTabs: ['filterMenuTab'],
     sortable: true,
@@ -31,9 +31,9 @@ export class TableComponent {
     suppressMovable: true
   };
 
-  public readonly defaultGridOptions: GridOptions = {
-    components: this.components,
-    defaultColDef: this.defaultColDef,
+  private static readonly DEFAULT_GRID_OPTIONS: GridOptions = {
+    components: TableComponent.COMPONENTS,
+    defaultColDef: TableComponent.DEFAULT_COL_DEF,
     pagination: true,
     cacheBlockSize: 50,
     paginationPageSize: 12,
@@ -50,30 +50,29 @@ export class TableComponent {
     },
     dataTypeDefinitions: {
       currency
-    },
-    onGridReady: (event: GridReadyEvent) => {
-      this.api = event.api;
-      this.onGridReady.next(event);
     }
   };
 
-  @Input()
-  public header: string;
+  public readonly header = input.required<string>();
+  public readonly gridOptions = input.required<GridOptions>();
 
-  @Input()
-  public gridOptions: GridOptions;
+  public readonly onGridReady = output<GridReadyEvent>();
 
-  @Output()
-  public onGridReady = new EventEmitter<GridReadyEvent>;
+  public isReady: boolean = false;
+  public api?: GridApi;
 
-  public api: GridApi;
-
-  public composeGridOptions(): GridOptions {
+  protected composedGridOptions = computed(() => {
+    const gridOptions = this.gridOptions();
     return {
-      ...this.defaultGridOptions,
-      ...this.gridOptions,
-      defaultColDef: {...this.defaultColDef, ...this.gridOptions.defaultColDef}
+      ...TableComponent.DEFAULT_GRID_OPTIONS,
+      ...gridOptions,
+      defaultColDef: {...TableComponent.DEFAULT_COL_DEF, ...gridOptions.defaultColDef},
+      onGridReady: (event: GridReadyEvent) => {
+        this.api = event.api;
+        this.isReady = true;
+        gridOptions.onGridReady?.(event);
+      }
     };
-  }
+  });
 }
 

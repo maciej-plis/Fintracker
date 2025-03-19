@@ -2,8 +2,7 @@ import { Component, signal } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 import { TooltipModule } from 'primeng/tooltip';
-import { getFormControl } from '@shared/components/table/grid-definitions/column-types';
-import { isNonNull } from '@shared/utils';
+import { getFormControl, isNonNull } from '@shared/utils';
 
 @Component({
   standalone: true,

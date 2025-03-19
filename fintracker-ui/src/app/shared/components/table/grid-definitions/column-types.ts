@@ -1,16 +1,7 @@
-import { FormControl, FormGroup } from '@angular/forms';
 import { ValidationCellRenderer, ValidationCellRendererParams } from '@shared/components/validation-cell-renderer/validation-cell-renderer.component';
-import {
-  CellClassParams,
-  CellRendererSelectorResult,
-  ColTypeDef,
-  ICellEditorParams,
-  ICellRendererParams,
-  ValueGetterParams,
-  ValueSetterParams
-} from 'ag-grid-community';
+import { CellClassParams, CellRendererSelectorResult, ColTypeDef, ICellRendererParams, ValueGetterParams, ValueSetterParams } from 'ag-grid-community';
 import { SvgCellRenderer, SvgCellRendererParams } from '@shared/components/svg-cell-renderer/svg-cell-renderer.component';
-import { Subtract } from '@shared/utils';
+import { getFormControl, Subtract } from '@shared/utils';
 
 export const numerator: ColTypeDef = {
   resizable: false,
@@ -52,36 +43,21 @@ function numeratorCellRenderer(params: ICellRendererParams): CellRendererSelecto
 }
 
 function formValueGetter(params: ValueGetterParams): any | null {
-  if (!hasFormGroupDataWithField(params)) return null;
-  return params.data.get(params.colDef.field)?.value;
+  const formControl = getFormControl(params);
+  if (!formControl) return null;
+
+  return formControl.value;
 }
 
 function formValueSetter(params: ValueSetterParams): boolean {
-  if (!hasFormGroupDataWithField(params)) return false;
-  params.data.get(params.colDef.field)?.setValue(params.newValue);
+  const formControl = getFormControl(params);
+  if (!formControl) return false;
+
+  formControl.setValue(params.newValue);
   return params.newValue !== params.oldValue;
 }
 
 function agCellInvalidRule(params: CellClassParams): boolean {
   const formControl = getFormControl(params);
   return !formControl ? false : !formControl.valid && formControl.touched;
-}
-
-// TODO Move elsewhere
-export type GridParams<TData = any, TValue = any> =
-  ICellRendererParams<TData, TValue>
-  | ICellEditorParams<TData, TValue>
-  | ValueGetterParams<TData, TValue>
-  | ValueSetterParams<TData, TValue>
-  | CellClassParams<TData, TValue>;
-
-// TODO Move elsewhere
-export function hasFormGroupDataWithField<T extends GridParams>(params: T): params is T & { colDef: { field: string }, data: FormGroup } {
-  return (params.data instanceof FormGroup) && !!params.colDef?.field;
-}
-
-export function getFormControl<T extends GridParams>(params: T): FormControl | null {
-  if (!(params.data instanceof FormGroup) || !params.colDef?.field) return null;
-  const formControl = params.data.get(params.colDef.field) ?? null;
-  return formControl instanceof FormControl ? formControl : null;
 }

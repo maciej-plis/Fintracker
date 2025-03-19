@@ -18,21 +18,25 @@ import { MenuItem } from 'primeng/api';
 })
 export class MenuCellRenderer implements ICellRendererAngularComp {
 
-  private nativeElement = inject(ElementRef).nativeElement;
+  private readonly elRef = inject(ElementRef);
 
-  protected menuItems = signal<MenuItem[]>([]);
+  protected readonly menuItems = signal<MenuItem[]>([]);
 
   public agInit(params: MenuCellRendererParams): void {
-    this.menuItems.set(params.menuItems);
+    this.updateState(params);
   }
 
   public refresh(params: MenuCellRendererParams): boolean {
-    this.agInit(params);
+    this.updateState(params);
     return true;
   }
 
-  public triggerMenuButton() {
-    this.nativeElement.querySelector('button')?.click();
+  public triggerMenuButton(): void {
+    this.elRef.nativeElement.querySelector('button')?.click();
+  }
+
+  private updateState(params: MenuCellRendererParams): void {
+    this.menuItems.set(params.menuItems);
   }
 }
 

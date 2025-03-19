@@ -1,8 +1,10 @@
-<span>{{ params.valueFormatted || params.value }}</span>
-<i *ngIf="!isValid"
-   class="pi pi-exclamation-triangle"
-   appendTo="body"
-   [pTooltip]="message"
-   [fitContent]="true"
-   tooltipPosition="top"
-   [escape]="false"></i>
+<span>{{ value() }}</span>
+@if (isError()) {
+  <i class="pi pi-exclamation-triangle"
+     appendTo="body"
+     [pTooltip]="error()"
+     [fitContent]="true"
+     tooltipPosition="top"
+     [escape]="false"></i>
+}
+

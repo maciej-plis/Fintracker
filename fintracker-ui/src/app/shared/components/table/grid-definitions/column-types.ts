@@ -1,5 +1,5 @@
-import { FormGroup } from '@angular/forms';
-import { ValidationCellRenderer } from '@shared/components/validation-cell-renderer/validation-cell-renderer.component';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ValidationCellRenderer, ValidationCellRendererParams } from '@shared/components/validation-cell-renderer/validation-cell-renderer.component';
 import {
   CellClassParams,
   CellRendererSelectorResult,
@@ -10,6 +10,7 @@ import {
   ValueSetterParams
 } from 'ag-grid-community';
 import { SvgCellRenderer, SvgCellRendererParams } from '@shared/components/svg-cell-renderer/svg-cell-renderer.component';
+import { Subtract } from '@shared/utils';
 
 export const numerator: ColTypeDef = {
   resizable: false,
@@ -25,6 +26,12 @@ export const form: ColTypeDef = {
   valueGetter: formValueGetter.bind(this),
   valueSetter: formValueSetter.bind(this),
   cellRenderer: ValidationCellRenderer,
+  cellRendererParams: {
+    defaultErrorMessage: 'This value is invalid',
+    errorMessages: {
+      required: 'This field is required'
+    }
+  } as Subtract<ValidationCellRendererParams, ICellRendererParams>,
   cellClassRules: {
     'ag-cell-invalid': agCellInvalidRule.bind(this)
   }
@@ -56,9 +63,8 @@ function formValueSetter(params: ValueSetterParams): boolean {
 }
 
 function agCellInvalidRule(params: CellClassParams): boolean {
-  if (!hasFormGroupDataWithField(params)) return false;
-  const formControl = params.data.get(params.colDef.field);
-  return !formControl.valid && formControl.touched;
+  const formControl = getFormControl(params);
+  return !formControl ? false : !formControl.valid && formControl.touched;
 }
 
 // TODO Move elsewhere
@@ -70,6 +76,12 @@ export type GridParams<TData = any, TValue = any> =
   | CellClassParams<TData, TValue>;
 
 // TODO Move elsewhere
-export function hasFormGroupDataWithField(params: GridParams): params is GridParams<FormGroup> & { colDef: { field: string }, data: FormGroup } {
+export function hasFormGroupDataWithField<T extends GridParams>(params: T): params is T & { colDef: { field: string }, data: FormGroup } {
   return (params.data instanceof FormGroup) && !!params.colDef?.field;
+}
+
+export function getFormControl<T extends GridParams>(params: T): FormControl | null {
+  if (!(params.data instanceof FormGroup) || !params.colDef?.field) return null;
+  const formControl = params.data.get(params.colDef.field) ?? null;
+  return formControl instanceof FormControl ? formControl : null;
 }

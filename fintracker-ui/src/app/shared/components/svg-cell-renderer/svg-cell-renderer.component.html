@@ -1,1 +1,4 @@
-<svg-asset [src]="params.src"></svg-asset>
+@if (svgSrc(); as svgSrc) {
+  <svg-asset [src]="svgSrc"/>
+}
+

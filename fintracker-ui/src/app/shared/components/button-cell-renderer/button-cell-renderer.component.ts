@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ICellRendererParams } from 'ag-grid-community';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ButtonModule } from 'primeng/button';
@@ -15,21 +15,38 @@ import { ButtonModule } from 'primeng/button';
 })
 export class ButtonCellRendererComponent implements ICellRendererAngularComp {
 
-  protected params: ButtonCellRendererParams;
+  private static readonly EMPTY_CALLBACK = (_: ICellRendererParams) => void 0;
+
+  protected readonly icon = signal<string | null>(null);
+  protected readonly label = signal<string | null>(null);
+  protected readonly title = signal<string | null>(null);
+  protected readonly clicked = signal<OnRendererClickCallback>(ButtonCellRendererComponent.EMPTY_CALLBACK);
+
+  protected params!: ButtonCellRendererParams;
 
   public agInit(params: ButtonCellRendererParams): void {
-    this.params = params;
+    this.updateState(params);
   }
 
   public refresh(params: ButtonCellRendererParams): boolean {
-    this.params = params;
+    this.updateState(params);
     return true;
+  }
+
+  private updateState(params: ButtonCellRendererParams): void {
+    this.params = params;
+    this.icon.set(params.icon ?? null);
+    this.label.set(params.label ?? null);
+    this.title.set(params.title ?? null);
+    this.clicked.set(params.clicked ?? ButtonCellRendererComponent.EMPTY_CALLBACK);
   }
 }
 
+export type OnRendererClickCallback = (params: ICellRendererParams) => void;
+
 export interface ButtonCellRendererParams extends ICellRendererParams {
-  icon?: string,
-  label?: string,
-  title?: string,
-  clicked: (params: ICellRendererParams) => {}
+  icon?: string;
+  label?: string;
+  title?: string;
+  clicked: OnRendererClickCallback;
 }

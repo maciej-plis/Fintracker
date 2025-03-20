@@ -1,23 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ValidationCellRenderer } from './validation-cell-renderer.component';
 
-describe('ValidationCellRendererComponent', () => {
-  let component: ValidationCellRenderer;
-  let fixture: ComponentFixture<ValidationCellRenderer>;
+import { MockBuilder, MockRender } from 'ng-mocks';
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ValidationCellRenderer]
-    })
-      .compileComponents();
+describe('ValidationCellRenderer', () => {
 
-    fixture = TestBed.createComponent(ValidationCellRenderer);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => MockBuilder(ValidationCellRenderer));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(ValidationCellRenderer);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });

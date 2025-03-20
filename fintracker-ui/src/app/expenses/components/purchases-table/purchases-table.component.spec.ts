@@ -1,21 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PurchasesTableComponent } from './purchases-table.component';
 
+import { MockBuilder, MockRender } from 'ng-mocks';
+import { PurchaseSummariesApi, ShopsApi } from '@core/api';
+
 describe('PurchasesTableComponent', () => {
-  let component: PurchasesTableComponent;
-  let fixture: ComponentFixture<PurchasesTableComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [PurchasesTableComponent]
-    });
-    fixture = TestBed.createComponent(PurchasesTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => MockBuilder(PurchasesTableComponent)
+    .mock(PurchaseSummariesApi)
+    .mock(ShopsApi));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(PurchasesTableComponent);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });

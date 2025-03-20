@@ -1,21 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SidebarComponent } from './sidebar.component';
 
+import { MockBuilder, MockRender } from 'ng-mocks';
+
 describe('SidebarComponent', () => {
-  let component: SidebarComponent;
-  let fixture: ComponentFixture<SidebarComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [SidebarComponent]
-    });
-    fixture = TestBed.createComponent(SidebarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => MockBuilder(SidebarComponent));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(SidebarComponent);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });

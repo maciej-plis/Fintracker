@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { ColDef, GridApi, GridOptions, GridReadyEvent, ITextFilterParams } from 'ag-grid-community';
 import { TableDatePickerComponent } from '@shared/components/table-date-picker/table-date-picker.component';
 import { AutoCompleteCellEditor } from '@shared/components/auto-complete-cell-editor/auto-complete-cell-editor.component';
@@ -72,8 +72,6 @@ export class TableComponent {
 
   public readonly header = input.required<string>();
   public readonly gridOptions = input.required<GridOptions>();
-
-  public readonly onGridReady = output<GridReadyEvent>();
 
   public isReady: boolean = false;
   public api?: GridApi;

@@ -25,7 +25,7 @@ export class AutoCompleteCellEditor implements ICellEditorAngularComp {
 
   protected readonly agGridOverlayOptions = agGridOverlayOptions;
 
-  protected params: AutoCompleteCellEditorParams;
+  protected params?: AutoCompleteCellEditorParams;
   protected value: any;
 
   protected filterSubject = new BehaviorSubject('');
@@ -34,8 +34,8 @@ export class AutoCompleteCellEditor implements ICellEditorAngularComp {
 
   public agInit(params: AutoCompleteCellEditorParams): void {
     this.params = params;
-    this.initializeValueBasedOnEventKey();
-    this.initializeSuggestionsFilter();
+    this.initializeValueBasedOnEventKey(params);
+    this.initializeSuggestionsFilter(params);
   }
 
   public setValue(value: any) {
@@ -46,8 +46,8 @@ export class AutoCompleteCellEditor implements ICellEditorAngularComp {
     return this.value;
   }
 
-  private initializeValueBasedOnEventKey() {
-    const {eventKey, value} = this.params;
+  private initializeValueBasedOnEventKey(params: AutoCompleteCellEditorParams) {
+    const {eventKey, value} = params;
     if (!eventKey || eventKey == 'Enter') {
       this.value = value;
     } else if (eventKey?.match(/^[a-zA-Z]$/)) {
@@ -57,9 +57,9 @@ export class AutoCompleteCellEditor implements ICellEditorAngularComp {
     }
   }
 
-  private initializeSuggestionsFilter() {
+  private initializeSuggestionsFilter(params: AutoCompleteCellEditorParams) {
     this.filteredSuggestions$ = this.filter$.pipe(
-      switchMap(filter => this.params.suggestionsFunc(filter))
+      switchMap(filter => params.suggestionsFunc(filter))
     );
   }
 }

@@ -24,7 +24,7 @@ import { CalendarValueAccessorDirective } from '@shared/directives';
 })
 export class CalendarComponent {
 
-  protected readonly ngControl = inject(NgControl, {self: true});
+  protected readonly ngControl = inject(NgControl);
   protected readonly valueAccessor = inject(CalendarValueAccessorDirective);
 
   public readonly displayFormat = input.required<string>();

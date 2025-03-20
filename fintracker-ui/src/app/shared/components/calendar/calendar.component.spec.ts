@@ -1,23 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CalendarComponent } from './calendar.component';
 
+import { MockBuilder, MockRender } from 'ng-mocks';
+import { NgControl } from '@angular/forms';
+import { CalendarValueAccessorDirective } from '@shared/directives';
+
 describe('CalendarComponent', () => {
-  let component: CalendarComponent;
-  let fixture: ComponentFixture<CalendarComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [CalendarComponent]
-    })
-      .compileComponents();
+  beforeEach(() => MockBuilder(CalendarComponent)
+    .keep(CalendarValueAccessorDirective)
+    .mock(NgControl));
 
-    fixture = TestBed.createComponent(CalendarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(CalendarComponent, {displayFormat: 'd MM yy', modelFormat: 'yyyy-MM-dd'});
+    expect(fixture.componentInstance).toBeDefined();
   });
 });

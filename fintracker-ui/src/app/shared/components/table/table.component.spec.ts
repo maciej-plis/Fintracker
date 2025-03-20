@@ -1,21 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TableComponent } from './table.component';
 
+import { MockBuilder, MockRender } from 'ng-mocks';
+
 describe('TableComponent', () => {
-  let component: TableComponent;
-  let fixture: ComponentFixture<TableComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [TableComponent]
-    });
-    fixture = TestBed.createComponent(TableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => MockBuilder(TableComponent));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(TableComponent, {header: 'Table', gridOptions: {}});
+    expect(fixture.componentInstance).toBeDefined();
   });
 });

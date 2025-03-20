@@ -105,12 +105,14 @@ describe('AddCategoryDialog', () => {
     ngMocks.find('form').triggerEventHandler('ngSubmit');
     fixture.detectChanges();
 
-    expect(ngMocks.input('form', 'disableForm')).toEqual(true);
+    expect(ngMocks.find('input').nativeElement.disabled).toEqual(true);
+    expect(ngMocks.find('button[type="submit"]').nativeElement.disabled).toEqual(true);
 
     saveCategoryResponse.next({} as CategoryDTO);
     fixture.detectChanges();
 
-    expect(ngMocks.input('form', 'disableForm')).toEqual(false);
+    expect(ngMocks.find('input').nativeElement.disabled).toEqual(false);
+    expect(ngMocks.find('button[type="submit"]').nativeElement.disabled).toEqual(false);
   });
 
   it('Should not close dialog when submit fails', () => {

@@ -1,21 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AddPurchaseView } from 'src/app/expenses/views/add-purchase/add-purchase.view';
+import { MockBuilder, MockRender } from 'ng-mocks';
+import { AsyncPipe } from '@angular/common';
+import { PurchasesApi } from '@core/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
-describe('AddPurchaseComponent', () => {
-  let component: AddPurchaseView;
-  let fixture: ComponentFixture<AddPurchaseView>;
+describe('AddPurchaseView', () => {
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [AddPurchaseView]
-    });
-    fixture = TestBed.createComponent(AddPurchaseView);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => MockBuilder(AddPurchaseView)
+    .keep(AsyncPipe)
+    .mock(PurchasesApi)
+    .mock(MessageService)
+    .mock(ConfirmationService));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(AddPurchaseView);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });

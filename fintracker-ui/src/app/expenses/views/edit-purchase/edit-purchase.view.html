@@ -10,7 +10,7 @@
       }
     </div>
   </ng-template>
-  <app-purchase-form [purchase]="purchase | async"
+  <app-purchase-form [purchase]="purchase()"
                      (submitted)="onSubmitted($event)"
                      (cancelled)="onCancelled()"
                      (pristine)="formPristine.set($event)"/>

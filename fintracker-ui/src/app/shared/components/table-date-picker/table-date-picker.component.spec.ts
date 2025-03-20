@@ -1,21 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TableDatePickerComponent } from './table-date-picker.component';
 
+import { MockBuilder, MockRender } from 'ng-mocks';
+
 describe('TableDatePickerComponent', () => {
-  let component: TableDatePickerComponent;
-  let fixture: ComponentFixture<TableDatePickerComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [TableDatePickerComponent]
-    });
-    fixture = TestBed.createComponent(TableDatePickerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => MockBuilder(TableDatePickerComponent));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(TableDatePickerComponent);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });
+

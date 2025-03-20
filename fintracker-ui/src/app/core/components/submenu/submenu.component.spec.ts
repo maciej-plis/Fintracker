@@ -1,21 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SubmenuComponent } from './submenu.component';
 
+import { MockBuilder, MockRender } from 'ng-mocks';
+
 describe('SubmenuComponent', () => {
-  let component: SubmenuComponent;
-  let fixture: ComponentFixture<SubmenuComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [SubmenuComponent]
-    });
-    fixture = TestBed.createComponent(SubmenuComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => MockBuilder(SubmenuComponent));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(SubmenuComponent);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });

@@ -1,13 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { PurchaseDTO, PurchasesApi } from '@core/api';
-import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable, switchMap } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { fromPromise } from 'rxjs/internal/observable/innerFrom';
-import { AsyncPipe } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { PurchaseFormComponent } from 'src/app/expenses/components';
+import { injectParams } from 'ngxtension/inject-params';
+import { derivedAsync } from 'ngxtension/derived-async';
 
 @Component({
   standalone: true,
@@ -15,7 +16,6 @@ import { PurchaseFormComponent } from 'src/app/expenses/components';
   templateUrl: './edit-purchase.view.html',
   styleUrls: ['./edit-purchase.view.scss'],
   imports: [
-    AsyncPipe,
     CardModule,
     TagModule,
     PurchaseFormComponent
@@ -23,14 +23,13 @@ import { PurchaseFormComponent } from 'src/app/expenses/components';
 })
 export class EditPurchaseView {
 
-  private readonly routeParams = inject(ActivatedRoute).params;
   private readonly purchasesApi = inject(PurchasesApi);
   private readonly messageService = inject(MessageService);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly router = inject(Router);
 
-  protected readonly purchaseId = this.routeParams.pipe(map(params => params['purchaseId'] as string));
-  protected readonly purchase = this.purchaseId.pipe(switchMap(purchaseId => this.purchasesApi.getPurchase(purchaseId)));
+  protected readonly purchaseId = injectParams(params => params['purchaseId'] ?? '');
+  protected readonly purchase = derivedAsync(() => this.purchasesApi.getPurchase(this.purchaseId()));
 
   protected readonly formPristine = signal(true);
 
@@ -62,22 +61,20 @@ export class EditPurchaseView {
   }
 
   private updatePurchase(purchase: PurchaseDTO) {
-    this.purchaseId.pipe(
-      switchMap(purchaseId => this.purchasesApi.updatePurchase(purchaseId, {
-        date: purchase.date,
-        shopId: purchase.shop.id,
-        products: purchase.products.map(product => ({
-          id: product.id,
-          categoryId: product.category.id,
-          name: product.name,
-          amount: product.amount,
-          price: product.price,
-          description: product.description
-        }))
+    this.purchasesApi.updatePurchase(this.purchaseId(), {
+      date: purchase.date,
+      shopId: purchase.shop.id,
+      products: purchase.products.map(product => ({
+        id: product.id,
+        categoryId: product.category.id,
+        name: product.name,
+        amount: product.amount,
+        price: product.price,
+        description: product.description
       }))
-    ).subscribe(() => {
+    }).subscribe(() => {
       this.messageService.add({severity: 'info', summary: 'Success', detail: 'Purchase updated successfully.'});
-    });
+    })
   }
 
   private navigateBackToPurchasesScreen(): Observable<boolean> {

@@ -1,21 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ActionCellEditor } from './action-cell-editor.component';
 
-describe('ButtonCellEditorComponent', () => {
-  let component: ActionCellEditor;
-  let fixture: ComponentFixture<ActionCellEditor>;
+import { MockBuilder, MockRender } from 'ng-mocks';
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [ActionCellEditor]
-    });
-    fixture = TestBed.createComponent(ActionCellEditor);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+describe('ActionCellEditor', () => {
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  beforeEach(() => MockBuilder(ActionCellEditor));
+
+  it('Should create', () => {
+    const fixture = MockRender(ActionCellEditor);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, Input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { ProductDTO, PurchaseDTO, ShopDTO } from '@core/api';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { startsWithIgnoreCase } from '@shared/utils/string.utils';
@@ -32,10 +32,7 @@ export class PurchaseFormComponent {
 
   private static readonly ADD_SHOP_ITEM_OPTION: ShopDTO = {id: '', name: '(Add Item)'};
 
-  @Input()
-  public set purchase(purchase: PurchaseDTO | null) {
-    if (purchase) this.purchaseControlGroup.reset(purchase);
-  }
+  public readonly purchase = input<PurchaseDTO | undefined | null>(null);
 
   protected readonly submitted = output<PurchaseDTO>();
   protected readonly cancelled = output<void>();
@@ -63,6 +60,11 @@ export class PurchaseFormComponent {
   });
 
   constructor() {
+    effect(() => {
+      const purchase = this.purchase();
+      purchase && this.purchaseControlGroup.reset(purchase);
+    }, {allowSignalWrites: true});
+
     this.purchaseControlGroup.statusChanges.pipe(
       startWith(null)
     ).subscribe(() => {

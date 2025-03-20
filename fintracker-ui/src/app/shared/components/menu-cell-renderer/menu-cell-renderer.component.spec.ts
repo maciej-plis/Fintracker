@@ -1,23 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockBuilder, MockRender } from 'ng-mocks';
+import { MenuCellRenderer } from '@shared/components/menu-cell-renderer/menu-cell-renderer.component';
 
-import { MenuCellRenderer } from './menu-cell-renderer.component';
+describe('MenuCellRenderer', () => {
 
-describe('MenuCellRendererComponent', () => {
-  let component: MenuCellRenderer;
-  let fixture: ComponentFixture<MenuCellRenderer>;
+  beforeEach(() => MockBuilder(MenuCellRenderer));
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [MenuCellRenderer]
-    })
-      .compileComponents();
-
-    fixture = TestBed.createComponent(MenuCellRenderer);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(MenuCellRenderer);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });
+

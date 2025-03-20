@@ -1,21 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockBuilder, MockRender } from 'ng-mocks';
+import { ProductsInputTableComponent } from 'src/app/expenses/components/products-table/products-input-table.component';
+import { CategoriesService } from 'src/app/expenses/services';
+import { ProductsApi } from '@core/api';
+import { DialogService } from 'primeng/dynamicdialog';
 
-import { ProductsInputTableComponent } from './products-input-table.component';
+describe('ProductsInputTableComponent', () => {
 
-describe('ProductsTableComponent', () => {
-  let component: ProductsInputTableComponent;
-  let fixture: ComponentFixture<ProductsInputTableComponent>;
+  beforeEach(() => MockBuilder(ProductsInputTableComponent)
+    .mock(CategoriesService)
+    .mock(ProductsApi)
+    .mock(DialogService));
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProductsInputTableComponent]
-    });
-    fixture = TestBed.createComponent(ProductsInputTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(ProductsInputTableComponent);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });

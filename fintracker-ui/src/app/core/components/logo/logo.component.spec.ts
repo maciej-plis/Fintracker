@@ -1,21 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { LogoComponent } from './logo.component';
 
+import { MockBuilder, MockRender } from 'ng-mocks';
+
 describe('LogoComponent', () => {
-  let component: LogoComponent;
-  let fixture: ComponentFixture<LogoComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [LogoComponent]
-    });
-    fixture = TestBed.createComponent(LogoComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => MockBuilder(LogoComponent));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(LogoComponent);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });
+

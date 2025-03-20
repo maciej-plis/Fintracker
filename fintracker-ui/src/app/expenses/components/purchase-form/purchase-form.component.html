@@ -36,7 +36,7 @@
     </div>
   </div>
   <app-products-input-table id="products"
-                            formControlName="products"/>
+                            [formControl]="productsControl"/>
   <div class="row controls">
     <p-button (onClick)="onCancelBtnClick()" label="Cancel" styleClass="p-button-danger"/>
     <p-button type="submit" label="Save & Exit"/>

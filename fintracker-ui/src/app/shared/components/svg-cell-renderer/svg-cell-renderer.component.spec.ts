@@ -1,23 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockBuilder, MockRender } from 'ng-mocks';
+import { SvgCellRenderer } from '@shared/components';
 
-import { SvgCellRenderer } from './svg-cell-renderer.component';
+describe('SvgCellRenderer', () => {
 
-describe('SvgCellRendererComponent', () => {
-  let component: SvgCellRenderer;
-  let fixture: ComponentFixture<SvgCellRenderer>;
+  beforeEach(() => MockBuilder(SvgCellRenderer));
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [SvgCellRenderer]
-    })
-      .compileComponents();
-
-    fixture = TestBed.createComponent(SvgCellRenderer);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(SvgCellRenderer);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });

@@ -1,21 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TopbarComponent } from './topbar.component';
 
+import { MockBuilder, MockRender } from 'ng-mocks';
+
 describe('TopbarComponent', () => {
-  let component: TopbarComponent;
-  let fixture: ComponentFixture<TopbarComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [TopbarComponent]
-    });
-    fixture = TestBed.createComponent(TopbarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => MockBuilder(TopbarComponent));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(TopbarComponent);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });

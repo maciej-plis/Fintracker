@@ -1,21 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbComponent } from './breadcrumb.component';
 
+import { MockBuilder, MockRender } from 'ng-mocks';
+import { EMPTY } from 'rxjs';
+
 describe('BreadcrumbComponent', () => {
-  let component: BreadcrumbComponent;
-  let fixture: ComponentFixture<BreadcrumbComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [BreadcrumbComponent]
-    });
-    fixture = TestBed.createComponent(BreadcrumbComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => MockBuilder(BreadcrumbComponent)
+    .mock(ActivatedRoute)
+    .provide({
+      provide: Router,
+      useValue: {
+        events: EMPTY
+      }
+    }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(BreadcrumbComponent);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });

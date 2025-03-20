@@ -1,21 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ButtonCellRendererComponent } from './button-cell-renderer.component';
 
+import { MockBuilder, MockRender } from 'ng-mocks';
+
 describe('ButtonCellRendererComponent', () => {
-  let component: ButtonCellRendererComponent;
-  let fixture: ComponentFixture<ButtonCellRendererComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [ButtonCellRendererComponent]
-    });
-    fixture = TestBed.createComponent(ButtonCellRendererComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => MockBuilder(ButtonCellRendererComponent));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(ButtonCellRendererComponent);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });

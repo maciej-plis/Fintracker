@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { DashboardView } from './views';
 import { PurchasesView } from 'src/app/expenses/views/purchases/purchases.view';
 import { AddPurchaseView } from 'src/app/expenses/views/add-purchase/add-purchase.view';
 import { EditPurchaseView } from 'src/app/expenses/views/edit-purchase/edit-purchase.view';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'purchases',
     data: {
@@ -63,10 +62,3 @@ const routes: Routes = [
     redirectTo: 'dashboard'
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-export class ExpensesRoutingModule {
-}

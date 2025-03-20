@@ -2,15 +2,16 @@
   <ng-template pTemplate="header">
     <div class="p-card-title">
       <span>Edit Purchase</span>
-      <p-tag *ngIf="!formPristine()">
-        <i class="pi pi-save p-tag-icon"></i>
-        <span>Unsaved Changes</span>
-      </p-tag>
+      @if (!formPristine()) {
+        <p-tag>
+          <i class="pi pi-save p-tag-icon"></i>
+          <span>Unsaved Changes</span>
+        </p-tag>
+      }
     </div>
   </ng-template>
   <app-purchase-form [purchase]="purchase | async"
                      (submitted)="onSubmitted($event)"
                      (cancelled)="onCancelled()"
-                     (pristine)="formPristine.set($event)">
-  </app-purchase-form>
+                     (pristine)="formPristine.set($event)"/>
 </p-card>

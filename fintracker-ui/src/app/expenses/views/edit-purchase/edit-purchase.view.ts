@@ -4,11 +4,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, switchMap } from 'rxjs';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { fromPromise } from 'rxjs/internal/observable/innerFrom';
+import { AsyncPipe } from '@angular/common';
+import { CardModule } from 'primeng/card';
+import { TagModule } from 'primeng/tag';
+import { PurchaseFormComponent } from 'src/app/expenses/components';
 
 @Component({
+  standalone: true,
   selector: 'app-edit-purchase',
   templateUrl: './edit-purchase.view.html',
-  styleUrls: ['./edit-purchase.view.scss']
+  styleUrls: ['./edit-purchase.view.scss'],
+  imports: [
+    AsyncPipe,
+    CardModule,
+    TagModule,
+    PurchaseFormComponent
+  ]
 })
 export class EditPurchaseView {
 

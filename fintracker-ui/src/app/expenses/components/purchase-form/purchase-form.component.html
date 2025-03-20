@@ -15,30 +15,31 @@
                         [minLength]="0"
                         [suggestions]="filteredShops$()"
                         (completeMethod)="shopFilter$.set($event.query)"
-                        (onSelect)="onShopSelection($event)">
-        </p-autoComplete>
+                        (onSelect)="onShopSelection($event)"/>
         <label for="shop">Purchase Shop</label>
       </span>
-      <small *ngIf="shopControl.dirty && !shopControl.valid" class="p-error">Invalid shop value</small>
+      @if (shopControl.dirty && !shopControl.valid) {
+        <small class="p-error">Invalid shop value</small>
+      }
     </div>
     <div>
         <span class="p-float-label">
           <app-calendar id="date"
                         formControlName="date"
                         displayFormat="d MM yy"
-                        modelFormat="yyyy-MM-dd'">
-          </app-calendar>
+                        modelFormat="yyyy-MM-dd'"/>
           <label for="date">Purchase Date</label>
       </span>
-      <small *ngIf="dateControl.dirty && !dateControl.valid" class="p-error">Invalid date value</small>
+      @if (dateControl.dirty && !dateControl.valid) {
+        <small class="p-error">Invalid date value</small>
+      }
     </div>
   </div>
   <app-products-input-table id="products"
-                            formControlName="products">
-  </app-products-input-table>
+                            formControlName="products"/>
   <div class="row controls">
-    <p-button (onClick)="onCancelBtnClick()" label="Cancel" styleClass="p-button-danger"></p-button>
-    <p-button type="submit" label="Save & Exit"></p-button>
+    <p-button (onClick)="onCancelBtnClick()" label="Cancel" styleClass="p-button-danger"/>
+    <p-button type="submit" label="Save & Exit"/>
   </div>
 </form>
 

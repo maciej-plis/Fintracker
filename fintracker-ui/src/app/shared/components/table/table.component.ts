@@ -4,12 +4,29 @@ import { TableDatePickerComponent } from '@shared/components/table-date-picker/t
 import { AutoCompleteCellEditor } from '@shared/components/auto-complete-cell-editor/auto-complete-cell-editor.component';
 import { form, numerator } from '@shared/components/table/grid-definitions/column-types';
 import { currency } from '@shared/components/table/grid-definitions/data-types';
+import { AgGridModule } from 'ag-grid-angular';
+import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AutoFocusModule } from 'primeng/autofocus';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @Component({
+  standalone: true,
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    AgGridModule,
+    AgGridModule,
+    ButtonModule,
+    CalendarModule,
+    FormsModule,
+    AutoFocusModule,
+    AutoCompleteModule,
+    ReactiveFormsModule
+  ]
 })
 export class TableComponent {
 

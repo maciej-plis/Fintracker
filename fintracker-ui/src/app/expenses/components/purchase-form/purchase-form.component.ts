@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, Input, output, signal } from '@angular/core';
 import { ProductDTO, PurchaseDTO, ShopDTO } from '@core/api';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { startsWithIgnoreCase } from '@shared/utils/string.utils';
-import { AutoCompleteSelectEvent } from 'primeng/autocomplete';
+import { AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { ShopsService } from 'src/app/expenses/services';
 import { markFormAsDirty } from '@shared/utils/form.utils';
 import { v4 as randomUUID } from 'uuid';
@@ -10,12 +10,23 @@ import { startWith } from 'rxjs';
 import { DialogService } from '@shared/services';
 import { AddShopDialog } from 'src/app/expenses/dialogs';
 import { AddShopDialogData } from 'src/app/expenses/dialogs/add-shop/add-shop.dialog';
+import { CalendarComponent } from '@shared/components/calendar/calendar.component';
+import { ProductsInputTableComponent } from 'src/app/expenses/components/products-table/products-input-table.component';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
+  standalone: true,
   selector: 'app-purchase-form',
   templateUrl: './purchase-form.component.html',
   styleUrls: ['./purchase-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule,
+    AutoCompleteModule,
+    CalendarComponent,
+    ProductsInputTableComponent,
+    ButtonModule
+  ]
 })
 export class PurchaseFormComponent {
 

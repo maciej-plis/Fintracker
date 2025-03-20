@@ -10,7 +10,7 @@ const routes: Routes = [
         disableRoute: true
       }
     },
-    loadChildren: () => import('./expenses/expenses.module').then(m => m.ExpensesModule)
+    loadChildren: () => import('src/app/expenses/expenses.routes').then(r => r.routes)
   },
   {
     path: '**',

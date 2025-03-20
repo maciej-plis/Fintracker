@@ -2,14 +2,18 @@ import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/
 import { IRowNode } from 'ag-grid-community';
 import { PurchaseDTO, PurchasesApi } from '@core/api';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { PurchasesTableComponent } from '../../components/purchases-table/purchases-table.component';
+import { PurchasesTableComponent } from 'src/app/expenses/components';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
+  standalone: true,
   selector: 'app-purchases',
   templateUrl: './purchases.view.html',
   styleUrls: ['./purchases.view.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    PurchasesTableComponent
+  ]
 })
 export class PurchasesView {
 

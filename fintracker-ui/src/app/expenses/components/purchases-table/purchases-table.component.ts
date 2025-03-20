@@ -7,11 +7,17 @@ import { ButtonCellRendererComponent, ButtonCellRendererParams } from '@shared/c
 import { ServerSideDatasource } from '@shared/components/table/model/ServerSideDatasource';
 import { nonNullableDateFilterOptions, nonNullableNumberFilterOptions } from '@shared/constants/table-filters.constants';
 import { TableComponent } from '@shared/components/table/table.component';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
+  standalone: true,
   selector: 'app-purchases-table',
   templateUrl: './purchases-table.component.html',
-  styleUrls: ['./purchases-table.component.scss']
+  styleUrls: ['./purchases-table.component.scss'],
+  imports: [
+    TableComponent,
+    ButtonModule
+  ]
 })
 export class PurchasesTableComponent {
 

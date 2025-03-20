@@ -4,11 +4,20 @@ import { Observable } from 'rxjs';
 import { fromPromise } from 'rxjs/internal/observable/innerFrom';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { CardModule } from 'primeng/card';
+import { TagModule } from 'primeng/tag';
+import { PurchaseFormComponent } from 'src/app/expenses/components';
 
 @Component({
+  standalone: true,
   selector: 'app-add-purchase',
   templateUrl: './add-purchase.view.html',
-  styleUrls: ['./add-purchase.view.scss']
+  styleUrls: ['./add-purchase.view.scss'],
+  imports: [
+    CardModule,
+    TagModule,
+    PurchaseFormComponent
+  ]
 })
 export class AddPurchaseView {
 

@@ -13,7 +13,6 @@ import { SubmenuComponent } from './components/submenu/submenu.component';
 import { RippleModule } from 'primeng/ripple';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
-import { SharedModule } from '@shared/shared.module';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { ApiModule, Configuration } from '@core/api';
 import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
@@ -46,7 +45,6 @@ const sprites = [
     HttpClientModule,
     HttpClientXsrfModule.withOptions({cookieName: 'XSRF-TOKEN'}),
     ApiModule.forRoot(() => new Configuration({basePath: '', withCredentials: true})),
-    SharedModule,
     MenuModule,
     RippleModule,
     ToolbarModule,

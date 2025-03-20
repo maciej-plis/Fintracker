@@ -40,11 +40,15 @@ export interface ProductsInputTableContext {
 }
 
 @Component({
+  standalone: true,
   selector: 'app-products-input-table',
   templateUrl: './products-input-table.component.html',
   styleUrls: ['./products-input-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [PRODUCTS_INPUT_TABLE_VALUE_ACCESSOR, PRODUCTS_INPUT_TABLE_VALUE_VALIDATOR]
+  providers: [PRODUCTS_INPUT_TABLE_VALUE_ACCESSOR, PRODUCTS_INPUT_TABLE_VALUE_VALIDATOR],
+  imports: [
+    TableComponent
+  ]
 })
 export class ProductsInputTableComponent implements ControlValueAccessor, Validator {
 

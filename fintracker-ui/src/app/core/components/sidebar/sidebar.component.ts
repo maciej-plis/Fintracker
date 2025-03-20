@@ -1,12 +1,25 @@
 import { ChangeDetectionStrategy, Component, effect, ElementRef, HostListener, inject } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
+import { LogoComponent } from '@core/components/logo/logo.component';
+import { LogoSmallComponent } from '@core/components/logo-small/logo-small.component';
+import { NgClass } from '@angular/common';
+import { MenuComponent } from '@core/components/menu/menu.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
+  standalone: true,
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    LogoComponent,
+    LogoSmallComponent,
+    NgClass,
+    MenuComponent,
+    RouterLink
+  ]
 })
 export class SidebarComponent {
 

@@ -1,12 +1,18 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter, map, Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    RouterLink,
+    AsyncPipe
+  ]
 })
 export class BreadcrumbComponent implements OnInit {
 

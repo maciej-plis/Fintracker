@@ -1,12 +1,22 @@
 import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { NgClass } from '@angular/common';
+import { RippleModule } from 'primeng/ripple';
 
 @Component({
+  standalone: true,
   selector: 'app-submenu',
   templateUrl: './submenu.component.html',
   styleUrls: ['./submenu.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    NgClass,
+    RippleModule
+  ]
 })
 export class SubmenuComponent {
 

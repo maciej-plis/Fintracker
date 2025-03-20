@@ -1,6 +1,12 @@
 <ul class="menu">
-  <li *ngFor="let menuItem of menuItems" class="menu__item">
-    <div *ngIf="menuItem.label" class="menu__item-header">{{ menuItem.label }}</div>
-    <app-submenu *ngIf="menuItem.items" [menuItems]="menuItem.items!" class="submenu__children"></app-submenu>
-  </li>
+  @for (menuItem of menuItems; track menuItem.id) {
+    <li class="menu__item">
+      @if (menuItem.label) {
+        <div class="menu__item-header">{{ menuItem.label }}</div>
+      }
+      @if (menuItem.items) {
+        <app-submenu [menuItems]="menuItem.items" class="submenu__children"/>
+      }
+    </li>
+  }
 </ul>

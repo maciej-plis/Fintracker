@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { SubmenuComponent } from '@core/components/submenu/submenu.component';
 
@@ -14,6 +14,5 @@ import { SubmenuComponent } from '@core/components/submenu/submenu.component';
 })
 export class MenuComponent {
 
-  @Input()
-  public menuItems: MenuItem[];
+  public readonly menuItems = input.required<MenuItem[]>();
 }

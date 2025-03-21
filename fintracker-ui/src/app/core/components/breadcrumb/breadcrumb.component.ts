@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
-import { filter, map, Observable } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { filter, map } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -10,8 +9,7 @@ import { AsyncPipe } from '@angular/common';
   styleUrls: ['./breadcrumb.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    RouterLink,
-    AsyncPipe
+    RouterLink
   ]
 })
 export class BreadcrumbComponent implements OnInit {
@@ -19,13 +17,13 @@ export class BreadcrumbComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
-  public breadcrumbs: Observable<Breadcrumb[]>;
+  public breadcrumbs = signal<Breadcrumb[]>([]);
 
   public ngOnInit(): void {
-    this.breadcrumbs = this.router.events.pipe(
+    this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(() => this.createBreadcrumbs(this.route))
-    );
+    ).subscribe(breadcrumbs => this.breadcrumbs.set(breadcrumbs));
   }
 
   private createBreadcrumbs(route: ActivatedRoute, url: string = '/', breadcrumbs: Breadcrumb[] = []): Breadcrumb[] {

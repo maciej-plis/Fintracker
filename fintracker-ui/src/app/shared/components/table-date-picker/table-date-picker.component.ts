@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { IDateParams } from 'ag-grid-community';
 import { IDateAngularComp } from 'ag-grid-angular';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ import { AutoFocusModule } from 'primeng/autofocus';
   standalone: true,
   selector: 'app-table-date-picker',
   templateUrl: './table-date-picker.component.html',
-  styleUrls: ['./table-date-picker.component.scss'],
+  styleUrls: [ './table-date-picker.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CalendarModule,
@@ -19,30 +19,26 @@ import { AutoFocusModule } from 'primeng/autofocus';
 })
 export class TableDatePickerComponent implements IDateAngularComp {
 
-  protected params: IDateParams;
-  protected date: Date | null;
+  private static readonly EMPTY_CALLBACK: OnDateChangedCallback = () => void 0;
+
+  protected onDateChanged = signal<OnDateChangedCallback>(TableDatePickerComponent.EMPTY_CALLBACK);
+  protected date = signal<Date | null>(null);
 
   public agInit(params: IDateParams): void {
-    this.params = params;
+    this.updateState(params);
   }
 
   public getDate(): Date | null {
-    return this.date;
+    return this.date();
   }
 
   public setDate(date: Date | null): void {
-    this.date = date;
+    this.date.set(date);
   }
 
-  protected onSelect() {
-    this.params.onDateChanged();
-  }
-
-  protected onClearClick() {
-    this.params.onDateChanged();
-  }
-
-  protected onInput() {
-    this.params.onDateChanged();
+  private updateState(params: IDateParams): void {
+    this.onDateChanged.set(params.onDateChanged);
   }
 }
+
+export type OnDateChangedCallback = () => void;

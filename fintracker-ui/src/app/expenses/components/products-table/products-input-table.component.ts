@@ -60,7 +60,7 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
 
   private readonly table = viewChild.required(TableComponent);
 
-  public onTouched: Function;
+  public onTouched?: () => {};
 
   public validate(): ValidationErrors | null {
     return this.formArray.valid ? null : {'invalidData': true};
@@ -75,11 +75,11 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
     this.refreshTableData();
   }
 
-  public registerOnChange(callback: Function): void {
+  public registerOnChange(callback: (value: any) => {}): void {
     this.formArray.valueChanges.subscribe(callback.bind(this));
   }
 
-  public registerOnTouched(callback: Function): void {
+  public registerOnTouched(callback: () => {}): void {
     this.onTouched = callback;
   }
 
@@ -93,7 +93,7 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
     columnDefs: columnDefs,
     pagination: false,
     rowModelType: 'clientSide',
-    rowSelection: undefined,
+    rowSelection: 'single',
     suppressCellFocus: false,
     enableRangeSelection: true,
     suppressMultiRangeSelection: true,

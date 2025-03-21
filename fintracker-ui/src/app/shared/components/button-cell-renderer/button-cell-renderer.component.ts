@@ -7,7 +7,7 @@ import { ButtonModule } from 'primeng/button';
   standalone: true,
   selector: 'app-button-cell-renderer',
   templateUrl: './button-cell-renderer.component.html',
-  styleUrls: ['./button-cell-renderer.component.scss'],
+  styleUrls: [ './button-cell-renderer.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ButtonModule
@@ -15,7 +15,7 @@ import { ButtonModule } from 'primeng/button';
 })
 export class ButtonCellRendererComponent implements ICellRendererAngularComp {
 
-  private static readonly EMPTY_CALLBACK = (_: ICellRendererParams) => void 0;
+  private static readonly EMPTY_CALLBACK: OnRendererClickCallback = (_: ICellRendererParams) => void 0;
 
   protected readonly icon = signal<string | null>(null);
   protected readonly label = signal<string | null>(null);

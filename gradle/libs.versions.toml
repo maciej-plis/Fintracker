@@ -6,9 +6,8 @@ springBoot = "3.+"
 
 # Plugins
 springDependencyManagementPlugin = "1.+"
-openApiGeneratorPlugin = "7.+"
+openApiGeneratorPlugin = "7.12.0"
 dockerSpringPlugin = "9.+"
-gitProperties = "2.+"
 nodePlugin = "7.+"
 
 # Implementation
@@ -65,5 +64,5 @@ springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }
 springDependencyManagement = { id = "io.spring.dependency-management", version.ref = "springDependencyManagementPlugin" }
 openApiGenerator = { id = "org.openapi.generator", version.ref = "openApiGeneratorPlugin" }
 dockerSpring = { id = "com.bmuschko.docker-spring-boot-application", version.ref = "dockerSpringPlugin" }
-gitProperties = { id = "com.gorylenko.gradle-git-properties", version.ref = "gitProperties" }
+gitProperties = { id = "com.gorylenko.gradle-git-properties", version = "2.4.2" }
 node = { id = "com.github.node-gradle.node", version.ref = "nodePlugin" }

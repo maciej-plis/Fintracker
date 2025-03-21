@@ -3,7 +3,7 @@ import { IRowNode } from 'ag-grid-community';
 import { PurchaseDTO, PurchasesApi } from '@core/api';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { PurchasesTableComponent } from 'src/app/expenses/components';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -22,7 +22,6 @@ export class PurchasesView {
   private readonly messageService = inject(MessageService);
 
   private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
 
   private purchasesTable = viewChild.required(PurchasesTableComponent);
 

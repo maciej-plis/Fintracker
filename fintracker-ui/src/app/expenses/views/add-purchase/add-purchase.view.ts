@@ -65,7 +65,7 @@ export class AddPurchaseView {
         name: product.name,
         amount: product.amount,
         price: product.price,
-        description: product.description
+        description: product.description ?? ''
       }))
     }).subscribe(() => {
       this.messageService.add({severity: 'info', summary: 'Success', detail: 'Purchase saved successfully.'});

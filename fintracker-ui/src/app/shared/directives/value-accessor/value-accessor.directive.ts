@@ -4,16 +4,16 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 @Directive({
   standalone: true,
   selector: '[appValueAccessor]',
-  providers: [{
+  providers: [ {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => ValueAccessorDirective),
     multi: true
-  }]
+  } ]
 })
 export class ValueAccessorDirective<T> implements ControlValueAccessor {
 
-  public onChange: (value: T | null) => {};
-  public onTouched: () => {};
+  protected onChangeFn?: (value: T | null) => {};
+  protected onTouchedFn?: () => {};
 
   public value = signal<T | null>(null);
   public disabled = signal(false);
@@ -28,14 +28,22 @@ export class ValueAccessorDirective<T> implements ControlValueAccessor {
   }
 
   public registerOnChange(onChangeFn: (value: T | null) => {}): void {
-    this.onChange = onChangeFn;
+    this.onChangeFn = onChangeFn;
   }
 
   public registerOnTouched(onTouchedFn: () => {}): void {
-    this.onTouched = onTouchedFn;
+    this.onTouchedFn = onTouchedFn;
   }
 
   public setDisabledState(disabled: boolean): void {
     this.disabled.set(disabled);
+  }
+
+  public onChange(value: T | null): void {
+    this.onChangeFn?.(value);
+  }
+
+  public onTouched(): void {
+    this.onTouchedFn?.();
   }
 }

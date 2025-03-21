@@ -24,7 +24,7 @@ export class AutoCompleteCellEditor implements ICellEditorAngularComp {
   protected readonly agGridOverlayOptions = agGridOverlayOptions;
 
   protected params?: AutoCompleteCellEditorParams;
-  protected value = model<any>();
+  protected value = model.required<any>();
 
   protected filter = signal('', { equal: () => false });
   protected filteredSuggestions = signal<any[]>([]);
@@ -42,17 +42,17 @@ export class AutoCompleteCellEditor implements ICellEditorAngularComp {
   }
 
   public setValue(value: any) {
-    this.value = value;
+    this.value.set(value);
   }
 
   public getValue(): any {
-    return this.value;
+    return this.value();
   }
 
   private initializeValueBasedOnEventKey(params: AutoCompleteCellEditorParams) {
     const { eventKey, value } = params;
     if (!eventKey || eventKey == 'Enter') {
-      this.value = value;
+      this.value.set(value);
     } else if (eventKey?.match(/^[a-zA-Z]$/)) {
       this.value.set(eventKey);
     } else {

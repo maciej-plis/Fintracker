@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -24,8 +24,7 @@ export class SubmenuComponent {
 
   private readonly MENU_ITEM_OPEN_CLASS = 'submenu__item--open';
 
-  @Input()
-  public menuItems: MenuItem[];
+  public readonly menuItems = input<MenuItem[]>();
 
   public activate(menuItem: MenuItem, menuItemEl: HTMLElement) {
     const open = !menuItemEl.classList.contains(this.MENU_ITEM_OPEN_CLASS);

@@ -1,5 +1,5 @@
 <ul class="menu">
-  @for (menuItem of menuItems; track menuItem.id) {
+  @for (menuItem of menuItems(); track menuItem.id) {
     <li class="menu__item">
       @if (menuItem.label) {
         <div class="menu__item-header">{{ menuItem.label }}</div>

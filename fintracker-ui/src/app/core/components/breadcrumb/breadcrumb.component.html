@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-  @for (breadcrumb of breadcrumbs | async; track breadcrumb.label; let isLast = $last) {
+  @for (breadcrumb of breadcrumbs(); track breadcrumb.label; let isLast = $last) {
     <li class="breadcrumb__item"><a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a></li>
     @if (!isLast) {
       <li class="breadcrumb-chevron">/</li>

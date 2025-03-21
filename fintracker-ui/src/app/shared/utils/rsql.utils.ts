@@ -71,7 +71,7 @@ export class RsqlBuilder {
     }
 
     static logic(expressions: ExpressionNode[], operator: LogicOperator): ExpressionNode {
-        if (!expressions.length) throw new Error(`The logic expression builder requires at least one expression but none passed.`);
+      if (!expressions[0]) throw new Error(`The logic expression builder requires at least one expression but none passed.`);
 
         return expressions
             .slice(1)

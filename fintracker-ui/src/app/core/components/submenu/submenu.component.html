@@ -1,5 +1,5 @@
 <ul class="submenu">
-  @for (menuItem of menuItems; track menuItem.id) {
+  @for (menuItem of menuItems(); track menuItem.id) {
     <li #menuItemEl class="submenu__item">
       <a pRipple
          [routerLink]="menuItem.routerLink" routerLinkActive='submenu__item-anchor--active'

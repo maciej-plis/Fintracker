@@ -1,5 +1,5 @@
 <app-table [gridOptions]="gridOptions"
            header="Products"
-           (blur)="onTouched()">
+           (blur)="onTouched?.()">
   <small class="table-error p-error">At least one product is required</small>
 </app-table>

@@ -46,6 +46,6 @@
     "karma-jasmine": "5.1.x",
     "karma-jasmine-html-reporter": "2.1.x",
     "tailwindcss": "3.x",
-    "typescript": "5.3.x"
+    "typescript": "5.4.x"
   }
 }

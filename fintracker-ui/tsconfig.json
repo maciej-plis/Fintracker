@@ -3,36 +3,39 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@core/*": [
-        "src/app/core/*"
-      ],
-      "@shared/*": [
-        "src/app/shared/*"
-      ]
+      "@core/*": ["src/app/core/*"],
+      "@expenses/*": ["src/app/expenses/*"],
+      "@shared/*": ["src/app/shared/*"]
     },
+    //
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "module": "ES2022",
+    "target": "ES2022",
     "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "strictPropertyInitialization": false,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
+    //
     "importHelpers": true,
-    "target": "ES2022",
-    "module": "ES2022",
+    "downlevelIteration": true,
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom",
-      "dom.Iterable"
-    ],
-    "skipLibCheck": true
+    "experimentalDecorators": true,
+    //
+    "strict": true,
+    "strictPropertyInitialization": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "forceConsistentCasingInFileNames": true,
+    //
+    "lib": ["ES2022", "dom", "dom.Iterable"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

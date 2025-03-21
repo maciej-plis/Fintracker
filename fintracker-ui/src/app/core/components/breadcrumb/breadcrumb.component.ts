@@ -3,10 +3,9 @@ import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/rout
 import { filter, map } from 'rxjs';
 
 @Component({
-  standalone: true,
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
-  styleUrls: ['./breadcrumb.component.scss'],
+  styleUrls: [ './breadcrumb.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink

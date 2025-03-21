@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Component({
-  standalone: true,
   selector: 'svg-asset',
   templateUrl: './svg-asset.component.html',
   styleUrl: './svg-asset.component.scss',

@@ -8,7 +8,6 @@ import { AutoFocusModule } from 'primeng/autofocus';
 import { Observable } from 'rxjs';
 
 @Component({
-  standalone: true,
   selector: 'app-autocomplete-cell-editor',
   templateUrl: './auto-complete-cell-editor.component.html',
   styleUrls: [ './auto-complete-cell-editor.component.scss' ],

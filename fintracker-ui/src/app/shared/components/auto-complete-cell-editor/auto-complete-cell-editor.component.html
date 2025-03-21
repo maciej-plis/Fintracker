@@ -2,7 +2,6 @@
                 (keydown)="value() && params?.onKeyDown($event)"
                 (onSelect)="params?.onSelect?.($event, filter(), this.setValue.bind(this))"
                 [(ngModel)]="value"
-                [autofocus]="true"
                 [completeOnFocus]="true"
                 [autoHighlight]="false"
                 [autoOptionFocus]="true"
@@ -13,4 +12,4 @@
                 [optionLabel]="params?.label ?? undefined"
                 [overlayOptions]="agGridOverlayOptions"
                 [suggestions]="filteredSuggestions()"
-                pAutoFocus/>
+                [pAutoFocus]="true"/>

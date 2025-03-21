@@ -6,10 +6,9 @@ import { NgClass } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
 
 @Component({
-  standalone: true,
   selector: 'app-submenu',
   templateUrl: './submenu.component.html',
-  styleUrls: ['./submenu.component.scss'],
+  styleUrls: [ './submenu.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,

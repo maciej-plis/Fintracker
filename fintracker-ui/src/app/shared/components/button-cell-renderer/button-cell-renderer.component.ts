@@ -4,7 +4,6 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
-  standalone: true,
   selector: 'app-button-cell-renderer',
   templateUrl: './button-cell-renderer.component.html',
   styleUrls: [ './button-cell-renderer.component.scss' ],

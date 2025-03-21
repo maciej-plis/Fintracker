@@ -11,10 +11,9 @@ import { injectParams } from 'ngxtension/inject-params';
 import { derivedAsync } from 'ngxtension/derived-async';
 
 @Component({
-  standalone: true,
   selector: 'app-edit-purchase',
   templateUrl: './edit-purchase.view.html',
-  styleUrls: ['./edit-purchase.view.scss'],
+  styleUrls: [ './edit-purchase.view.scss' ],
   imports: [
     CardModule,
     TagModule,

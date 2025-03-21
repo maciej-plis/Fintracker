@@ -6,7 +6,6 @@ import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 
 @Component({
-  standalone: true,
   selector: 'app-menu-cell-renderer',
   templateUrl: './menu-cell-renderer.component.html',
   styleUrl: './menu-cell-renderer.component.scss',

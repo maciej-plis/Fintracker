@@ -9,10 +9,9 @@ import { TagModule } from 'primeng/tag';
 import { PurchaseFormComponent } from 'src/app/expenses/components';
 
 @Component({
-  standalone: true,
   selector: 'app-add-purchase',
   templateUrl: './add-purchase.view.html',
-  styleUrls: ['./add-purchase.view.scss'],
+  styleUrls: [ './add-purchase.view.scss' ],
   imports: [
     CardModule,
     TagModule,

@@ -1,17 +1,16 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { CalendarModule } from 'primeng/calendar';
 import { PaginatorModule } from 'primeng/paginator';
-import { NgControl, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgControl } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { locale } from 'src/app/app.constants';
 import { CalendarValueAccessorDirective } from '@shared/directives';
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
-  standalone: true,
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
-  hostDirectives: [CalendarValueAccessorDirective],
+  hostDirectives: [ CalendarValueAccessorDirective ],
   host: {
     '[class.p-inputwrapper-focus]': 'focused()',
     '[class.p-inputwrapper-filled]': 'valueAccessor.value()'
@@ -19,7 +18,7 @@ import { CalendarValueAccessorDirective } from '@shared/directives';
   imports: [
     CalendarModule,
     PaginatorModule,
-    ReactiveFormsModule
+    FormsModule
   ]
 })
 export class CalendarComponent {

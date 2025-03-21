@@ -4,10 +4,9 @@ import { ButtonModule } from 'primeng/button';
 import { BreadcrumbComponent } from '@core/components/breadcrumb/breadcrumb.component';
 
 @Component({
-  standalone: true,
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
-  styleUrls: ['./topbar.component.scss'],
+  styleUrls: [ './topbar.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ButtonModule,

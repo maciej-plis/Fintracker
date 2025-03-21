@@ -3,10 +3,9 @@ import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
 
 @Component({
-  standalone: true,
   selector: 'app-action-cell-editor',
   templateUrl: './action-cell-editor.component.html',
-  styleUrls: ['./action-cell-editor.component.scss'],
+  styleUrls: [ './action-cell-editor.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: []
 })

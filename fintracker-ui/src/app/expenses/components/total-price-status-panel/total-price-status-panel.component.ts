@@ -7,7 +7,6 @@ import { currencyCode, currencyFormat, locale } from 'src/app/app.constants';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  standalone: true,
   selector: 'app-total-price-status-panel',
   templateUrl: './total-price-status-panel.component.html',
   styleUrl: './total-price-status-panel.component.scss',

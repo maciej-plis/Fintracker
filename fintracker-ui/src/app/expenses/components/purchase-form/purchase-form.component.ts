@@ -15,10 +15,9 @@ import { ProductsInputTableComponent } from 'src/app/expenses/components/product
 import { ButtonModule } from 'primeng/button';
 
 @Component({
-  standalone: true,
   selector: 'app-purchase-form',
   templateUrl: './purchase-form.component.html',
-  styleUrls: ['./purchase-form.component.scss'],
+  styleUrls: [ './purchase-form.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

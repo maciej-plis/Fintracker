@@ -12,10 +12,9 @@ import { AutoFocusModule } from 'primeng/autofocus';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @Component({
-  standalone: true,
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss'],
+  styleUrls: [ './table.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AgGridModule,

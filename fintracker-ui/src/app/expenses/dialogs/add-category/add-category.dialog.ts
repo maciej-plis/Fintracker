@@ -13,7 +13,6 @@ import { NGX_ERRORS_DECLARATIONS } from '@ngspot/ngx-errors';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  standalone: true,
   selector: 'app-category-dialog',
   templateUrl: './add-category.dialog.html',
   styleUrl: './add-category.dialog.scss',

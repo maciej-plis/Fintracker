@@ -8,10 +8,9 @@ import { MenuComponent } from '@core/components/menu/menu.component';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  standalone: true,
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
+  styleUrls: [ './sidebar.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     LogoComponent,

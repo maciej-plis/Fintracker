@@ -6,10 +6,9 @@ import { PurchasesTableComponent } from 'src/app/expenses/components';
 import { Router } from '@angular/router';
 
 @Component({
-  standalone: true,
   selector: 'app-purchases',
   templateUrl: './purchases.view.html',
-  styleUrls: ['./purchases.view.scss'],
+  styleUrls: [ './purchases.view.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     PurchasesTableComponent

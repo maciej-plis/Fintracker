@@ -4,7 +4,6 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
-  standalone: true,
   selector: 'app-svg-cell-renderer',
   templateUrl: './svg-cell-renderer.component.html',
   styleUrl: './svg-cell-renderer.component.scss',

@@ -13,7 +13,6 @@ import { catchError, EMPTY } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  standalone: true,
   selector: 'app-shop-dialog',
   templateUrl: './add-shop.dialog.html',
   styleUrl: './add-shop.dialog.scss',

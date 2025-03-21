@@ -5,11 +5,10 @@ import { TooltipModule } from 'primeng/tooltip';
 import { getFormControl, isNonNull } from '@shared/utils';
 
 @Component({
-  standalone: true,
   selector: 'app-validation-cell-renderer',
   templateUrl: './validation-cell-renderer.component.html',
   styleUrl: './validation-cell-renderer.component.scss',
-  imports: [TooltipModule]
+  imports: [ TooltipModule ]
 })
 export class ValidationCellRenderer implements ICellRendererAngularComp {
 

@@ -31,8 +31,6 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/primeicons/primeicons.css",
               "node_modules/ag-grid-enterprise/styles/ag-grid.css",
               "node_modules/ag-grid-enterprise/styles/ag-theme-alpine.css",
               "src/styles/theme.scss",

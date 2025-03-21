@@ -6,7 +6,6 @@ import { CalendarModule } from 'primeng/calendar';
 import { AutoFocusModule } from 'primeng/autofocus';
 
 @Component({
-  standalone: true,
   selector: 'app-table-date-picker',
   templateUrl: './table-date-picker.component.html',
   styleUrls: [ './table-date-picker.component.scss' ],

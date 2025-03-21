@@ -1,15 +1,4 @@
-import {
-  AND,
-  ComparisonNode,
-  ComparisonOperator,
-  createComparisonNode,
-  createLogicNode,
-  createSelectorNode,
-  createValueNode,
-  ExpressionNode,
-  LogicOperator,
-  OR
-} from '@rsql/ast';
+import { AND, ComparisonNode, ComparisonOperator, createComparisonNode, createLogicNode, createSelectorNode, createValueNode, ExpressionNode, LogicOperator, OR } from '@rsql/ast';
 import { RsqlOperators } from '@shared/constants/rsql-operators.constants';
 
 type ComparisonValue = string | number | null;

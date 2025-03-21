@@ -1,14 +1,4 @@
-import {
-  CellEditorSelectorResult,
-  CellRendererSelectorResult,
-  ColDef,
-  Column,
-  GridApi,
-  ICellEditorParams,
-  ICellRendererParams,
-  IRowNode,
-  RowPinnedType
-} from 'ag-grid-community';
+import { CellEditorSelectorResult, CellRendererSelectorResult, ColDef, Column, GridApi, ICellEditorParams, ICellRendererParams, IRowNode, RowPinnedType } from 'ag-grid-community';
 import { AutoCompleteCellEditor, AutoCompleteCellEditorParams } from '@shared/components/auto-complete-cell-editor/auto-complete-cell-editor.component';
 import { ProductForm, ProductsInputTableContext } from './products-input-table.component';
 import { CategoryDTO, ProductDTO } from '@core/api';

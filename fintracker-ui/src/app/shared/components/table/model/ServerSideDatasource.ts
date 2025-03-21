@@ -1,12 +1,4 @@
-import {
-  DateFilterModel,
-  IServerSideDatasource,
-  IServerSideGetRowsParams,
-  IServerSideGetRowsRequest,
-  NumberFilterModel,
-  SetFilterModel,
-  TextFilterModel
-} from 'ag-grid-community';
+import { DateFilterModel, IServerSideDatasource, IServerSideGetRowsParams, IServerSideGetRowsRequest, NumberFilterModel, SetFilterModel, TextFilterModel } from 'ag-grid-community';
 import { Observable } from 'rxjs';
 import { emit } from '@rsql/emitter';
 import { ExpressionNode } from '@rsql/ast';

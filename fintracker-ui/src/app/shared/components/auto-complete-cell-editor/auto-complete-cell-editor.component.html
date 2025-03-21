@@ -1,6 +1,6 @@
-<p-autoComplete (completeMethod)="filterSubject.next($event.query)"
-                (keydown)="value && params?.onKeyDown($event)"
-                (onSelect)="params?.onSelect?.($event, filterSubject.getValue(), this.setValue.bind(this))"
+<p-autoComplete (completeMethod)="filter.set($event.query)"
+                (keydown)="value() && params?.onKeyDown($event)"
+                (onSelect)="params?.onSelect?.($event, filter(), this.setValue.bind(this))"
                 [(ngModel)]="value"
                 [autofocus]="true"
                 [completeOnFocus]="true"
@@ -12,6 +12,5 @@
                 [minLength]="params?.minLength ?? 0"
                 [optionLabel]="params?.label ?? undefined"
                 [overlayOptions]="agGridOverlayOptions"
-                [suggestions]="(filteredSuggestions$ | async) ?? []"
-                pAutoFocus>
-</p-autoComplete>
+                [suggestions]="filteredSuggestions()"
+                pAutoFocus/>

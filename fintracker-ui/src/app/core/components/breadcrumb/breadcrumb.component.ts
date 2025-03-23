@@ -51,12 +51,12 @@ export class BreadcrumbComponent implements OnInit {
   }
 }
 
-interface BreadcrumbData {
+export interface BreadcrumbData {
   label: string | null,
   disableRoute: boolean | null
 }
 
-interface Breadcrumb {
+export interface Breadcrumb {
   label: string,
   url: string | null
 }

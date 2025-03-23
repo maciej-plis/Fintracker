@@ -1,8 +1,10 @@
-<ol class="breadcrumb">
-  @for (breadcrumb of breadcrumbs(); track breadcrumb.label; let isLast = $last) {
-    <li class="breadcrumb__item"><a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a></li>
-    @if (!isLast) {
-      <li class="breadcrumb-chevron">/</li>
-    }
-  }
-</ol>
+<nav class="layout-breadcrumb">
+    <ol>
+        @for (breadcrumb of breadcrumbs(); track breadcrumb.label; let isLast = $last) {
+            <li><a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a></li>
+            @if (!isLast) {
+                <li class="layout-breadcrumb-chevron">/</li>
+            }
+        }
+    </ol>
+</nav>

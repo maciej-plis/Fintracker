@@ -1,5 +1,5 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
 import { provideNgxErrorsConfig } from '@ngspot/ngx-errors';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -14,7 +14,7 @@ import { svgSprites } from 'src/app/app.constants';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(withFetch(), withXsrfConfiguration({ cookieName: 'XSRF-TOKEN' })),
-    provideRouter(routes),
+    provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }), withEnabledBlockingInitialNavigation()),
     provideNgxErrorsConfig({ showErrorsWhenInput: 'dirty', showMaxErrors: 1 }),
     provideSvgSprites(...svgSprites),
     provideAnimationsAsync(),

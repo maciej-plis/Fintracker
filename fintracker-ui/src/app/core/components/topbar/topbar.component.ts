@@ -1,24 +1,25 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SidebarService } from '@core/services/sidebar/sidebar.service';
+import { Component, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { StyleClassModule } from 'primeng/styleclass';
+import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 import { BreadcrumbComponent } from '@core/components/breadcrumb/breadcrumb.component';
+import { LayoutService } from '@core/services/layout/layout.service';
 
 @Component({
-  selector: 'app-topbar',
-  templateUrl: './topbar.component.html',
-  styleUrls: [ './topbar.component.scss' ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    ButtonModule,
-    BreadcrumbComponent
-  ]
+  selector: '[app-topbar]',
+  templateUrl: 'topbar.component.html',
+  styleUrl: 'topbar.component.scss',
+  imports: [ RouterModule, CommonModule, StyleClassModule, InputTextModule, ButtonModule, IconFieldModule, InputIconModule, BreadcrumbComponent ]
 })
 export class TopbarComponent {
 
-  private readonly sidebarService = inject(SidebarService);
+  private readonly layoutService = inject(LayoutService);
 
-  public showSideBar(event: Event) {
-    event.stopPropagation();
-    this.sidebarService.showSidebar();
+  onMenuButtonClick() {
+    this.layoutService.onMenuToggle();
   }
 }

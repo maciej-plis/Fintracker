@@ -1,12 +1,12 @@
-<ul class="menu">
-  @for (menuItem of menuItems(); track menuItem.id) {
-    <li class="menu__item">
-      @if (menuItem.label) {
-        <div class="menu__item-header">{{ menuItem.label }}</div>
-      }
-      @if (menuItem.items) {
-        <app-submenu [menuItems]="menuItem.items" class="submenu__children"/>
-      }
-    </li>
+<ul class="layout-menu">
+  @for (menuItem of menuItems(); track menuItem.label; let i = $index) {
+    @if (menuItem.separator) {
+      <li class="menu-separator"></li>
+    } @else {
+      <li app-submenu
+          [item]="menuItem"
+          [index]="i"
+          [isRoot]="true"></li>
+    }
   }
 </ul>

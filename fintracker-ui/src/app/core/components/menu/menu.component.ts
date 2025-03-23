@@ -9,7 +9,10 @@ import { SubmenuComponent } from '@core/components/submenu/submenu.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     SubmenuComponent
-  ]
+  ],
+  host: {
+    '[class.test]': 'true'
+  }
 })
 export class MenuComponent {
 

@@ -22,17 +22,21 @@
     "@primeng/themes": "^19.0.10",
     "@rsql/ast": "1.6.x",
     "@rsql/emitter": "1.6.x",
+    "@tailwindcss/postcss": "^4.0.15",
     "ag-grid-angular": "31.x",
     "ag-grid-community": "31.x",
     "ag-grid-enterprise": "31.x",
     "ng-mocks": "14.13.x",
     "ngxtension": "2.x",
+    "postcss": "^8.5.3",
     "primeicons": "6.x",
     "primeng": "19.0.x",
     "rxjs": "7.8.x",
+    "tailwindcss": "^4.0.15",
+    "tailwindcss-primeui": "^0.5.1",
     "tslib": "2.x",
     "uuid": "9.x",
-    "zone.js": "0.15.0"
+    "zone.js": "0.15.x"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "19.2.4",
@@ -46,7 +50,6 @@
     "karma-coverage": "2.2.x",
     "karma-jasmine": "5.1.x",
     "karma-jasmine-html-reporter": "2.1.x",
-    "tailwindcss": "3.x",
     "typescript": "5.8.2"
   }
 }

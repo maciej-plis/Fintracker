@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { SidebarComponent, TopbarComponent } from '@core/components';
-import { RouterOutlet } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import 'ag-grid-enterprise';
 import localePl from '@angular/common/locales/pl';
 import localePlExtra from '@angular/common/locales/extra/pl';
+import { AppLayout } from '@core/components/layout/layout.component';
 
 @Component({
   selector: 'app-root',
@@ -15,9 +14,7 @@ import localePlExtra from '@angular/common/locales/extra/pl';
   imports: [
     ToastModule,
     ConfirmDialogModule,
-    SidebarComponent,
-    TopbarComponent,
-    RouterOutlet
+    AppLayout
   ]
 })
 export class AppComponent implements OnInit {

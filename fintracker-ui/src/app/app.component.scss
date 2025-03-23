@@ -1,4 +1,4 @@
-@import "src/styles/component-common";
+@use "src/assets/styles/component-common" as common;
 
 .root-container {
   outline: none;
@@ -11,13 +11,13 @@
 
 @media screen and (min-width: 992px) {
   .content-container {
-    margin-left: $sidebar-narrow;
+    margin-left: common.$sidebar-narrow;
     padding: 2rem;
   }
 
   :host-context(body:has(.sidebar__anchor-btn:checked)) {
     .content-container {
-      margin-left: $sidebar-wide
+      margin-left: common.$sidebar-wide
     }
   }
 }

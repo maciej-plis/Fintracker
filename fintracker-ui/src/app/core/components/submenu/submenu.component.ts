@@ -1,54 +1,224 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, computed, ElementRef, inject, input, signal, viewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { SidebarService } from '@core/services/sidebar/sidebar.service';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { NgClass } from '@angular/common';
-import { RippleModule } from 'primeng/ripple';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule, NgClass } from '@angular/common';
+import { Tooltip } from 'primeng/tooltip';
+import { LayoutService } from '@core/services/layout/layout.service';
+import { DomHandler } from 'primeng/dom';
+import { animate, AnimationEvent, state, style, transition, trigger } from '@angular/animations';
+import { injectNavigationEnd } from 'ngxtension/navigation-end';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+enum ChildrenAnimationState {
+  COLLAPSED = 'collapsed',
+  EXPANDED = 'expanded',
+  HIDDEN = 'hidden',
+  VISIBLE = 'visible',
+}
 
 @Component({
-  selector: 'app-submenu',
+  selector: '[app-submenu]',
   templateUrl: './submenu.component.html',
-  styleUrls: [ './submenu.component.scss' ],
+  styleUrl: './submenu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.layout-root-menuitem]': 'isRoot()',
+    '[class.active-menuitem]': 'isActive()'
+  },
+  animations: [
+    trigger('children', [
+      state(
+        ChildrenAnimationState.COLLAPSED,
+        style({
+          height: '0'
+        })
+      ),
+      state(
+        ChildrenAnimationState.EXPANDED,
+        style({
+          height: '*'
+        })
+      ),
+      state(
+        ChildrenAnimationState.HIDDEN,
+        style({
+          display: 'none'
+        })
+      ),
+      state(
+        ChildrenAnimationState.VISIBLE,
+        style({
+          display: 'block'
+        })
+      ),
+      transition(`${ ChildrenAnimationState.COLLAPSED } <=> ${ ChildrenAnimationState.EXPANDED }`, animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
+    ])
+  ],
   imports: [
+    CommonModule,
     RouterLink,
     RouterLinkActive,
     NgClass,
-    RippleModule
+    Tooltip
   ]
 })
-export class SubmenuComponent {
+export class SubmenuComponent implements AfterViewChecked {
 
-  private readonly sidebarService = inject(SidebarService);
+  private readonly layoutService = inject(LayoutService);
+  private readonly router = inject(Router);
+  private readonly navigationEnd$ = injectNavigationEnd();
 
-  private readonly MENU_ITEM_OPEN_CLASS = 'submenu__item--open';
+  private readonly submenu = viewChild<ElementRef>('submenu');
 
-  public readonly menuItems = input<MenuItem[]>();
+  public readonly item = input.required<MenuItem>();
+  public readonly index = input.required<number>();
+  public readonly isRoot = input<boolean>(false);
+  public readonly parentKey = input<string | null>(null);
 
-  public activate(menuItem: MenuItem, menuItemEl: HTMLElement) {
-    const open = !menuItemEl.classList.contains(this.MENU_ITEM_OPEN_CLASS);
-    this.closeAllOpenMenuItems();
-    this.openMenuItemsUpToRoot(menuItemEl);
+  protected readonly isActive = signal<boolean>(false);
+  protected readonly key = computed<string>(() => {
+    const parentKey = this.parentKey();
+    return parentKey ? parentKey + '-' + this.index() : this.index().toString();
+  });
 
-    if (menuItem.items) {
-      menuItemEl.classList.toggle(this.MENU_ITEM_OPEN_CLASS, open);
-    }
+  protected readonly isSlim = this.layoutService.isSlim;
+  protected readonly isSlimPlus = this.layoutService.isSlimPlus;
+  protected readonly isHorizontal = this.layoutService.isHorizontal;
 
-    if (menuItem.routerLink) {
-      this.sidebarService.hideSidebar();
+  protected readonly isDesktop = this.layoutService.isDesktop();
+  protected readonly isMobile = this.layoutService.isMobile();
+  protected readonly isMenuHoverActive = computed(() => !!this.layoutService.layoutState().menuHoverActive);
+
+  get submenuAnimation(): ChildrenAnimationState {
+    if (this.layoutService.isDesktop() && (this.layoutService.isSlim() || this.layoutService.isSlimPlus() || this.layoutService.isHorizontal())) {
+      return this.isActive() ? ChildrenAnimationState.VISIBLE : ChildrenAnimationState.HIDDEN;
+    } else if (this.isRoot() || this.isActive()) {
+      return ChildrenAnimationState.EXPANDED;
+    } else {
+      return ChildrenAnimationState.COLLAPSED;
     }
   }
 
-  private closeAllOpenMenuItems() {
-    document.querySelectorAll(`.${ this.MENU_ITEM_OPEN_CLASS }`)
-      .forEach(menuItem => menuItem.classList.remove(this.MENU_ITEM_OPEN_CLASS));
+  get isSlimOrSlimPlusOrHorizontal() {
+    return this.isSlim() || this.isSlimPlus() || this.isHorizontal();
   }
 
-  private openMenuItemsUpToRoot(menuItemEl: HTMLElement) {
-    let tempMenuItemEl: HTMLElement | undefined | null = menuItemEl;
-    while (tempMenuItemEl) {
-      tempMenuItemEl = tempMenuItemEl.parentElement?.closest(`.submenu__item`);
-      tempMenuItemEl?.classList?.add(this.MENU_ITEM_OPEN_CLASS);
+  constructor() {
+    this.layoutService.menuSource$
+      .pipe(takeUntilDestroyed())
+      .subscribe(({ routeEvent, key }) => {
+        Promise.resolve(null).then(() => {
+          const startsWithKey = key.startsWith(this.key());
+          if (routeEvent) {
+            this.isActive.set(startsWithKey);
+          } else if (!startsWithKey) {
+            this.isActive.set(false);
+          }
+        });
+      });
+
+    this.layoutService.resetSource$
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.isActive.set(false));
+
+    this.navigationEnd$.subscribe(() => {
+      if (this.isSlimOrSlimPlusOrHorizontal) {
+        this.isActive.set(false);
+      } else if (this.item().routerLink) {
+        this.updateActiveStateFromRoute();
+      }
+    });
+  }
+
+  ngAfterViewChecked() {
+    if (this.isRoot() && this.isActive() && this.isDesktop && this.isSlimOrSlimPlusOrHorizontal) {
+      this.calculatePosition(this.submenu()?.nativeElement);
+    }
+  }
+
+  protected onSubmenuAnimated(event: AnimationEvent) {
+    if (event.toState === ChildrenAnimationState.VISIBLE && this.isDesktop && this.isSlimOrSlimPlusOrHorizontal) {
+      this.calculatePosition(event.element);
+    }
+  }
+
+  protected itemClick(event: Event) {
+    const item = this.item();
+
+    // avoid processing disabled items
+    if (item.disabled) {
+      event.preventDefault();
+      return;
+    }
+
+    // toggle menu hover
+    if (this.isRoot() && this.isSlimOrSlimPlusOrHorizontal) {
+      this.layoutService.layoutState.update(val => ({ ...val, menuHoverActive: !val.menuHoverActive }));
+    }
+
+    // execute additional item command
+    item.command && item.command({ originalEvent: event, item });
+
+    // toggle active state
+    if (item.items) {
+      this.isActive.update(active => !active);
+      if (this.isRoot() && this.isActive() && this.isSlimOrSlimPlusOrHorizontal) {
+        this.layoutService.onOverlaySubmenuOpen();
+      }
+    } else {
+
+      if (this.isMobile) {
+        this.layoutService.layoutState.update(val => ({ ...val, staticMenuMobileActive: false }));
+      }
+
+      if (this.isSlimOrSlimPlusOrHorizontal) {
+        this.layoutService.reset();
+        this.layoutService.layoutState.update(val => ({ ...val, menuHoverActive: false }));
+      }
+    }
+
+    this.layoutService.onMenuStateChange({ key: this.key() });
+  }
+
+  protected onMouseEnter() {
+    if (this.isRoot() && this.isSlimOrSlimPlusOrHorizontal && this.isDesktop && this.isMenuHoverActive()) {
+      this.isActive.set(true);
+      this.layoutService.onMenuStateChange({ key: this.key() });
+    }
+  }
+
+  private updateActiveStateFromRoute() {
+    const activeRoute = this.router.isActive(this.item().routerLink[0], {
+      paths: 'exact',
+      queryParams: 'ignored',
+      matrixParams: 'ignored',
+      fragment: 'ignored'
+    });
+
+    if (activeRoute) {
+      this.layoutService.onMenuStateChange({
+        key: this.key(),
+        routeEvent: true
+      });
+    }
+  }
+
+  private calculatePosition(overlay: HTMLElement) {
+    if (!overlay.parentElement) return;
+    const { left, top } = overlay.parentElement.getBoundingClientRect();
+    const [ vWidth, vHeight ] = [ window.innerWidth, window.innerHeight ];
+    const [ oWidth, oHeight ] = [ overlay.offsetWidth, overlay.offsetHeight ];
+    const scrollbarWidth = DomHandler.calculateScrollbarWidth();
+
+    overlay.style.top = '';
+    overlay.style.left = '';
+
+    if (this.layoutService.isHorizontal()) {
+      const width = left + oWidth + scrollbarWidth;
+      overlay.style.left = vWidth < width ? `${ left - (width - vWidth) }px` : `${ left }px`;
+    } else if (this.layoutService.isSlim() || this.layoutService.isSlimPlus()) {
+      const height = top + oHeight;
+      overlay.style.top = vHeight < height ? `${ top - (height - vHeight) }px` : `${ top }px`;
     }
   }
 }

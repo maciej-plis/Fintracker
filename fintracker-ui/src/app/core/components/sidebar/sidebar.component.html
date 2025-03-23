@@ -1,10 +1,17 @@
-<div class="sidebar" [ngClass]="{'sidebar--open': isOpen()}">
-  <div class="sidebar__header">
-    <a routerLink="/">
+<div class="layout-sidebar"
+     (mouseenter)="onMouseEnter()"
+     (mouseleave)="onMouseLeave()">
+  <div class="sidebar-header">
+    <a [routerLink]="['/']" class="app-logo">
       <app-logo/>
       <app-logo-small/>
     </a>
-    <input type="checkbox" class="sidebar__anchor-btn">
+    <button type="button"
+            class="layout-sidebar-anchor p-link z-2"
+            (click)="anchor()"
+    ></button>
   </div>
-  <app-menu [menuItems]="menuItems"/>
+  <div class="layout-menu-container">
+    <app-menu [menuItems]="menuItems"/>
+  </div>
 </div>

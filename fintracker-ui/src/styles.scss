@@ -1,0 +1,56 @@
+// ag-grid
+@use 'node_modules/ag-grid-enterprise/styles/ag-grid.css';
+@use 'node_modules/ag-grid-enterprise/styles/ag-theme-alpine.css';
+
+// primeng
+@use 'assets/layout/layout';
+@use 'node_modules/primeicons/primeicons.css';
+
+.ag-theme-alpine-dark {
+  --ag-alpine-active-color: var(--primary-color);
+  --ag-background-color: var(--surface-section);
+  --ag-header-background-color: var(--surface-card);
+  --ag-odd-row-background-color: var(--surface-card);
+  --ag-row-hover-color: var(--surface-hover);
+  --ag-selected-row-background-color: #A5B4FC15;
+  --ag-data-color: var(--text-color);
+
+  --ag-border-color: var(--surface-border);
+  --ag-row-border-color: var(--surface-border);
+
+  --ag-font-size: 0.95rem;
+  --ag-font-family: var(--font-family);
+
+  --ag-icon-font-code-menu: '\f115';
+
+  .ag-paging-panel {
+    background-color: var(--ag-header-background-color);
+  }
+
+  .ag-menu-header {
+    background-color: var(--ag-header-background-color);
+  }
+
+  .ag-menu {
+    background-color: var(--ag-background-color);
+  }
+
+  .ag-header-cell-filtered {
+    .ag-icon-menu {
+      color: var(--ag-alpine-active-color);
+    }
+
+    .ag-filter-icon {
+      display: none;
+    }
+  }
+
+  .ag-cell-invalid {
+    border-color: #e24c4c44;
+    background-color: #e24c4c22;
+  }
+}
+
+.ag-root-wrapper {
+  border-radius: 0 0 3px 3px;
+}

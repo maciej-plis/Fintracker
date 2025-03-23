@@ -1,4 +1,4 @@
-@import "src/styles/component-common";
+@use "src/assets/styles/component-common" as common;
 
 .table-error {
   display: none;
@@ -10,12 +10,12 @@
   }
 
   .table__header {
-    border-color: $error-color;
+    border-color: common.$error-color;
   }
 
   .ag-root-wrapper {
-    border-bottom-color: $error-color;
-    border-left-color: $error-color;
-    border-right-color: $error-color;
+    border-bottom-color: common.$error-color;
+    border-left-color: common.$error-color;
+    border-right-color: common.$error-color;
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenuComponent } from '@core/components/menu/menu.component';
 import { RouterLink } from '@angular/router';
@@ -20,7 +20,6 @@ export class SidebarComponent {
 
   private readonly layoutService = inject(LayoutService);
 
-  public readonly menuContainer = viewChild.required<ElementRef>('menuContainer');
   protected readonly menuItems: MenuItem[] = [
     {
       label: 'Expenses',

@@ -412,8 +412,8 @@ export class ConfiguratorComponent implements OnInit {
     }));
   }
 
-  toggleConfigSidebar() {
-    this.layoutService.layoutState.update((val) => ({ ...val, configSidebarVisible: !val.configSidebarVisible }));
+  showConfigSidebar() {
+    this.layoutService.showConfigSidebar();
   }
 
   setMenuTheme(theme: string) {

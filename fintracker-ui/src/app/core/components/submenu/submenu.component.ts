@@ -81,12 +81,11 @@ export class SubmenuComponent implements AfterViewChecked {
   });
 
   protected readonly isSlim = this.layoutService.isSlim;
-  protected readonly isSlimPlus = this.layoutService.isSlimPlus;
-  protected readonly isHorizontal = this.layoutService.isHorizontal;
+  protected readonly isSlimOrSlimPlusOrHorizontal = this.layoutService.isSlimOrSlimPlusOrHorizontal;
 
   protected readonly isDesktop = this.layoutService.isDesktop();
   protected readonly isMobile = this.layoutService.isMobile();
-  protected readonly isMenuHoverActive = computed(() => !!this.layoutService.layoutState().menuHoverActive);
+  protected readonly isMenuHoverActive = computed(() => this.layoutService.layoutState().menuHoverActive);
 
   protected readonly defaultRouterLinkActiveOptions = {
     paths: 'exact',
@@ -103,10 +102,6 @@ export class SubmenuComponent implements AfterViewChecked {
     } else {
       return ChildrenAnimationState.COLLAPSED;
     }
-  }
-
-  get isSlimOrSlimPlusOrHorizontal() {
-    return this.isSlim() || this.isSlimPlus() || this.isHorizontal();
   }
 
   constructor() {
@@ -128,7 +123,7 @@ export class SubmenuComponent implements AfterViewChecked {
       .subscribe(() => this.isActive.set(false));
 
     this.navigationEnd$.subscribe(() => {
-      if (this.isSlimOrSlimPlusOrHorizontal) {
+      if (this.isSlimOrSlimPlusOrHorizontal()) {
         this.isActive.set(false);
       } else if (this.item().routerLink) {
         this.updateActiveStateFromRoute();
@@ -137,13 +132,13 @@ export class SubmenuComponent implements AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    if (this.isRoot() && this.isActive() && this.isDesktop && this.isSlimOrSlimPlusOrHorizontal) {
+    if (this.isRoot() && this.isActive() && this.isDesktop && this.isSlimOrSlimPlusOrHorizontal()) {
       this.calculatePosition(this.submenu()?.nativeElement);
     }
   }
 
   protected onSubmenuAnimated(event: AnimationEvent) {
-    if (event.toState === ChildrenAnimationState.VISIBLE && this.isDesktop && this.isSlimOrSlimPlusOrHorizontal) {
+    if (event.toState === ChildrenAnimationState.VISIBLE && this.isDesktop && this.isSlimOrSlimPlusOrHorizontal()) {
       this.calculatePosition(event.element);
     }
   }
@@ -158,7 +153,7 @@ export class SubmenuComponent implements AfterViewChecked {
     }
 
     // toggle menu hover
-    if (this.isRoot() && this.isSlimOrSlimPlusOrHorizontal) {
+    if (this.isRoot() && this.isSlimOrSlimPlusOrHorizontal()) {
       this.layoutService.layoutState.update(val => ({ ...val, menuHoverActive: !val.menuHoverActive }));
     }
 
@@ -168,7 +163,7 @@ export class SubmenuComponent implements AfterViewChecked {
     // toggle active state
     if (item.items) {
       this.isActive.update(active => !active);
-      if (this.isRoot() && this.isActive() && this.isSlimOrSlimPlusOrHorizontal) {
+      if (this.isRoot() && this.isActive() && this.isSlimOrSlimPlusOrHorizontal()) {
         this.layoutService.onOverlaySubmenuOpen();
       }
     } else {
@@ -177,7 +172,7 @@ export class SubmenuComponent implements AfterViewChecked {
         this.layoutService.layoutState.update(val => ({ ...val, staticMenuMobileActive: false }));
       }
 
-      if (this.isSlimOrSlimPlusOrHorizontal) {
+      if (this.isSlimOrSlimPlusOrHorizontal()) {
         this.layoutService.reset();
         this.layoutService.layoutState.update(val => ({ ...val, menuHoverActive: false }));
       }
@@ -187,7 +182,7 @@ export class SubmenuComponent implements AfterViewChecked {
   }
 
   protected onMouseEnter() {
-    if (this.isRoot() && this.isSlimOrSlimPlusOrHorizontal && this.isDesktop && this.isMenuHoverActive()) {
+    if (this.isRoot() && this.isSlimOrSlimPlusOrHorizontal() && this.isDesktop && this.isMenuHoverActive()) {
       this.isActive.set(true);
       this.layoutService.onMenuStateChange({ key: this.key() });
     }

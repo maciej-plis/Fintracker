@@ -16,11 +16,11 @@ export interface layoutConfig {
 }
 
 interface LayoutState {
-  staticMenuDesktopInactive?: boolean;
-  overlayMenuActive?: boolean;
+  staticMenuDesktopInactive: boolean;
+  overlayMenuActive: boolean;
   configSidebarVisible: boolean;
-  staticMenuMobileActive?: boolean;
-  menuHoverActive?: boolean;
+  staticMenuMobileActive: boolean;
+  menuHoverActive: boolean;
   profileSidebarVisible: boolean;
   sidebarActive: boolean;
   anchored: boolean;
@@ -83,10 +83,12 @@ export class LayoutService {
 
   isDarkTheme = computed(() => this.layoutConfig().darkTheme);
 
-  isSlim = computed(() => this.layoutConfig().menuMode === 'slim');
-  isSlimPlus = computed(() => this.layoutConfig().menuMode === 'slim-plus');
-  isHorizontal = computed(() => this.layoutConfig().menuMode === 'horizontal');
-  isOverlay = computed(() => this.layoutConfig().menuMode === 'overlay');
+  public isSlim = computed(() => this.layoutConfig().menuMode === 'slim');
+  public isSlimPlus = computed(() => this.layoutConfig().menuMode === 'slim-plus');
+  public isHorizontal = computed(() => this.layoutConfig().menuMode === 'horizontal');
+  public isOverlay = computed(() => this.layoutConfig().menuMode === 'overlay');
+
+  public isSlimOrSlimPlusOrHorizontal = computed(() => this.isSlim() || this.isSlimPlus() || this.isHorizontal());
 
   transitionComplete = signal<boolean>(false);
 

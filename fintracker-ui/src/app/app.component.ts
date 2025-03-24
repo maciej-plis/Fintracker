@@ -5,7 +5,7 @@ import { registerLocaleData } from '@angular/common';
 import 'ag-grid-enterprise';
 import localePl from '@angular/common/locales/pl';
 import localePlExtra from '@angular/common/locales/extra/pl';
-import { AppLayout } from '@core/components/layout/layout.component';
+import { LayoutComponent } from '@core/components/layout/layout.component';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ import { AppLayout } from '@core/components/layout/layout.component';
   imports: [
     ToastModule,
     ConfirmDialogModule,
-    AppLayout
+    LayoutComponent
   ]
 })
 export class AppComponent implements OnInit {

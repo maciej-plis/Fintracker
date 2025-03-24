@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, ElementRef, inject, viewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { LogoComponent } from '@core/components/logo/logo.component';
 import { MenuComponent } from '@core/components/menu/menu.component';
 import { RouterLink } from '@angular/router';
 import { LayoutService } from '@core/services/layout/layout.service';
-import { LogoSmallComponent } from '@core/components/logo-small/logo-small.component';
+import { SvgIconComponent } from 'angular-svg-icon';
 
 @Component({
   selector: '[app-sidebar]',
@@ -12,19 +11,17 @@ import { LogoSmallComponent } from '@core/components/logo-small/logo-small.compo
   styleUrls: [ './sidebar.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    LogoComponent,
     MenuComponent,
     RouterLink,
-    LogoSmallComponent
+    SvgIconComponent
   ]
 })
 export class SidebarComponent {
 
   private readonly layoutService = inject(LayoutService);
 
-  private timeout: any = null;
-
-  public menuItems: MenuItem[] = [
+  public readonly menuContainer = viewChild.required<ElementRef>('menuContainer');
+  protected readonly menuItems: MenuItem[] = [
     {
       label: 'Expenses',
       icon: 'pi pi-home',
@@ -38,8 +35,8 @@ export class SidebarComponent {
           label: 'Purchases',
           icon: 'pi pi-fw pi-image',
           routerLink: [ '/expenses/purchases' ]
-        },
-      ],
+        }
+      ]
     },
     {
       label: 'Apps',
@@ -461,49 +458,31 @@ export class SidebarComponent {
     }
   ];
 
-  public readonly menuContainer = viewChild.required<ElementRef>('menuContainer');
+  private timeout: any = null;
 
   protected onMouseEnter() {
-    if (!this.layoutService.layoutState().anchored) {
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-        this.timeout = null;
-      }
+    if (this.layoutService.layoutState().anchored) return;
 
-      this.layoutService.layoutState.update((state) => {
-        if (!state.sidebarActive) {
-          return {
-            ...state,
-            sidebarActive: true
-          };
-        }
-        return state;
-      });
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+      this.timeout = null;
     }
+
+    this.layoutService.layoutState.update((state) => {
+      return !state.sidebarActive ? { ...state, sidebarActive: true } : state;
+    });
   }
 
   protected onMouseLeave() {
-    if (!this.layoutService.layoutState().anchored) {
-      if (!this.timeout) {
-        this.timeout = setTimeout(() => {
-          this.layoutService.layoutState.update((state) => {
-            if (state.sidebarActive) {
-              return {
-                ...state,
-                sidebarActive: false
-              };
-            }
-            return state;
-          });
-        }, 300);
-      }
-    }
+    if (this.layoutService.layoutState().anchored || this.timeout) return;
+    this.timeout = setTimeout(() => {
+      this.layoutService.layoutState.update((state) =>
+        state.sidebarActive ? { ...state, sidebarActive: false } : state
+      );
+    }, 300);
   }
 
   protected anchor() {
-    this.layoutService.layoutState.update((state) => ({
-      ...state,
-      anchored: !state.anchored
-    }));
+    this.layoutService.layoutState.update((state) => ({ ...state, anchored: !state.anchored }));
   }
 }

@@ -1,1 +1,1 @@
-export { SidebarService } from './sidebar/sidebar.service';
+export { LayoutService } from './layout/layout.service';

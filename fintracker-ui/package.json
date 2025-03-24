@@ -26,6 +26,7 @@
     "ag-grid-angular": "31.x",
     "ag-grid-community": "31.x",
     "ag-grid-enterprise": "31.x",
+    "angular-svg-icon": "^19.1.1",
     "ng-mocks": "14.13.x",
     "ngxtension": "2.x",
     "postcss": "^8.5.3",

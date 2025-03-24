@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
-import { filter, map } from 'rxjs';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { map } from 'rxjs';
+import { injectNavigationEnd } from 'ngxtension/navigation-end';
+import { connect } from 'ngxtension/connect';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -11,32 +13,29 @@ import { filter, map } from 'rxjs';
     RouterLink
   ]
 })
-export class BreadcrumbComponent implements OnInit {
+export class BreadcrumbComponent {
 
-  private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
-  public breadcrumbs = signal<Breadcrumb[]>([]);
+  private readonly navigationEnd$ = injectNavigationEnd();
 
-  public ngOnInit(): void {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      map(() => this.createBreadcrumbs(this.route))
-    ).subscribe(breadcrumbs => this.breadcrumbs.set(breadcrumbs));
+  protected readonly breadcrumbs = signal<Breadcrumb[]>([]);
+
+  constructor() {
+    const breadcrumbs$ = this.navigationEnd$.pipe(map(() => this.createBreadcrumbs(this.route)));
+    connect(this.breadcrumbs, breadcrumbs$);
   }
 
-  private createBreadcrumbs(route: ActivatedRoute, url: string = '/', breadcrumbs: Breadcrumb[] = []): Breadcrumb[] {
-    if (!route.firstChild) {
-      return breadcrumbs;
-    }
+  private createBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: Breadcrumb[] = []): Breadcrumb[] {
+    if (!route.firstChild) return breadcrumbs;
 
     const childUrl: string = this.getRouteUrl(route.firstChild);
     if (childUrl !== '') {
       url += `/${ childUrl }`;
     }
 
-    const data: BreadcrumbData | null = route.firstChild.snapshot.data['breadcrumb'];
-    if (data?.label && route.firstChild) {
+    const data: BreadcrumbData | undefined = route.firstChild.snapshot.data['breadcrumb'];
+    if (data?.label) {
       breadcrumbs.push({
         label: data.label,
         url: data.disableRoute ? null : url

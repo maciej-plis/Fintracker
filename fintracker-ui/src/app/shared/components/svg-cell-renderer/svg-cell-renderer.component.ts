@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { SvgAssetComponent } from '@shared/components/svg-asset/svg-asset.component';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
+import { SvgIconComponent } from 'angular-svg-icon';
 
 @Component({
   selector: 'app-svg-cell-renderer',
@@ -9,7 +9,7 @@ import { ICellRendererParams } from 'ag-grid-community';
   styleUrl: './svg-cell-renderer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    SvgAssetComponent
+    SvgIconComponent
   ]
 })
 export class SvgCellRenderer implements ICellRendererAngularComp {

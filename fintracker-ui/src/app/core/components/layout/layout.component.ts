@@ -19,7 +19,7 @@ import { LayoutService } from '@core/services/layout/layout.service';
     TopbarComponent
   ]
 })
-export class AppLayout {
+export class LayoutComponent {
   overlayMenuOpenSubscription: Subscription;
 
   menuOutsideClickListener: any;

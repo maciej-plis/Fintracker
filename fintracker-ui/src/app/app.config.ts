@@ -8,15 +8,14 @@ import { provideHttpClient, withFetch, withXsrfConfiguration } from '@angular/co
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-import { provideSvgSprites } from 'ngxtension/svg-sprite';
-import { svgSprites } from 'src/app/app.constants';
+import { provideAngularSvgIcon } from 'angular-svg-icon';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(withFetch(), withXsrfConfiguration({ cookieName: 'XSRF-TOKEN' })),
     provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }), withEnabledBlockingInitialNavigation()),
     provideNgxErrorsConfig({ showErrorsWhenInput: 'dirty', showMaxErrors: 1 }),
-    provideSvgSprites(...svgSprites),
+    provideAngularSvgIcon(),
     provideAnimationsAsync(),
     providePrimeNG({
       ripple: true,

@@ -1,20 +1,12 @@
-import { Directive, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ValueAccessorDirective } from '@shared/directives';
+import { MockBuilder, MockRender } from 'ng-mocks';
+import { CalendarValueAccessorDirective } from '@shared/directives';
 
-@Directive({
-  standalone: true,
-  selector: '[appCalendarValueAccessor]',
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => CalendarValueAccessorDirector),
-    multi: true
-  }]
-})
-class CalendarValueAccessorDirector extends ValueAccessorDirective<any> {
+describe('CalendarValueAccessorDirective', () => {
 
-  public override writeValue(value: string | null): void {
-    const dateValue = value ? new Date(value) : value;
-    this.value.set(dateValue);
-  }
-}
+  beforeEach(() => MockBuilder(CalendarValueAccessorDirective));
+
+  it('Should be created', () => {
+    const directive = MockRender('<input appCalendarValueAccessor>');
+    expect(directive.componentInstance).toBeDefined();
+  });
+});

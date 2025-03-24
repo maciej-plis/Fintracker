@@ -1,7 +1,7 @@
 import { AfterViewChecked, ChangeDetectionStrategy, Component, computed, ElementRef, inject, input, signal, viewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { CommonModule, NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Tooltip } from 'primeng/tooltip';
 import { LayoutService } from '@core/services/layout/layout.service';
 import { DomHandler } from 'primeng/dom';
@@ -58,7 +58,6 @@ enum ChildrenAnimationState {
     CommonModule,
     RouterLink,
     RouterLinkActive,
-    NgClass,
     Tooltip
   ]
 })
@@ -88,6 +87,13 @@ export class SubmenuComponent implements AfterViewChecked {
   protected readonly isDesktop = this.layoutService.isDesktop();
   protected readonly isMobile = this.layoutService.isMobile();
   protected readonly isMenuHoverActive = computed(() => !!this.layoutService.layoutState().menuHoverActive);
+
+  protected readonly defaultRouterLinkActiveOptions = {
+    paths: 'exact',
+    queryParams: 'ignored',
+    matrixParams: 'ignored',
+    fragment: 'ignored'
+  };
 
   get submenuAnimation(): ChildrenAnimationState {
     if (this.layoutService.isDesktop() && (this.layoutService.isSlim() || this.layoutService.isSlimPlus() || this.layoutService.isHorizontal())) {

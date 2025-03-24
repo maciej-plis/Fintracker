@@ -42,8 +42,15 @@ declare type SurfacesType = {
 @Component({
   selector: 'app-configurator',
   templateUrl: './configurator.component.html',
-  styleUrls: [ './configurator.component.scss' ],
-  imports: [ CommonModule, FormsModule, SelectButtonModule, DrawerModule, ToggleSwitchModule, RadioButtonModule ]
+  styleUrl: './configurator.component.scss',
+  imports: [
+    CommonModule,
+    FormsModule,
+    SelectButtonModule,
+    DrawerModule,
+    ToggleSwitchModule,
+    RadioButtonModule
+  ]
 })
 export class ConfiguratorComponent implements OnInit {
   @Input({ transform: booleanAttribute }) simple: boolean = false;

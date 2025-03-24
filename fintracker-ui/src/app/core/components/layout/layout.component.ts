@@ -20,6 +20,7 @@ import { LayoutService } from '@core/services/layout/layout.service';
   ]
 })
 export class LayoutComponent {
+
   overlayMenuOpenSubscription: Subscription;
 
   menuOutsideClickListener: any;

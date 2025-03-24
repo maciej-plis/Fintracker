@@ -1,23 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { LayoutComponent } from './layout.component';
 
+import { MockBuilder, MockRender } from 'ng-mocks';
+
 describe('LayoutComponent', () => {
-  let component: LayoutComponent;
-  let fixture: ComponentFixture<LayoutComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ LayoutComponent ]
-    })
-      .compileComponents();
+  beforeEach(() => MockBuilder(LayoutComponent));
 
-    fixture = TestBed.createComponent(LayoutComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Should create', () => {
+    const fixture = MockRender(LayoutComponent);
+    expect(fixture.componentInstance).toBeDefined();
   });
 });

@@ -7,7 +7,7 @@ import { connect } from 'ngxtension/connect';
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
-  styleUrls: [ './breadcrumb.component.scss' ],
+  styleUrl: './breadcrumb.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink

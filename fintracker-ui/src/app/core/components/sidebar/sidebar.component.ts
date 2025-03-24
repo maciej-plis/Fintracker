@@ -8,7 +8,7 @@ import { SvgIconComponent } from 'angular-svg-icon';
 @Component({
   selector: '[app-sidebar]',
   templateUrl: './sidebar.component.html',
-  styleUrls: [ './sidebar.component.scss' ],
+  styleUrl: './sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MenuComponent,

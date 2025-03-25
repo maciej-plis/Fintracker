@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { DrawerModule } from 'primeng/drawer';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { LayoutService } from '@core/services/layout/layout.service';
+import { LayoutService, MenuMode, MenuTheme } from '@core/services/layout/layout.service';
 
 const presets = {
   Aura,
@@ -379,8 +379,8 @@ export class ConfiguratorComponent implements OnInit {
     this.layoutService.hideConfigSidebar();
   }
 
-  setMenuMode(mode: string) {
-    const nonTransparentModes = [ 'reveal', 'drawer', 'overlay' ];
+  setMenuMode(mode: MenuMode) {
+    const nonTransparentModes: MenuMode[] = [ 'reveal', 'drawer', 'overlay' ];
     const currentMenuTheme = this.menuTheme();
 
     if (nonTransparentModes.includes(mode)) {
@@ -401,30 +401,19 @@ export class ConfiguratorComponent implements OnInit {
     }
   }
 
-  toggleDarkMode() {
-    this.executeDarkModeToggle();
-  }
-
-  executeDarkModeToggle() {
-    this.layoutService.layoutConfig.update((state) => ({
-      ...state,
-      darkTheme: !state.darkTheme
-    }));
-  }
-
-  showConfigSidebar() {
+  protected showConfigSidebar() {
     this.layoutService.showConfigSidebar();
   }
 
-  setMenuTheme(theme: string) {
-    this.layoutService.layoutConfig.update((state) => ({
-      ...state,
-      menuTheme: theme
-    }));
+  protected toggleDarkMode() {
+    this.layoutService.layoutConfig.update(state => ({ ...state, darkTheme: !state.darkTheme }));
   }
 
-  isTransparentThemeOptionDisabled() {
-    const menuMode = this.menuMode();
-    return [ 'reveal', 'overlay', 'drawer' ].includes(menuMode as string);
+  protected setMenuTheme(theme: MenuTheme) {
+    this.layoutService.layoutConfig.update(state => ({ ...state, menuTheme: theme }));
+  }
+
+  protected isTransparentThemeOptionDisabled() {
+    return [ 'reveal', 'overlay', 'drawer' ].includes(this.menuMode());
   }
 }

@@ -41,7 +41,7 @@ export class LayoutService {
   private readonly initialConfig: layoutConfig = {
     preset: 'Aura',
     primary: 'indigo',
-    surface: 'zinc',
+    surface: 'gray',
     darkTheme: true,
     menuMode: 'drawer',
     menuTheme: 'colorScheme'

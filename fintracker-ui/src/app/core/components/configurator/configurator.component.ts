@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { booleanAttribute, Component, computed, inject, Input, model, OnInit, PLATFORM_ID, Signal } from '@angular/core';
+import { booleanAttribute, Component, computed, inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { $t, updatePreset, updateSurfacePalette } from '@primeng/themes';
 import Aura from '@primeng/themes/aura';
@@ -13,11 +13,9 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { LayoutService, MenuMode, MenuTheme } from '@core/services/layout/layout.service';
 
-const presets = {
-  Aura,
-  Lara,
-  Nora
-} as const;
+const presets = { Aura, Lara, Nora } as const;
+
+const nonTransparentMenuModes: MenuMode[] = [ 'reveal', 'overlay', 'drawer' ];
 
 declare type KeyOfType<T> = keyof T extends infer U ? U : never;
 
@@ -217,23 +215,16 @@ export class ConfiguratorComponent implements OnInit {
     }
   ];
 
-  selectedPrimaryColor = computed(() => {
-    return this.layoutService.layoutConfig().primary;
-  });
+  protected readonly selectedPreset = computed(() => this.layoutService.layoutConfig().preset);
+  protected readonly selectedPrimaryColor = computed(() => this.layoutService.layoutConfig().primary);
+  protected readonly selectedSurfaceColor = computed(() => this.layoutService.layoutConfig().surface);
+  protected readonly darkTheme = computed(() => this.layoutService.layoutConfig().darkTheme);
+  protected readonly menuMode = computed(() => this.layoutService.layoutConfig().menuMode);
+  protected readonly menuTheme = computed(() => this.layoutService.layoutConfig().menuTheme);
 
-  selectedSurfaceColor = computed(() => this.layoutService.layoutConfig().surface);
+  protected readonly visible = computed(() => this.layoutService.layoutState().configSidebarVisible);
 
-  selectedPreset = computed(() => this.layoutService.layoutConfig().preset);
-
-  menuMode = model(this.layoutService.layoutConfig().menuMode);
-
-  visible: Signal<boolean> = computed(() => this.layoutService.layoutState().configSidebarVisible);
-
-  darkTheme = computed(() => this.layoutService.layoutConfig().darkTheme);
-
-  selectedSurface = computed(() => this.layoutService.layoutConfig().surface);
-
-  primaryColors = computed<SurfacesType[]>(() => {
+  protected readonly primaryColors = computed<SurfacesType[]>(() => {
     const presetPalette = presets[this.layoutService.layoutConfig().preset as KeyOfType<typeof presets>].primitive;
     const colors = [ 'emerald', 'green', 'lime', 'orange', 'amber', 'yellow', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose' ];
     const palettes: SurfacesType[] = [ { name: 'noir', palette: {} } ];
@@ -247,8 +238,6 @@ export class ConfiguratorComponent implements OnInit {
 
     return palettes;
   });
-
-  menuTheme = computed(() => this.layoutService.layoutConfig().menuTheme);
 
   getPresetExt() {
     const color: SurfacesType = this.primaryColors().find((c) => c.name === this.selectedPrimaryColor()) || {};
@@ -341,35 +330,19 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   updateColors(event: any, type: string, color: any) {
-    if (type === 'primary') {
-      this.layoutService.layoutConfig.update((state) => ({
-        ...state,
-        primary: color.name
-      }));
-    } else if (type === 'surface') {
-      this.layoutService.layoutConfig.update((state) => ({
-        ...state,
-        surface: color.name
-      }));
-    }
-    this.applyTheme(type, color);
-
     event.stopPropagation();
-  }
 
-  applyTheme(type: string, color: any) {
     if (type === 'primary') {
+      this.layoutService.layoutConfig.update(state => ({ ...state, primary: color.name }));
       updatePreset(this.getPresetExt());
     } else if (type === 'surface') {
+      this.layoutService.layoutConfig.update(state => ({ ...state, surface: color.name }));
       updateSurfacePalette(color.palette);
     }
   }
 
   onPresetChange(event: any) {
-    this.layoutService.layoutConfig.update((state) => ({
-      ...state,
-      preset: event
-    }));
+    this.layoutService.layoutConfig.update(state => ({ ...state, preset: event }));
     const preset = presets[event as KeyOfType<typeof presets>];
     const surfacePalette = this.surfaces.find((s) => s.name === this.selectedSurfaceColor())?.palette;
     $t().preset(preset).preset(this.getPresetExt()).surfacePalette(surfacePalette).use({ useDefaultOptions: true });
@@ -380,24 +353,16 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   setMenuMode(mode: MenuMode) {
-    const nonTransparentModes: MenuMode[] = [ 'reveal', 'drawer', 'overlay' ];
+    this.layoutService.layoutConfig.update(state => ({ ...state, menuMode: mode }));
+
     const currentMenuTheme = this.menuTheme();
-
-    if (nonTransparentModes.includes(mode)) {
+    if (nonTransparentMenuModes.includes(mode)) {
       const theme = currentMenuTheme === 'colorScheme' || currentMenuTheme === 'primaryColor' ? currentMenuTheme : 'colorScheme';
-
       this.setMenuTheme(theme);
     }
-    this.layoutService.layoutConfig.update((state) => ({
-      ...state,
-      menuMode: mode
-    }));
 
     if (this.layoutService.layoutConfig().menuMode === 'static') {
-      this.layoutService.layoutState.update((state) => ({
-        ...state,
-        staticMenuDesktopInactive: false
-      }));
+      this.layoutService.layoutState.update(state => ({ ...state, staticMenuDesktopInactive: false }));
     }
   }
 
@@ -414,6 +379,6 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   protected isTransparentThemeOptionDisabled() {
-    return [ 'reveal', 'overlay', 'drawer' ].includes(this.menuMode());
+    return nonTransparentMenuModes.includes(this.menuMode());
   }
 }

@@ -1,6 +1,7 @@
 <button class="layout-config-button config-link" type="button" (click)="showConfigSidebar()">
   <i class="pi pi-cog"></i>
 </button>
+
 <p-drawer [visible]="visible()" (onHide)="onDrawerHide()" position="right" [transitionOptions]="'.3s cubic-bezier(0, 0, 0.2, 1)'" styleClass="layout-config-sidebar w-80" header="Settings">
   <div class="flex flex-col gap-4">
     <div>
@@ -13,9 +14,7 @@
             (click)="updateColors($event, 'primary', primaryColor)"
             [ngClass]="primaryColor.name === selectedPrimaryColor() ? 'outline-primary' : 'outline-none'"
             class="cursor-pointer w-6 h-6 rounded-full flex shrink-0 items-center justify-center p-0 outline-2 outline-offset-1"
-            [style]="{
-                                    'background-color': primaryColor?.name === 'noir' ? 'var(--text-color)' : primaryColor?.palette?.['500']
-                                }"
+            [style]="{'background-color': primaryColor?.name === 'noir' ? 'var(--text-color)' : primaryColor?.palette?.['500']}"
           ></button>
         }
       </div>
@@ -30,10 +29,8 @@
             [title]="surface.name"
             (click)="updateColors($event, 'surface', surface)"
             class="cursor-pointer w-6 h-6 rounded-full flex shrink-0 items-center justify-center p-0 outline-2 outline-offset-1"
-            [ngClass]="(selectedSurface() ? selectedSurface() === surface.name : darkTheme() ? surface.name === 'zinc' : surface.name === 'slate') ? 'outline-primary' : 'outline-none'"
-            [style]="{
-                                    'background-color': surface?.palette?.['500']
-                                }"
+            [ngClass]="(selectedSurfaceColor() ? selectedSurfaceColor() === surface.name : darkTheme() ? surface.name === 'zinc' : surface.name === 'slate') ? 'outline-primary' : 'outline-none'"
+            [style]="{'background-color': surface?.palette?.['500']}"
           ></button>
         }
       </div>
@@ -54,37 +51,37 @@
       <div class="flex flex-wrap flex-col gap-3">
         <div class="flex">
           <div class="flex items-center gap-2 w-1/2">
-            <p-radio-button name="menuMode" value="static" [(ngModel)]="menuMode" (ngModelChange)="setMenuMode('static')" inputId="static"></p-radio-button>
+            <p-radio-button name="menuMode" value="static" [ngModel]="menuMode()" (ngModelChange)="setMenuMode('static')" inputId="static"></p-radio-button>
             <label for="static">Static</label>
           </div>
 
           <div class="flex items-center gap-2 w-1/2">
-            <p-radio-button name="menuMode" value="overlay" [(ngModel)]="menuMode" (ngModelChange)="setMenuMode('overlay')" inputId="overlay"></p-radio-button>
+            <p-radio-button name="menuMode" value="overlay" [ngModel]="menuMode()" (ngModelChange)="setMenuMode('overlay')" inputId="overlay"></p-radio-button>
             <label for="overlay">Overlay</label>
           </div>
         </div>
         <div class="flex">
           <div class="flex items-center gap-2 w-1/2">
-            <p-radio-button name="menuMode" value="slim" [(ngModel)]="menuMode" (ngModelChange)="setMenuMode('slim')" inputId="slim"></p-radio-button>
+            <p-radio-button name="menuMode" value="slim" [ngModel]="menuMode()" (ngModelChange)="setMenuMode('slim')" inputId="slim"></p-radio-button>
             <label for="slim">Slim</label>
           </div>
           <div class="flex items-center gap-2 w-1/2">
-            <p-radio-button name="menuMode" value="slim-plus" [(ngModel)]="menuMode" (ngModelChange)="setMenuMode('slim-plus')" inputId="slim-plus"></p-radio-button>
+            <p-radio-button name="menuMode" value="slim-plus" [ngModel]="menuMode()" (ngModelChange)="setMenuMode('slim-plus')" inputId="slim-plus"></p-radio-button>
             <label for="slim-plus">Slim+</label>
           </div>
         </div>
         <div class="flex">
           <div class="flex items-center gap-2 w-1/2">
-            <p-radio-button name="menuMode" value="reveal" [(ngModel)]="menuMode" (ngModelChange)="setMenuMode('reveal')" inputId="reveal"></p-radio-button>
+            <p-radio-button name="menuMode" value="reveal" [ngModel]="menuMode()" (ngModelChange)="setMenuMode('reveal')" inputId="reveal"></p-radio-button>
             <label for="reveal">Reveal</label>
           </div>
           <div class="flex items-center gap-2 w-1/2">
-            <p-radio-button name="menuMode" value="drawer" [(ngModel)]="menuMode" (ngModelChange)="setMenuMode('drawer')" inputId="drawer"></p-radio-button>
+            <p-radio-button name="menuMode" value="drawer" [ngModel]="menuMode()" (ngModelChange)="setMenuMode('drawer')" inputId="drawer"></p-radio-button>
             <label for="drawer">Drawer</label>
           </div>
         </div>
         <div class="flex items-center gap-2 w-1/2">
-          <p-radio-button name="menuMode" value="horizontal" [(ngModel)]="menuMode" (ngModelChange)="setMenuMode('horizontal')" inputId="horizontal"></p-radio-button>
+          <p-radio-button name="menuMode" value="horizontal" [ngModel]="menuMode()" (ngModelChange)="setMenuMode('horizontal')" inputId="horizontal"></p-radio-button>
           <label for="horizontal">Horizontal</label>
         </div>
       </div>

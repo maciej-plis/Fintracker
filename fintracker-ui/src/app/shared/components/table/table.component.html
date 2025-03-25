@@ -1,4 +1,4 @@
-<div class="table w-full">
+<div class="table">
   <div class="table__header">
     <div class="table__header-start">
       <h5 class="table__header-title">{{ header() }}</h5>
@@ -7,6 +7,5 @@
       <ng-content/>
     </div>
   </div>
-  <ag-grid-angular class="ag-theme-alpine-dark"
-                   [gridOptions]="composedGridOptions()"/>
+  <ag-grid-angular class="ag-theme-alpine-dark" [gridOptions]="composedGridOptions()"/>
 </div>

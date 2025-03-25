@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { ColDef, GridApi, GridOptions, GridReadyEvent, ITextFilterParams } from 'ag-grid-community';
 import { TableDatePickerComponent } from '@shared/components/table-date-picker/table-date-picker.component';
 import { AutoCompleteCellEditor } from '@shared/components/auto-complete-cell-editor/auto-complete-cell-editor.component';
@@ -14,7 +14,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: [ './table.component.scss' ],
+  styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AgGridModule,
@@ -36,12 +36,12 @@ export class TableComponent {
 
   private static readonly DEFAULT_COL_DEF: ColDef = {
     flex: 1,
-    menuTabs: ['filterMenuTab'],
+    menuTabs: [ 'filterMenuTab' ],
     sortable: true,
     filter: 'agTextColumnFilter',
     filterParams: {
       maxNumConditions: 1,
-      buttons: ['apply', 'reset'],
+      buttons: [ 'apply', 'reset' ],
       closeOnApply: true
     } as ITextFilterParams,
     suppressMovable: true
@@ -53,26 +53,21 @@ export class TableComponent {
     pagination: true,
     cacheBlockSize: 50,
     paginationPageSize: 12,
-    paginationPageSizeSelector: [12, 20, 50, 100],
+    paginationPageSizeSelector: [ 12, 20, 50, 100 ],
     rowSelection: 'multiple',
     suppressRowClickSelection: true,
     suppressCellFocus: true,
     suppressMenuHide: true,
     suppressContextMenu: true,
     rowModelType: 'serverSide',
-    columnTypes: {
-      numerator,
-      form
-    },
-    dataTypeDefinitions: {
-      currency
-    }
+    columnTypes: { numerator, form },
+    dataTypeDefinitions: { currency }
   };
 
   public readonly header = input.required<string>();
   public readonly gridOptions = input.required<GridOptions>();
 
-  public isReady: boolean = false;
+  public readonly isReady = signal(false);
   public api?: GridApi;
 
   protected composedGridOptions = computed(() => {
@@ -80,10 +75,10 @@ export class TableComponent {
     return {
       ...TableComponent.DEFAULT_GRID_OPTIONS,
       ...gridOptions,
-      defaultColDef: {...TableComponent.DEFAULT_COL_DEF, ...gridOptions.defaultColDef},
+      defaultColDef: { ...TableComponent.DEFAULT_COL_DEF, ...gridOptions.defaultColDef },
       onGridReady: (event: GridReadyEvent) => {
         this.api = event.api;
-        this.isReady = true;
+        this.isReady.set(true);
         gridOptions.onGridReady?.(event);
       }
     };

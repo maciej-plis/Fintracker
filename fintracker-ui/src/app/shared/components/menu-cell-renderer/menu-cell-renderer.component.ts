@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, signal, viewChild } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
-import { ButtonModule } from 'primeng/button';
+import { Button, ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 
@@ -17,7 +17,7 @@ import { MenuItem } from 'primeng/api';
 })
 export class MenuCellRenderer implements ICellRendererAngularComp {
 
-  private readonly elRef = inject(ElementRef);
+  private readonly button = viewChild.required(Button, { read: ElementRef });
 
   protected readonly menuItems = signal<MenuItem[]>([]);
 
@@ -30,8 +30,12 @@ export class MenuCellRenderer implements ICellRendererAngularComp {
     return true;
   }
 
-  public triggerMenuButton(): void {
-    this.elRef.nativeElement.querySelector('button')?.click();
+  protected onMenuClose(): void {
+    this.button().nativeElement.querySelector('button').focus();
+  }
+
+  public triggerMenu(): void {
+    this.button().nativeElement.querySelector('button')?.click();
   }
 
   private updateState(params: MenuCellRendererParams): void {

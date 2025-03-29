@@ -4,7 +4,7 @@ import { FormsModule, NgControl } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { locale } from 'src/app/app.constants';
 import { CalendarValueAccessorDirective } from '@shared/directives';
-import { CalendarModule } from 'primeng/calendar';
+import { DatePicker } from 'primeng/datepicker';
 
 @Component({
   selector: 'app-calendar',
@@ -16,9 +16,9 @@ import { CalendarModule } from 'primeng/calendar';
     '[class.p-inputwrapper-filled]': 'valueAccessor.value()'
   },
   imports: [
-    CalendarModule,
     PaginatorModule,
-    FormsModule
+    FormsModule,
+    DatePicker
   ]
 })
 export class CalendarComponent {
@@ -26,6 +26,7 @@ export class CalendarComponent {
   protected readonly ngControl = inject(NgControl);
   protected readonly valueAccessor = inject(CalendarValueAccessorDirective);
 
+  public readonly inputId = input.required<string>();
   public readonly displayFormat = input.required<string>();
   public readonly modelFormat = input.required<string>();
 

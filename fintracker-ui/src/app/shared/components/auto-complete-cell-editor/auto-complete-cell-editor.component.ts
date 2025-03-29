@@ -32,7 +32,7 @@ export class AutoCompleteCellEditor implements ICellEditorAngularComp {
     effect(() => {
       const filter = this.filter();
       this.params?.suggestionsFunc(filter).subscribe(result => result && this.filteredSuggestions.set(result));
-    }, { allowSignalWrites: true });
+    });
   }
 
   public agInit(params: AutoCompleteCellEditorParams): void {

@@ -13,6 +13,7 @@ import { AddShopDialogData } from 'src/app/expenses/dialogs/add-shop/add-shop.di
 import { CalendarComponent } from '@shared/components/calendar/calendar.component';
 import { ProductsInputTableComponent } from 'src/app/expenses/components/products-table/products-input-table.component';
 import { ButtonModule } from 'primeng/button';
+import { FloatLabel } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-purchase-form',
@@ -24,7 +25,8 @@ import { ButtonModule } from 'primeng/button';
     AutoCompleteModule,
     CalendarComponent,
     ProductsInputTableComponent,
-    ButtonModule
+    ButtonModule,
+    FloatLabel
   ]
 })
 export class PurchaseFormComponent {
@@ -62,7 +64,7 @@ export class PurchaseFormComponent {
     effect(() => {
       const purchase = this.purchase();
       purchase && this.purchaseControlGroup.reset(purchase);
-    }, {allowSignalWrites: true});
+    });
 
     this.purchaseControlGroup.statusChanges.pipe(
       startWith(null)

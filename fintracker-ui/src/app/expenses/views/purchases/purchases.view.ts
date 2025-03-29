@@ -4,6 +4,7 @@ import { PurchaseDTO, PurchasesApi } from '@core/api';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { PurchasesTableComponent } from 'src/app/expenses/components';
 import { Router } from '@angular/router';
+import { Card } from 'primeng/card';
 
 @Component({
   selector: 'app-purchases',
@@ -11,7 +12,8 @@ import { Router } from '@angular/router';
   styleUrls: [ './purchases.view.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    PurchasesTableComponent
+    PurchasesTableComponent,
+    Card
   ]
 })
 export class PurchasesView {

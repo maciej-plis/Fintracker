@@ -7,9 +7,14 @@
 }
 
 :host ::ng-deep {
-  .p-button {
-    border-radius: 0;
-    outline: none;
-    border: none;
+  p-button, button {
+    width: 100%;
+    height: 100%;
+  }
+
+  .p-button-text:hover {
+    background: transparent;
+    border-color: transparent;
+    color: var(--p-button-text-primary-color);
   }
 }

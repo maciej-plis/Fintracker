@@ -1,4 +1,2 @@
-<p-menu #menu appendTo="body" [model]="menuItems()" [popup]="true"/>
-<p-button icon="pi pi-ellipsis-v"
-          styleClass="p-button-text"
-          (onClick)="menu.toggle($event)"/>
+<p-menu #menu appendTo="body" [model]="menuItems()" [popup]="true" (onHide)="onMenuClose()"/>
+<p-button text icon="pi pi-ellipsis-v" (click)="menu.toggle($event)"/>

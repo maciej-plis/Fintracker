@@ -3,10 +3,7 @@ spring:
     generate_statistics: true
     show_sql: true
     format_sql: true
-
-one-password.data-sources:
-  - vault: wa4rm5ykk2gsagvdhhuyreu5be
-    item: aqoa7t2qgwr3wi3a4a525ranve
-
-one-password:
-  endpoint: http://vault.tools.com
+  datasource:
+    url: jdbc:postgresql://192.168.101.108:5432/fintracker-dev
+    username: postgres
+    password: Kawasaki14

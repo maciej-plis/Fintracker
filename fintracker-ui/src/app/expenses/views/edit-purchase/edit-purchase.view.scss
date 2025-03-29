@@ -1,7 +1,9 @@
-.p-card-title {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 1rem;
-  padding: 1.25rem 1.25rem 0 1.25rem;
+:host ::ng-deep {
+  .p-card-body {
+    flex-grow: 1;
+  }
+
+  .p-card, .p-card-content {
+    height: 100%;
+  }
 }

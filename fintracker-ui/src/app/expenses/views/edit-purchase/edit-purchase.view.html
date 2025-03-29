@@ -1,7 +1,7 @@
 <p-card>
-  <ng-template pTemplate="header">
-    <div class="p-card-title">
-      <span>Edit Purchase</span>
+  <ng-template #title>
+    <div class="mb-2 flex gap-4">
+      Edit Purchase
       @if (!formPristine()) {
         <p-tag>
           <i class="pi pi-save p-tag-icon"></i>

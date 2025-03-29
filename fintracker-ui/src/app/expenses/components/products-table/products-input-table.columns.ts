@@ -12,7 +12,7 @@ import { AddCategoryDialog } from 'src/app/expenses/dialogs';
 import { AddCategoryDialogData } from 'src/app/expenses/dialogs/add-category/add-category.dialog';
 import { Observable, of } from 'rxjs';
 
-const ADD_CATEGORY_ITEM_OPTION: CategoryDTO = {id: '', name: '(Add Item)'};
+const ADD_CATEGORY_ITEM_OPTION: CategoryDTO = { id: '', name: '(Add Item)' };
 
 export enum Columns {
   NUMERATOR = 'numerator',
@@ -28,7 +28,11 @@ export const columnDefs: ColDef[] = [
   {
     colId: Columns.NUMERATOR,
     type: 'numerator',
-    headerName: 'No.'
+    headerName: 'No.',
+    cellStyle: {
+      'display': 'flex',
+      'align-items': 'center'
+    }
   },
   {
     colId: Columns.CATEGORY,
@@ -76,7 +80,7 @@ export const columnDefs: ColDef[] = [
     editable: true,
     cellEditorSelector: controlsCellEditor.bind(this),
     cellRendererSelector: controlsCellRenderer.bind(this),
-    cellStyle: {lineHeight: 'normal'}
+    cellStyle: { lineHeight: 'normal', padding: '0' }
   }
 ];
 
@@ -95,7 +99,7 @@ function categoryCellEditor(params: ICellEditorParams): CellEditorSelectorResult
             name: filter
           } as AddCategoryDialogData
         }).subscribe(category => {
-          cell && params.api.startEditingCell({rowIndex: cell.rowIndex, colKey: cell.column.getColId(), rowPinned: cell.rowPinned});
+          cell && params.api.startEditingCell({ rowIndex: cell.rowIndex, colKey: cell.column.getColId(), rowPinned: cell.rowPinned });
           (params.api.getCellEditorInstances()[0] as AutoCompleteCellEditor).setValue(category);
         });
       },
@@ -107,7 +111,7 @@ function categoryCellEditor(params: ICellEditorParams): CellEditorSelectorResult
 
 function filterCategorySuggestions(categories: CategoryDTO[], filter: string): Observable<CategoryDTO[]> {
   const filteredCategories = categories.filter(suggestion => startsWithIgnoreCase(suggestion.name, filter));
-  return of([...filteredCategories, ADD_CATEGORY_ITEM_OPTION]);
+  return of([ ...filteredCategories, ADD_CATEGORY_ITEM_OPTION ]);
 }
 
 function nameCellEditor(params: ICellEditorParams): CellEditorSelectorResult {
@@ -129,7 +133,7 @@ function controlsCellEditor(params: ICellEditorParams): CellEditorSelectorResult
 function actionCellEditor(action: ActionCellEditorParams['action']): CellEditorSelectorResult {
   return {
     component: ActionCellEditor,
-    params: {action}
+    params: { action }
   };
 }
 
@@ -178,10 +182,10 @@ function addRow(params: ICellEditorParams | ICellRendererParams) {
 
   const context = params.context as ProductsInputTableContext;
   context.formArray.insert(0, params.data);
-  params.api.applyTransaction({add: [params.data], addIndex: 0});
+  params.api.applyTransaction({ add: [ params.data ], addIndex: 0 });
   refreshNumeratorColumn(params.api);
 
-  params.api.setGridOption('pinnedTopRowData', [buildProductForm()]);
+  params.api.setGridOption('pinnedTopRowData', [ buildProductForm() ]);
   focusCell(params.api, 0, 'category', 'top');
 }
 
@@ -194,7 +198,7 @@ function deleteRow(params: ICellEditorParams | ICellRendererParams) {
   if (index === -1) return;
 
   context.formArray.removeAt(index);
-  params.api.applyTransaction({remove: [params.data]});
+  params.api.applyTransaction({ remove: [ params.data ] });
   refreshNumeratorColumn(params.api);
 
   focusCellAfterDeletingRow(params.api);
@@ -211,17 +215,17 @@ function cloneRow(params: ICellEditorParams | ICellRendererParams) {
   const product = context.formArray.value[productIndex];
   const productForm = buildProductForm(product as Partial<ProductDTO>);
   context.formArray.insert(productIndex + 1, productForm);
-  params.api.applyTransaction({add: [productForm], addIndex: params.rowIndex + 1});
+  params.api.applyTransaction({ add: [ productForm ], addIndex: params.rowIndex + 1 });
   refreshNumeratorColumn(params.api);
 }
 
-function toggleMenu(params: ICellEditorParams | ICellRendererParams) {
-  const menuCellRenderer = params.api.getCellRendererInstances({rowNodes: [params.node], columns: [params.column!]})[0] as MenuCellRenderer;
-  menuCellRenderer.triggerMenuButton();
+function toggleMenu(params: ICellEditorParams) {
+  const menuCellRenderer = params.api.getCellRendererInstances({ rowNodes: [ params.node ], columns: [ params.column! ] })[0] as MenuCellRenderer;
+  menuCellRenderer.triggerMenu();
 }
 
 function focusCellAfterDeletingRow(api: GridApi) {
-  const {rowIndex, column, rowPinned} = api.getFocusedCell()!;
+  const { rowIndex, column, rowPinned } = api.getFocusedCell()!;
   const itemsLeft = api.getDisplayedRowCount();
 
   if (rowIndex === 0 && itemsLeft === 0) focusCell(api, 0, 'category', 'top'); // If no more rows set focus to pinned row
@@ -230,12 +234,12 @@ function focusCellAfterDeletingRow(api: GridApi) {
 }
 
 function refreshPinnedRows(api: GridApi) {
-  api.refreshCells({force: true, rowNodes: getPinnedRowNodes(api)});
+  api.refreshCells({ force: true, rowNodes: getPinnedRowNodes(api) });
 }
 
 function refreshNumeratorColumn(api: GridApi) {
-  api.refreshCells({columns: [Columns.NUMERATOR]});
-  api.autoSizeColumns([Columns.NUMERATOR]);
+  api.refreshCells({ columns: [ Columns.NUMERATOR ] });
+  api.autoSizeColumns([ Columns.NUMERATOR ]);
 }
 
 function getPinnedRowNodes(api: GridApi): IRowNode[] {
@@ -257,15 +261,15 @@ function isProductForm(data: any): data is FormGroup<ProductForm> {
 
 const PRODUCT_FORM_VALIDATORS: Record<keyof ProductForm, ValidatorFn[]> = {
   id: [],
-  category: [Validators.required],
-  name: [Validators.required],
-  amount: [Validators.required],
-  price: [Validators.required],
+  category: [ Validators.required ],
+  name: [ Validators.required ],
+  amount: [ Validators.required ],
+  price: [ Validators.required ],
   description: []
 };
 
 export const buildProductForm = (productDto?: Partial<ProductDTO>) => new FormGroup<ProductForm>({
-  id: new FormControl(productDto?.id ?? randomUUID(), {validators: PRODUCT_FORM_VALIDATORS.id, nonNullable: true}),
+  id: new FormControl(productDto?.id ?? randomUUID(), { validators: PRODUCT_FORM_VALIDATORS.id, nonNullable: true }),
   category: new FormControl(productDto?.category ?? null, PRODUCT_FORM_VALIDATORS.category),
   name: new FormControl(productDto?.name ?? null, PRODUCT_FORM_VALIDATORS.name),
   amount: new FormControl(productDto?.amount ?? null, PRODUCT_FORM_VALIDATORS.amount),

@@ -1,5 +1,3 @@
-@use "src/assets/styles/component-common" as common;
-
 .table-error {
   display: none;
 }
@@ -10,12 +8,16 @@
   }
 
   .table__header {
-    border-color: common.$error-color;
+    border-color: var(--p-form-field-invalid-border-color);
+
+    &-title {
+      color: var(--p-form-field-invalid-placeholder-color);
+    }
   }
 
   .ag-root-wrapper {
-    border-bottom-color: common.$error-color;
-    border-left-color: common.$error-color;
-    border-right-color: common.$error-color;
+    border-bottom-color: var(--p-inputtext-invalid-border-color);
+    border-left-color: var(--p-inputtext-invalid-border-color);
+    border-right-color: var(--p-inputtext-invalid-border-color);
   }
 }

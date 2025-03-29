@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { IDateParams } from 'ag-grid-community';
 import { IDateAngularComp } from 'ag-grid-angular';
 import { FormsModule } from '@angular/forms';
-import { CalendarModule } from 'primeng/calendar';
 import { AutoFocusModule } from 'primeng/autofocus';
+import { DatePicker } from 'primeng/datepicker';
 
 @Component({
   selector: 'app-table-date-picker',
@@ -11,9 +11,9 @@ import { AutoFocusModule } from 'primeng/autofocus';
   styleUrls: [ './table-date-picker.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CalendarModule,
     FormsModule,
-    AutoFocusModule
+    AutoFocusModule,
+    DatePicker
   ]
 })
 export class TableDatePickerComponent implements IDateAngularComp {

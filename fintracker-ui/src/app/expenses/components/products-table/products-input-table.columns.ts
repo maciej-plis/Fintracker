@@ -121,7 +121,7 @@ function nameCellEditor(params: ICellEditorParams): CellEditorSelectorResult {
     params: {
       suggestionsFunc: filter => context.productsApi.getProductNames(filter),
       minLength: 2,
-      delay: 100
+      delay: 200
     } as AutoCompleteCellEditorParams
   };
 }

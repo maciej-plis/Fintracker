@@ -32,7 +32,7 @@ export const columnDefs: ColDef[] = [
     cellStyle: {
       'display': 'flex',
       'align-items': 'center'
-    }
+    },
   },
   {
     colId: Columns.CATEGORY,
@@ -72,12 +72,12 @@ export const columnDefs: ColDef[] = [
   },
   {
     colId: Columns.CONTROLS,
-    minWidth: 50,
-    maxWidth: 50,
+    width: 50,
     suppressFillHandle: true,
-    resizable: false,
     pinned: 'right',
     editable: true,
+    sortable: false,
+    filter: false,
     cellEditorSelector: controlsCellEditor.bind(this),
     cellRendererSelector: controlsCellRenderer.bind(this),
     cellStyle: { lineHeight: 'normal', padding: '0' }
@@ -215,7 +215,7 @@ function cloneRow(params: ICellEditorParams | ICellRendererParams) {
   const product = context.formArray.value[productIndex];
   const productForm = buildProductForm(product as Partial<ProductDTO>);
   context.formArray.insert(productIndex + 1, productForm);
-  params.api.applyTransaction({ add: [ productForm ], addIndex: params.rowIndex + 1 });
+  params.api.applyTransaction({ add: [ productForm ], addIndex: params.node.rowIndex! + 1 });
   refreshNumeratorColumn(params.api);
 }
 

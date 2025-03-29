@@ -31,12 +31,6 @@ export class PurchasesTableComponent {
 
   private readonly columnDefs: ColDef[] = [
     {
-      checkboxSelection: true,
-      maxWidth: 50,
-      sortable: false,
-      suppressHeaderMenuButton: true
-    },
-    {
       field: 'shopName',
       headerName: 'Shop Name',
       filter: 'agSetColumnFilter',
@@ -69,28 +63,33 @@ export class PurchasesTableComponent {
     {
       field: 'createdAt',
       headerName: 'Created At',
-      suppressHeaderMenuButton: true,
       sort: 'desc',
       valueFormatter: dateValueFormatter('medium', locale)
     },
     {
-      headerName: '',
-      maxWidth: 80,
+      width: 50,
       cellRenderer: ButtonCellRendererComponent,
       cellRendererParams: {
         icon: 'pi pi-pencil',
         title: 'Edit',
         clicked: (params: ICellRendererParams) => this.rowEdit.emit(params.data)
       } as ButtonCellRendererParams,
-      suppressHeaderMenuButton: true,
-      sortable: false
+      cellStyle: { lineHeight: 'normal', padding: '0' },
+      suppressNavigable: true,
+      pinned: 'right',
+      sortable: false,
+      filter: false
     }
   ];
 
   public readonly gridOptions: GridOptions = {
     columnDefs: this.columnDefs,
     getRowId: params => params.data.id,
-    serverSideDatasource: new ServerSideDatasource<PurchaseSummaryDTO>(this.purchaseSummariesApi.getPurchaseSummaries.bind(this.purchaseSummariesApi))
+    serverSideDatasource: new ServerSideDatasource<PurchaseSummaryDTO>(this.purchaseSummariesApi.getPurchaseSummaries.bind(this.purchaseSummariesApi)),
+    rowSelection: {
+      mode: 'multiRow',
+      headerCheckbox: false
+    }
   };
 
   public onDeleteSelected() {

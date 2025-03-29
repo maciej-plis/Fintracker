@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { registerLocaleData } from '@angular/common';
-import 'ag-grid-enterprise';
 import localePl from '@angular/common/locales/pl';
 import localePlExtra from '@angular/common/locales/extra/pl';
 import { LayoutComponent } from '@core/components/layout/layout.component';
 import { AutoComplete } from 'primeng/autocomplete';
+import { AllEnterpriseModule, ModuleRegistry, provideGlobalGridOptions } from 'ag-grid-enterprise';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +21,8 @@ import { AutoComplete } from 'primeng/autocomplete';
 export class AppComponent implements OnInit {
 
   public ngOnInit() {
+    ModuleRegistry.registerModules([ AllEnterpriseModule ]);
+    provideGlobalGridOptions({ theme: 'legacy' });
     registerLocaleData(localePl, 'pl-PL', localePlExtra);
     this.configureAutocompleteTabBehaviour();
   }

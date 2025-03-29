@@ -62,14 +62,14 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
   public onTouched?: () => {};
 
   public validate(): ValidationErrors | null {
-    return this.formArray.valid ? null : {'invalidData': true};
+    return this.formArray.valid ? null : { 'invalidData': true };
   }
 
   public writeValue(products: ProductDTO[]): void {
-    this.formArray.clear({emitEvent: false});
+    this.formArray.clear({ emitEvent: false });
     products.forEach(product => {
       const productForm = buildProductForm(product);
-      this.formArray.push(productForm, {emitEvent: false});
+      this.formArray.push(productForm, { emitEvent: false });
     });
     this.refreshTableData();
   }
@@ -92,18 +92,21 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
     columnDefs: columnDefs,
     pagination: false,
     rowModelType: 'clientSide',
-    rowSelection: 'single',
     suppressCellFocus: false,
-    enableRangeSelection: true,
-    suppressMultiRangeSelection: true,
-    enableFillHandle: true,
-    pinnedTopRowData: [buildProductForm()],
+    cellSelection: {
+      enableHeaderHighlight: false,
+      suppressMultiRanges: true,
+      handle: {
+        mode: 'fill'
+      }
+    },
+    pinnedTopRowData: [ buildProductForm() ],
     stopEditingWhenCellsLoseFocus: true,
     rowData: [],
     statusBar: {
       statusPanels: [
-        {key: 'totalItems', statusPanel: TotalItemsStatusPanel, align: 'left'},
-        {key: 'totalPrice', statusPanel: TotalPriceStatusPanel, align: 'left'}
+        { key: 'totalItems', statusPanel: TotalItemsStatusPanel, align: 'left' },
+        { key: 'totalPrice', statusPanel: TotalPriceStatusPanel, align: 'left' }
       ]
     },
     processCellForClipboard: params => JSON.stringify(params.value),
@@ -118,8 +121,8 @@ export class ProductsInputTableComponent implements ControlValueAccessor, Valida
   };
 
   private refreshTableData() {
-    this.table().api?.autoSizeColumns([Columns.NUMERATOR]);
+    this.table().api?.autoSizeColumns([ Columns.NUMERATOR ]);
     this.table().api?.setGridOption('rowData', this.formArray.controls);
-    this.table().api?.refreshCells({force: true});
+    this.table().api?.refreshCells({ force: true });
   }
 }

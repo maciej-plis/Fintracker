@@ -4,8 +4,10 @@ import { SvgCellRenderer, SvgCellRendererParams } from '@shared/components/svg-c
 import { getFormControl, Subtract } from '@shared/utils';
 
 export const numerator: ColTypeDef = {
+  maxWidth: 60,
   resizable: false,
   sortable: false,
+  filter: false,
   suppressNavigable: true,
   suppressFillHandle: true,
   valueGetter: numeratorValueGetter.bind(this),

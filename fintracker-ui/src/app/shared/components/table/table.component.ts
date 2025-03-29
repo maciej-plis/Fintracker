@@ -36,7 +36,6 @@ export class TableComponent {
 
   private static readonly DEFAULT_COL_DEF: ColDef = {
     flex: 1,
-    menuTabs: [ 'filterMenuTab' ],
     sortable: true,
     filter: 'agTextColumnFilter',
     filterParams: {
@@ -44,22 +43,22 @@ export class TableComponent {
       buttons: [ 'apply', 'reset' ],
       closeOnApply: true
     } as ITextFilterParams,
-    suppressMovable: true
+    suppressMovable: true,
+    suppressHeaderMenuButton: true,
+    resizable: false
   };
 
   private static readonly DEFAULT_GRID_OPTIONS: GridOptions = {
     components: TableComponent.COMPONENTS,
     defaultColDef: TableComponent.DEFAULT_COL_DEF,
+    rowModelType: 'serverSide',
     pagination: true,
     cacheBlockSize: 100,
     paginationPageSize: 25,
     paginationPageSizeSelector: [ 10, 25, 50, 100 ],
-    rowSelection: 'multiple',
-    suppressRowClickSelection: true,
+    suppressHeaderFocus: true,
     suppressCellFocus: true,
-    suppressMenuHide: true,
     suppressContextMenu: true,
-    rowModelType: 'serverSide',
     columnTypes: { numerator, form },
     dataTypeDefinitions: { currency }
   };

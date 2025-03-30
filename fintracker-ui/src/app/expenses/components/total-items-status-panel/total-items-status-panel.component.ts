@@ -9,24 +9,26 @@ import { FormGroup } from '@angular/forms';
   selector: 'app-total-price-status-panel',
   templateUrl: './total-items-status-panel.component.html',
   styleUrl: './total-items-status-panel.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: []
 })
 export class TotalItemsStatusPanel implements IStatusPanelAngularComp {
 
   protected readonly totalItems = signal(0);
 
   public agInit(params: IStatusPanelParams<FormGroup<ProductForm>>): void {
-    params.api.addEventListener('rowDataUpdated', () => {
-      const rowData = this.getRowData(params);
-      this.totalItems.set(rowData.length);
-    });
+    params.api.addEventListener('rowDataUpdated', () => this.updateTotalItems(params));
   }
 
   public refresh(params: IStatusPanelParams): boolean {
     return true;
   }
 
-  private getRowData({api}: IStatusPanelParams<FormGroup<ProductForm>>): FormGroup<ProductForm>[] {
+  private updateTotalItems(params: IStatusPanelParams<FormGroup<ProductForm>>): void {
+    this.totalItems.set(this.getRowData(params).length);
+  }
+
+  private getRowData({ api }: IStatusPanelParams<FormGroup<ProductForm>>): FormGroup<ProductForm>[] {
     let rowData: FormGroup<ProductForm>[] = [];
     api.forEachNode(node => node.data && rowData.push(node.data));
     return rowData;

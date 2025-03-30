@@ -1,2 +1,3 @@
-export { CategoriesService } from 'src/app/expenses/services/categories/categories.service';
-export { ShopsService } from 'src/app/expenses/services/shops/shops.service';
+export * from './purchases-table/purchases-table.service';
+export * from './shops/shops.service';
+export * from './categories/categories.service';

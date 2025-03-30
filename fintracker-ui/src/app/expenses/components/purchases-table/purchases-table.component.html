@@ -1,4 +1,4 @@
-<app-table [gridOptions]="gridOptions" header="Purchases">
-  <p-button label="Add" icon="pi pi-plus" styleClass="p-button-sm" (click)="addNewItem.emit()"/>
-  <p-button label="Delete Selected" icon="pi pi-trash" styleClass="p-button-sm p-button-danger" (click)="onDeleteSelected()"/>
+<app-table [gridOptions]="tableService.gridOptions" header="Purchases">
+  <p-button label="Add" icon="pi pi-plus" styleClass="p-button-sm" (click)="tableService.onAddItem()"/>
+  <p-button label="Delete Selected" icon="pi pi-trash" styleClass="p-button-sm p-button-danger" (click)="tableService.onDeleteSelected()"/>
 </app-table>

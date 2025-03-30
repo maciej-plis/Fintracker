@@ -8,6 +8,6 @@ describe('SidebarComponent', () => {
 
   it('Should create', () => {
     const fixture = MockRender(SidebarComponent);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

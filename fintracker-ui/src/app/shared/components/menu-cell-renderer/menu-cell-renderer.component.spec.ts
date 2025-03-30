@@ -7,7 +7,7 @@ describe('MenuCellRenderer', () => {
 
   it('Should create', () => {
     const fixture = MockRender(MenuCellRenderer);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });
 

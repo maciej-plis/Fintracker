@@ -8,6 +8,6 @@ describe('ConfiguratorComponent', () => {
 
   it('Should create', () => {
     const fixture = MockRender(ConfiguratorComponent);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

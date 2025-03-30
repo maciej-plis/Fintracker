@@ -16,18 +16,18 @@ export class ServerSideDatasource<T> implements IServerSideDatasource {
   public getRows(params: IServerSideGetRowsParams): void {
     const requestParams = this.getPageRequestParams(params.request);
     this.pageRequestCallback(...requestParams).subscribe({
-      next: this.onLoadSuccess(params),
-      error: this.onLoadFailure(params)
+      next: ({ content, totalItems }) => params.success({ rowData: content, rowCount: totalItems }),
+      error: () => params.fail()
     });
   }
 
   private getPageRequestParams(request: IServerSideGetRowsRequest): PageRequestParams {
-    const {startRow = 0, endRow = 0} = request;
+    const { startRow = 0, endRow = 0 } = request;
     const pageSize = Math.max(endRow - startRow, 0);
     const page = pageSize > 0 ? startRow / pageSize : 0;
-    const sort = request.sortModel.map(({colId, sort}) => `${ colId },${ sort }`).join(';');
+    const sort = request.sortModel.map(({ colId, sort }) => `${ colId },${ sort }`).join(';');
     const filter = this.convertFiltersToRsqlString(request.filterModel as any);
-    return [page, pageSize, sort, filter];
+    return [ page, pageSize, sort, filter ];
   }
 
   private convertFiltersToRsqlString(filters: { [field: string]: FilterModel }): string {
@@ -37,7 +37,7 @@ export class ServerSideDatasource<T> implements IServerSideDatasource {
 
   private convertFiltersToRsqlExpressions(filters: { [field: string]: FilterModel }): ExpressionNode[] {
     return Object.entries(filters)
-      .map(([field, filter]) => this.convertFilterToRsqlExpression(field, filter))
+      .map(([ field, filter ]) => this.convertFilterToRsqlExpression(field, filter))
       .filter(isNonNull);
   }
 
@@ -77,15 +77,15 @@ export class ServerSideDatasource<T> implements IServerSideDatasource {
       case 'endsWith':
         return RsqlBuilder.endsWith(field, filterModel.filter!, isTextFilter);
       case 'inRange':
-        return RsqlBuilder.inRange(field, [filterModel.filter!, filterModel.filterTo!]);
+        return RsqlBuilder.inRange(field, [ filterModel.filter!, filterModel.filterTo! ]);
       default:
         return null;
     }
   }
 
   private convertDateFilterToRsqlExpression(field: string, filterModel: DateFilterModel): ExpressionNode | null {
-    const dateFrom = filterModel.dateFrom?.split(' ')[0]
-    const dateTo = filterModel.dateTo?.split(' ')[0]
+    const dateFrom = filterModel.dateFrom?.split(' ')[0];
+    const dateTo = filterModel.dateTo?.split(' ')[0];
     switch (filterModel.type) {
       case 'blank':
         return RsqlBuilder.blank(field);
@@ -104,7 +104,7 @@ export class ServerSideDatasource<T> implements IServerSideDatasource {
       case 'greaterThanOrEqual':
         return RsqlBuilder.greaterThanOrEqual(field, dateFrom!);
       case 'inRange':
-        return RsqlBuilder.inRange(field, [dateFrom!, dateTo!]);
+        return RsqlBuilder.inRange(field, [ dateFrom!, dateTo! ]);
       default:
         return null;
     }
@@ -112,21 +112,6 @@ export class ServerSideDatasource<T> implements IServerSideDatasource {
 
   private convertSetFilterToRsqlExpression(field: string, filterModel: SetFilterModel): ExpressionNode | null {
     return RsqlBuilder.in(field, filterModel.values);
-  }
-
-  private onLoadSuccess(params: IServerSideGetRowsParams): (result: Page<T>) => void {
-    return result => {
-      params.success({
-        rowData: result.content,
-        rowCount: result.totalItems
-      });
-    };
-  }
-
-  private onLoadFailure(params: IServerSideGetRowsParams): () => void {
-    return () => {
-      params.fail();
-    };
   }
 }
 
@@ -143,6 +128,6 @@ export type Page<T> = {
   totalPages: number;
 }
 
-export type PageRequestParams = [page: number, pageSize: number, sort: string, filter: string];
+export type PageRequestParams = [ page: number, pageSize: number, sort: string, filter: string ];
 
 export type PageRequestFunction<T> = (...params: PageRequestParams) => Observable<Page<T>>;

@@ -7,6 +7,6 @@ describe('SvgCellRenderer', () => {
 
   it('Should create', () => {
     const fixture = MockRender(SvgCellRenderer);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

@@ -8,6 +8,6 @@ describe('AutoCompleteCellEditor', () => {
 
   it('Should create', () => {
     const fixture = MockRender(AutoCompleteCellEditor);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

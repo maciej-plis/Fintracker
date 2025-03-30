@@ -1,7 +1,7 @@
 import { DialogService } from 'src/app/shared/services/dialog/dialog.service';
 import { MockBuilder, MockRender } from 'ng-mocks';
 import { DialogService as NgDialogService } from 'primeng/dynamicdialog';
-import { FocusService } from 'ag-grid-community';
+import { FocusService } from '@shared/services';
 
 describe('DialogService', () => {
 

@@ -2,8 +2,10 @@ import { ValidationCellRenderer, ValidationCellRendererParams } from '@shared/co
 import { CellClassParams, CellRendererSelectorResult, ColTypeDef, ICellRendererParams, ValueGetterParams, ValueSetterParams } from 'ag-grid-community';
 import { SvgCellRenderer, SvgCellRendererParams } from '@shared/components/svg-cell-renderer/svg-cell-renderer.component';
 import { getFormControl, Subtract } from '@shared/utils';
+import { ButtonCellRendererComponent } from '@shared/components';
 
 export const numerator: ColTypeDef = {
+  minWidth: 60,
   maxWidth: 60,
   resizable: false,
   sortable: false,
@@ -28,6 +30,16 @@ export const form: ColTypeDef = {
   cellClassRules: {
     'ag-cell-invalid': agCellInvalidRule.bind(this)
   }
+};
+
+export const button: ColTypeDef = {
+  minWidth: 50,
+  maxWidth: 50,
+  cellRenderer: ButtonCellRendererComponent,
+  cellStyle: { padding: '0' },
+  resizable: false,
+  sortable: false,
+  filter: false
 };
 
 const pinnedRowIconRenderer: CellRendererSelectorResult = {

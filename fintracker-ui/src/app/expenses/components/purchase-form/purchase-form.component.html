@@ -25,10 +25,10 @@
     <div>
       <p-floatlabel variant="on">
         <app-calendar inputId="date"
-                        formControlName="date"
-                        displayFormat="d MM yy"
-                        modelFormat="yyyy-MM-dd'"/>
-          <label for="date">Purchase Date</label>
+                      formControlName="date"
+                      displayFormat="d MM yy"
+                      modelFormat="yyyy-MM-dd'"/>
+        <label for="date">Purchase Date</label>
       </p-floatlabel>
       @if (dateControl.dirty && !dateControl.valid) {
         <small class="text-error">Invalid date value</small>

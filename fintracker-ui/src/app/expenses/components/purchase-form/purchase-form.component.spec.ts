@@ -32,6 +32,6 @@ describe('PurchaseFormComponent', () => {
     MockInstance(ShopsService, 'shops', signal<ShopDTO[]>([]));
 
     const fixture = MockRender(PurchaseFormComponent);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

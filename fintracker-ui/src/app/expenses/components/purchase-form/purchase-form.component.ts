@@ -31,9 +31,9 @@ import { FloatLabel } from 'primeng/floatlabel';
 })
 export class PurchaseFormComponent {
 
-  private static readonly ADD_SHOP_ITEM_OPTION: ShopDTO = {id: '', name: '(Add Item)'};
+  private static readonly ADD_SHOP_ITEM_OPTION: ShopDTO = { id: '', name: '(Add Item)' };
 
-  public readonly purchase = input<PurchaseDTO | undefined | null>(null);
+  public readonly purchase = input<PurchaseDTO>();
 
   protected readonly submitted = output<PurchaseDTO>();
   protected readonly cancelled = output<void>();
@@ -42,10 +42,10 @@ export class PurchaseFormComponent {
   private readonly shopsService = inject(ShopsService);
   private readonly dialogService = inject(DialogService);
 
-  protected idControl = new FormControl<string>(randomUUID(), {nonNullable: true, validators: [Validators.required]});
-  protected shopControl = new FormControl<ShopDTO | null>(null, [Validators.required]);
-  protected dateControl = new FormControl<string | null>(null, [Validators.required]);
-  protected productsControl = new FormControl<ProductDTO[]>([], {nonNullable: true, validators: [Validators.required]});
+  protected idControl = new FormControl<string>(randomUUID(), { nonNullable: true, validators: [ Validators.required ] });
+  protected shopControl = new FormControl<ShopDTO | null>(null, [ Validators.required ]);
+  protected dateControl = new FormControl<string | null>(null, [ Validators.required ]);
+  protected productsControl = new FormControl<ProductDTO[]>([], { nonNullable: true, validators: [ Validators.required ] });
   protected purchaseControlGroup = new FormGroup<PurchaseForm>({
     id: this.idControl,
     shop: this.shopControl,
@@ -53,11 +53,11 @@ export class PurchaseFormComponent {
     products: this.productsControl
   });
 
-  protected shopFilter$ = signal('', {equal: () => false});
+  protected shopFilter$ = signal('', { equal: () => false });
   protected shops$ = this.shopsService.shops;
   protected filteredShops$ = computed(() => {
     const filteredShops = this.shops$().filter(shop => startsWithIgnoreCase(shop.name, this.shopFilter$()));
-    return [...filteredShops, PurchaseFormComponent.ADD_SHOP_ITEM_OPTION];
+    return [ ...filteredShops, PurchaseFormComponent.ADD_SHOP_ITEM_OPTION ];
   });
 
   constructor() {

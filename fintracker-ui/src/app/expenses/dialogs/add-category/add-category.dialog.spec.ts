@@ -1,6 +1,5 @@
 import { AddCategoryDialog } from './add-category.dialog';
 import { MockBuilder, MockInstance, MockRender, ngMocks } from 'ng-mocks';
-import { AutoFocusModule } from 'primeng/autofocus';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,6 +9,8 @@ import { CategoriesService } from 'src/app/expenses/services';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { of, Subject, throwError } from 'rxjs';
 import { CategoryDTO } from '@core/api';
+import { AutoFocus } from 'primeng/autofocus';
+import { getSpyObj } from '@shared/utils/test.utils';
 import createSpy = jasmine.createSpy;
 
 describe('AddCategoryDialog', () => {
@@ -17,26 +18,32 @@ describe('AddCategoryDialog', () => {
   MockInstance.scope();
 
   beforeEach(() => MockBuilder(AddCategoryDialog)
-    .keep(AutoFocusModule)
-    .keep(ButtonModule)
-    .keep(InputTextModule)
     .keep(ReactiveFormsModule)
+    .keep(InputTextModule)
+    .keep(ButtonModule)
+    .keep(AutoFocus)
     .keep(MessageModule)
     .keep(ErrorsDirective)
     .keep(ErrorDirective)
     .keep(NgxErrorsFormDirective)
-    .mock(CategoriesService)
-    .mock(DynamicDialogRef)
-    .mock(DynamicDialogConfig)
+    .mock(CategoriesService, {
+      saveCategory: createSpy()
+    })
+    .mock(DynamicDialogRef, {
+      close: createSpy()
+    })
+    .mock(DynamicDialogConfig, {
+      data: { name: 'Entertainment' }
+    })
   );
 
   it('Should create', () => {
     const fixture = MockRender(AddCategoryDialog);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 
   it('Should set dialog header', () => {
-    const setHeaderSpy = MockInstance(DynamicDialogConfig, 'header', createSpy('setHeader'), 'set');
+    const setHeaderSpy = MockInstance(DynamicDialogConfig, 'header', createSpy(), 'set');
 
     MockRender(AddCategoryDialog);
 
@@ -51,7 +58,7 @@ describe('AddCategoryDialog', () => {
     expect(document.activeElement).toEqual(categoryNameInput.nativeElement);
   });
 
-  it('Should have empty name input if no param', () => {
+  it('Should have empty initial input if no param', () => {
     MockInstance(DynamicDialogConfig, 'data', {});
 
     MockRender(AddCategoryDialog);
@@ -60,70 +67,62 @@ describe('AddCategoryDialog', () => {
     expect(categoryNameInput.nativeElement.value).toEqual('');
   });
 
-  it('Should have name input taken from param', () => {
-    MockInstance(DynamicDialogConfig, 'data', {name: 'Entertainment'});
-
+  it('Should have initial input taken from param', () => {
     MockRender(AddCategoryDialog);
 
     const categoryNameInput = ngMocks.find('#categoryName');
     expect(categoryNameInput.nativeElement.value).toEqual('Entertainment');
   });
 
-  it('Should close dialog', () => {
-    const closeDialogSpy = MockInstance(DynamicDialogRef, 'close', createSpy('closeDialog'));
+  describe('cancel', () => {
+    it('Should close dialog', () => {
+      MockRender(AddCategoryDialog);
 
-    MockRender(AddCategoryDialog);
+      ngMocks.click('button[type="button"]');
 
-    ngMocks.click('button[type="button"]');
-
-    expect(closeDialogSpy).toHaveBeenCalledWith();
+      expect(getSpyObj(DynamicDialogRef).close).toHaveBeenCalledWith();
+    });
   });
 
-  it('Should save category and close dialog with saved result', () => {
-    const closeDialogSpy = MockInstance(DynamicDialogRef, 'close', createSpy('closeDialog'));
-    const saveCategorySpy = MockInstance(CategoriesService, 'saveCategory', createSpy('saveCategory'));
-    MockInstance(DynamicDialogConfig, 'data', {name: 'Entertainment '});
+  describe('submit', () => {
+    it('Should save category and close dialog with saved result', () => {
+      getSpyObj(CategoriesService).saveCategory.and.returnValue(of({ id: '1', name: 'Entertainment' }));
 
-    saveCategorySpy.and.returnValue(of({name: 'Entertainment'}));
+      MockRender(AddCategoryDialog);
 
-    MockRender(AddCategoryDialog);
+      ngMocks.trigger('form', 'ngSubmit');
 
-    ngMocks.find('form').triggerEventHandler('ngSubmit');
+      expect(getSpyObj(CategoriesService).saveCategory).toHaveBeenCalledWith({ name: 'Entertainment' });
+      expect(getSpyObj(DynamicDialogRef).close).toHaveBeenCalledWith({ id: '1', name: 'Entertainment' });
+    });
 
-    expect(saveCategorySpy).toHaveBeenCalledWith({name: 'Entertainment '});
-    expect(closeDialogSpy).toHaveBeenCalledWith({name: 'Entertainment'});
-  });
+    it('Should disable form while submit is in progress', () => {
+      const emitter = new Subject<CategoryDTO>();
+      getSpyObj(CategoriesService).saveCategory.and.returnValue(emitter.asObservable());
 
-  it('Should disable form while submit is processing', () => {
-    const saveCategoryResponse = new Subject<CategoryDTO>();
+      const fixture = MockRender(AddCategoryDialog);
 
-    MockInstance(DynamicDialogConfig, 'data', {name: 'Entertainment'});
-    MockInstance(CategoriesService, 'saveCategory', _ => saveCategoryResponse.asObservable());
+      ngMocks.trigger('form', 'ngSubmit');
+      fixture.detectChanges();
 
-    const fixture = MockRender(AddCategoryDialog);
+      expect(ngMocks.find('input').nativeElement.disabled).toEqual(true);
+      expect(ngMocks.find('button[type="submit"]').nativeElement.disabled).toEqual(true);
 
-    ngMocks.find('form').triggerEventHandler('ngSubmit');
-    fixture.detectChanges();
+      emitter.next({} as CategoryDTO);
+      fixture.detectChanges();
 
-    expect(ngMocks.find('input').nativeElement.disabled).toEqual(true);
-    expect(ngMocks.find('button[type="submit"]').nativeElement.disabled).toEqual(true);
+      expect(ngMocks.find('input').nativeElement.disabled).toEqual(false);
+      expect(ngMocks.find('button[type="submit"]').nativeElement.disabled).toEqual(false);
+    });
 
-    saveCategoryResponse.next({} as CategoryDTO);
-    fixture.detectChanges();
+    it('Should not close dialog when submit fails', () => {
+      getSpyObj(CategoriesService).saveCategory.and.returnValue(throwError(() => ({ status: 409 })));
 
-    expect(ngMocks.find('input').nativeElement.disabled).toEqual(false);
-    expect(ngMocks.find('button[type="submit"]').nativeElement.disabled).toEqual(false);
-  });
+      MockRender(AddCategoryDialog);
 
-  it('Should not close dialog when submit fails', () => {
-    const closeDialogSpy = MockInstance(DynamicDialogRef, 'close', createSpy('closeDialog'));
-    MockInstance(DynamicDialogConfig, 'data', {name: 'Entertainment'});
-    MockInstance(CategoriesService, 'saveCategory', _ => throwError(() => ({})));
+      ngMocks.trigger('form', 'ngSubmit');
 
-    MockRender(AddCategoryDialog);
-
-    ngMocks.find('form').triggerEventHandler('ngSubmit');
-
-    expect(closeDialogSpy).not.toHaveBeenCalled();
+      expect(getSpyObj(DynamicDialogRef).close).not.toHaveBeenCalled();
+    });
   });
 });

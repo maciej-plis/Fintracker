@@ -8,6 +8,6 @@ describe('ActionCellEditor', () => {
 
   it('Should create', () => {
     const fixture = MockRender(ActionCellEditor);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

@@ -26,7 +26,7 @@ describe('EditPurchaseView', () => {
 
   it('Should create', () => {
     const fixture = MockRender(EditPurchaseView);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });
 

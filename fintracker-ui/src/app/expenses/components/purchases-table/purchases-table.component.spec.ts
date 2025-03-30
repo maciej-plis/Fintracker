@@ -1,16 +1,16 @@
-import { PurchasesTableComponent } from './purchases-table.component';
+import { PurchasesTableComponent } from '@expenses/components';
 
 import { MockBuilder, MockRender } from 'ng-mocks';
-import { PurchaseSummariesApi, ShopsApi } from '@core/api';
+import { PurchasesTableService } from '@expenses/services';
 
 describe('PurchasesTableComponent', () => {
 
   beforeEach(() => MockBuilder(PurchasesTableComponent)
-    .mock(PurchaseSummariesApi)
-    .mock(ShopsApi));
+    .mock(PurchasesTableService)
+  );
 
   it('Should create', () => {
     const fixture = MockRender(PurchasesTableComponent);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

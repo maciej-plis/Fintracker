@@ -8,6 +8,6 @@ describe('BreadcrumbComponent', () => {
 
   it('Should create', () => {
     const fixture = MockRender(BreadcrumbComponent);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

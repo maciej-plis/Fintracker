@@ -8,6 +8,6 @@ describe('ButtonCellRendererComponent', () => {
 
   it('Should create', () => {
     const fixture = MockRender(ButtonCellRendererComponent);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

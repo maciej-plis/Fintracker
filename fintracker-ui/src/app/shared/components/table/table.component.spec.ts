@@ -8,6 +8,6 @@ describe('TableComponent', () => {
 
   it('Should create', () => {
     const fixture = MockRender(TableComponent, {header: 'Table', gridOptions: {}});
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

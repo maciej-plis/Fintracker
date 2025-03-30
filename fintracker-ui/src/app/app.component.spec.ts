@@ -7,6 +7,6 @@ describe('AppComponent', () => {
 
   it('Should create the app', () => {
     const fixture = MockRender(AppComponent);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

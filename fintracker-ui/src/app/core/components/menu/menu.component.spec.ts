@@ -8,6 +8,6 @@ describe('MenuComponent', () => {
 
   it('Should create', () => {
     const fixture = MockRender(MenuComponent);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

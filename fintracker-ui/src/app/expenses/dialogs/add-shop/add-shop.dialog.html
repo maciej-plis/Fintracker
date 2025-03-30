@@ -5,12 +5,12 @@
   <div class="mt-6 mb-8">
     <div>
       <span class="p-float-label">
-        <input type="text" id="categoryName"
+        <input type="text" id="shopName"
                class="w-full"
                [formControl]="form.controls.name"
                pInputText
-               [autofocus]="true">
-        <label for="categoryName">Shop Name</label>
+               [pAutoFocus]="true">
+        <label for="shopName">Shop Name</label>
       </span>
       <div [ngxErrors]="form.controls.name">
         <small *ngxError="'required'" class="p-error block mt-2">Shop name cannot be empty.</small>

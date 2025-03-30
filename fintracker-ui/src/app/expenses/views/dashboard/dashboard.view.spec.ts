@@ -7,6 +7,6 @@ describe('DashboardView', () => {
 
   it('Should create', () => {
     const fixture = MockRender(DashboardView);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

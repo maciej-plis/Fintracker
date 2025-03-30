@@ -11,6 +11,6 @@ describe('LayoutComponent', () => {
 
   it('Should create', () => {
     const fixture = MockRender(LayoutComponent);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

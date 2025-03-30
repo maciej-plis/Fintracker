@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, signal } from '@angular/core';
-import { AutoFocusModule } from 'primeng/autofocus';
 import { ButtonModule } from 'primeng/button';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -11,6 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MessageModule } from 'primeng/message';
 import { NGX_ERRORS_DECLARATIONS } from '@ngspot/ngx-errors';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AutoFocus } from 'primeng/autofocus';
 
 @Component({
   selector: 'app-category-dialog',
@@ -18,9 +18,9 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './add-category.dialog.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    AutoFocusModule,
     ButtonModule,
     InputTextModule,
+    AutoFocus,
     ReactiveFormsModule,
     MessageModule,
     NGX_ERRORS_DECLARATIONS
@@ -37,7 +37,7 @@ export class AddCategoryDialog {
   protected readonly loading = signal(false);
 
   protected form = new FormGroup<CategoryForm>({
-    name: this.fb.nonNullable.control(this.config.data?.name ?? '', [Validators.required, Validators.maxLength(30)])
+    name: this.fb.nonNullable.control(this.config.data?.name ?? '', [ Validators.required, Validators.maxLength(30) ])
   });
 
   public constructor() {
@@ -68,8 +68,8 @@ export class AddCategoryDialog {
   }
 
   private handleSaveError(error: HttpErrorResponse): void {
-    if (error.status === 409) this.form.controls.name.setErrors({unique: true});
-    else this.form.setErrors({unknownError: true});
+    if (error.status === 409) this.form.controls.name.setErrors({ unique: true });
+    else this.form.setErrors({ unknownError: true });
   }
 }
 

@@ -13,6 +13,6 @@ describe('ProductsInputTableComponent', () => {
 
   it('Should create', () => {
     const fixture = MockRender(ProductsInputTableComponent);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

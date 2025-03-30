@@ -1,7 +1,7 @@
-export { BreadcrumbComponent, BreadcrumbData } from './breadcrumb/breadcrumb.component';
-export { ConfiguratorComponent } from './configurator/configurator.component';
-export { LayoutComponent } from './layout/layout.component';
-export { MenuComponent } from './menu/menu.component';
-export { SidebarComponent } from './sidebar/sidebar.component';
-export { SubmenuComponent } from './submenu/submenu.component';
-export { TopbarComponent } from './topbar/topbar.component';
+export * from './breadcrumb/breadcrumb.component';
+export * from './configurator/configurator.component';
+export * from './layout/layout.component';
+export * from './menu/menu.component';
+export * from './sidebar/sidebar.component';
+export * from './submenu/submenu.component';
+export * from './topbar/topbar.component';

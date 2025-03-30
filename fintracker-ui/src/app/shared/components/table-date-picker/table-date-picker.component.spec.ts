@@ -8,7 +8,7 @@ describe('TableDatePickerComponent', () => {
 
   it('Should create', () => {
     const fixture = MockRender(TableDatePickerComponent);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });
 

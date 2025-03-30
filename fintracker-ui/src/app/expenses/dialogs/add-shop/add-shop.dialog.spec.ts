@@ -2,7 +2,7 @@ import { AddShopDialog } from './add-shop.dialog';
 import { MockBuilder, MockInstance, MockRender, ngMocks } from 'ng-mocks';
 import { ShopsService } from 'src/app/expenses/services';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { AutoFocusModule } from 'primeng/autofocus';
+import { AutoFocus } from 'primeng/autofocus';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ErrorDirective, ErrorsDirective, NgxErrorsFormDirective } from '@ngspot/ngx-errors';
 import { ButtonModule } from 'primeng/button';
@@ -10,6 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { of, Subject, throwError } from 'rxjs';
 import { ShopDTO } from '@core/api';
+import { getSpyObj } from '@shared/utils/test.utils';
 import createSpy = jasmine.createSpy;
 
 describe('AddShopDialog', () => {
@@ -17,26 +18,32 @@ describe('AddShopDialog', () => {
   MockInstance.scope();
 
   beforeEach(() => MockBuilder(AddShopDialog)
-    .keep(AutoFocusModule)
-    .keep(ButtonModule)
-    .keep(InputTextModule)
     .keep(ReactiveFormsModule)
+    .keep(InputTextModule)
+    .keep(ButtonModule)
+    .keep(AutoFocus)
     .keep(MessageModule)
     .keep(ErrorsDirective)
     .keep(ErrorDirective)
     .keep(NgxErrorsFormDirective)
-    .mock(ShopsService)
-    .mock(DynamicDialogRef)
-    .mock(DynamicDialogConfig)
+    .mock(ShopsService, {
+      saveShop: createSpy()
+    })
+    .mock(DynamicDialogRef, {
+      close: createSpy()
+    })
+    .mock(DynamicDialogConfig, {
+      data: { name: 'Auchan' }
+    })
   );
 
   it('Should create', () => {
     const fixture = MockRender(AddShopDialog);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 
   it('Should set dialog header', () => {
-    const setHeaderSpy = MockInstance(DynamicDialogConfig, 'header', createSpy('setHeader'), 'set');
+    const setHeaderSpy = MockInstance(DynamicDialogConfig, 'header', createSpy(), 'set');
 
     MockRender(AddShopDialog);
 
@@ -47,83 +54,75 @@ describe('AddShopDialog', () => {
     const fixture = MockRender(AddShopDialog);
     await fixture.whenStable();
 
-    const categoryNameInput = ngMocks.find('#categoryName');
-    expect(document.activeElement).toEqual(categoryNameInput.nativeElement);
+    const shopNameInput = ngMocks.find('#shopName');
+    expect(document.activeElement).toEqual(shopNameInput.nativeElement);
   });
 
-  it('Should have empty name input if no param', () => {
+  it('Should have empty initial input if no param', () => {
     MockInstance(DynamicDialogConfig, 'data', {});
 
     MockRender(AddShopDialog);
 
-    const categoryNameInput = ngMocks.find('#categoryName');
-    expect(categoryNameInput.nativeElement.value).toEqual('');
+    const shopNameInput = ngMocks.find('#shopName');
+    expect(shopNameInput.nativeElement.value).toEqual('');
   });
 
-  it('Should have name input taken from param', () => {
-    MockInstance(DynamicDialogConfig, 'data', {name: 'Entertainment'});
-
+  it('Should have initial input taken from param', () => {
     MockRender(AddShopDialog);
 
-    const categoryNameInput = ngMocks.find('#categoryName');
-    expect(categoryNameInput.nativeElement.value).toEqual('Entertainment');
+    const shopNameInput = ngMocks.find('#shopName');
+    expect(shopNameInput.nativeElement.value).toEqual('Auchan');
   });
 
-  it('Should close dialog', () => {
-    const closeDialogSpy = MockInstance(DynamicDialogRef, 'close', createSpy('closeDialog'));
+  describe('cancel', () => {
+    it('Should close dialog', () => {
+      MockRender(AddShopDialog);
 
-    MockRender(AddShopDialog);
+      ngMocks.click('button[type="button"]');
 
-    ngMocks.click('button[type="button"]');
-
-    expect(closeDialogSpy).toHaveBeenCalledWith();
+      expect(getSpyObj(DynamicDialogRef).close).toHaveBeenCalledWith();
+    });
   });
 
-  it('Should save shop and close dialog with saved result', () => {
-    const closeDialogSpy = MockInstance(DynamicDialogRef, 'close', createSpy('closeDialog'));
-    const saveShopSpy = MockInstance(ShopsService, 'saveShop', createSpy('saveShop'));
-    MockInstance(DynamicDialogConfig, 'data', {name: 'Entertainment '});
+  describe('submit', () => {
+    it('Should save shop and close dialog with saved result', () => {
+      getSpyObj(ShopsService).saveShop.and.returnValue(of({ id: '1', name: 'Auchan' }));
 
-    saveShopSpy.and.returnValue(of({name: 'Entertainment'}));
+      MockRender(AddShopDialog);
 
-    MockRender(AddShopDialog);
+      ngMocks.trigger('form', 'ngSubmit');
 
-    ngMocks.find('form').triggerEventHandler('ngSubmit');
+      expect(getSpyObj(ShopsService).saveShop).toHaveBeenCalledWith({ name: 'Auchan' });
+      expect(getSpyObj(DynamicDialogRef).close).toHaveBeenCalledWith({ id: '1', name: 'Auchan' });
+    });
 
-    expect(saveShopSpy).toHaveBeenCalledWith({name: 'Entertainment '});
-    expect(closeDialogSpy).toHaveBeenCalledWith({name: 'Entertainment'});
-  });
+    it('Should disable form while submit is progress', () => {
+      const emitter = new Subject<ShopDTO>();
+      getSpyObj(ShopsService).saveShop.and.returnValue(emitter.asObservable());
 
-  it('Should disable form while submit is processing', () => {
-    const saveShopResponse = new Subject<ShopDTO>();
+      const fixture = MockRender(AddShopDialog);
 
-    MockInstance(DynamicDialogConfig, 'data', {name: 'Entertainment'});
-    MockInstance(ShopsService, 'saveShop', _ => saveShopResponse.asObservable());
+      ngMocks.trigger('form', 'ngSubmit');
+      fixture.detectChanges();
 
-    const fixture = MockRender(AddShopDialog);
+      expect(ngMocks.find('input').nativeElement.disabled).toEqual(true);
+      expect(ngMocks.find('button[type="submit"]').nativeElement.disabled).toEqual(true);
 
-    ngMocks.find('form').triggerEventHandler('ngSubmit');
-    fixture.detectChanges();
+      emitter.next({} as ShopDTO);
+      fixture.detectChanges();
 
-    expect(ngMocks.find('input').nativeElement.disabled).toEqual(true);
-    expect(ngMocks.find('button[type="submit"]').nativeElement.disabled).toEqual(true);
+      expect(ngMocks.find('input').nativeElement.disabled).toEqual(false);
+      expect(ngMocks.find('button[type="submit"]').nativeElement.disabled).toEqual(false);
+    });
 
-    saveShopResponse.next({} as ShopDTO);
-    fixture.detectChanges();
+    it('Should not close dialog when submit fails', () => {
+      getSpyObj(ShopsService).saveShop.and.returnValue(throwError(() => ({ status: 409 })));
 
-    expect(ngMocks.find('input').nativeElement.disabled).toEqual(false);
-    expect(ngMocks.find('button[type="submit"]').nativeElement.disabled).toEqual(false);
-  });
+      MockRender(AddShopDialog);
 
-  it('Should not close dialog when submit fails', () => {
-    const closeDialogSpy = MockInstance(DynamicDialogRef, 'close', createSpy('closeDialog'));
-    MockInstance(DynamicDialogConfig, 'data', {name: 'Entertainment'});
-    MockInstance(ShopsService, 'saveShop', _ => throwError(() => ({})));
+      ngMocks.trigger('form', 'ngSubmit');
 
-    MockRender(AddShopDialog);
-
-    ngMocks.find('form').triggerEventHandler('ngSubmit');
-
-    expect(closeDialogSpy).not.toHaveBeenCalled();
+      expect(getSpyObj(DynamicDialogRef).close).not.toHaveBeenCalled();
+    });
   });
 });

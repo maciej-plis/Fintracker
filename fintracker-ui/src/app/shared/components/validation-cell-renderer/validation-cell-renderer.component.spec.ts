@@ -8,6 +8,6 @@ describe('ValidationCellRenderer', () => {
 
   it('Should create', () => {
     const fixture = MockRender(ValidationCellRenderer);
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

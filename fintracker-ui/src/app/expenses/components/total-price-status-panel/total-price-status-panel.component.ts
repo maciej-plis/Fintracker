@@ -11,18 +11,16 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './total-price-status-panel.component.html',
   styleUrl: './total-price-status-panel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CurrencyPipe
-  ]
+  imports: [ CurrencyPipe ]
 })
 export class TotalPriceStatusPanel implements IStatusPanelAngularComp {
 
-  protected totalPrice = signal(0);
+  protected readonly totalPrice = signal(0);
 
-  protected currencyCode = currencyCode;
-  protected currencySymbol = 'symbol-narrow';
-  protected currencyFormat = currencyFormat;
-  protected locale = locale;
+  protected readonly currencyCode = currencyCode;
+  protected readonly currencySymbol = 'symbol-narrow';
+  protected readonly currencyFormat = currencyFormat;
+  protected readonly locale = locale;
 
   public agInit(params: IStatusPanelParams<FormGroup<ProductForm>>): void {
     params.api.addEventListener('rowDataUpdated', () => this.updateTotalPrice(params));
@@ -34,23 +32,21 @@ export class TotalPriceStatusPanel implements IStatusPanelAngularComp {
   }
 
   private updateTotalPrice(params: IStatusPanelParams<FormGroup<ProductForm>>): void {
-    const rowData = this.getRowData(params);
-    this.totalPrice.set(this.calculateTotalPrice(rowData));
+    this.totalPrice.set(this.calculateTotalPrice(this.getRowData(params)));
   }
 
   private calculateTotalPrice(rowData: FormGroup<ProductForm>[]): number {
-    if (rowData.length == 0) return 0;
     return rowData
       .map(row => this.calculatePrice(row))
-      .reduce((a, b) => a + b);
+      .reduce((a, b) => a + b, 0);
   }
 
   private calculatePrice(product: FormGroup<ProductForm>): number {
-    const {amount, price} = product.getRawValue();
-    return (amount ?? 0) * (price ?? 0);
+    const { amount, price } = product.getRawValue();
+    return amount && price ? amount * price : 0;
   }
 
-  private getRowData({api}: IStatusPanelParams<FormGroup<ProductForm>>): FormGroup<ProductForm>[] {
+  private getRowData({ api }: IStatusPanelParams<FormGroup<ProductForm>>): FormGroup<ProductForm>[] {
     let rowData: FormGroup<ProductForm>[] = [];
     api.forEachNode(node => node.data && rowData.push(node.data));
     return rowData;

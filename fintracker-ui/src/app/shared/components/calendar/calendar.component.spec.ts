@@ -12,6 +12,6 @@ describe('CalendarComponent', () => {
 
   it('Should create', () => {
     const fixture = MockRender(CalendarComponent, {displayFormat: 'd MM yy', modelFormat: 'yyyy-MM-dd'});
-    expect(fixture.componentInstance).toBeDefined();
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, effect, model, signal } from '@angular/core';
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
-import { AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete';
+import { AutoComplete, AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { FormsModule } from '@angular/forms';
 import { agGridOverlayOptions } from '@shared/constants';
 import { AutoFocusModule } from 'primeng/autofocus';
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
   styleUrls: [ './auto-complete-cell-editor.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    AutoCompleteModule,
+    AutoComplete,
     FormsModule,
     AutoFocusModule
   ]
@@ -23,10 +23,10 @@ export class AutoCompleteCellEditor implements ICellEditorAngularComp {
   protected readonly agGridOverlayOptions = agGridOverlayOptions;
 
   protected params?: AutoCompleteCellEditorParams;
-  protected value = model.required<any>();
+  protected readonly value = model<any>();
 
-  protected filter = signal('', { equal: () => false });
-  protected filteredSuggestions = signal<any[]>([]);
+  protected readonly filter = signal('', { equal: () => false });
+  protected readonly filteredSuggestions = signal<any[]>([]);
 
   constructor() {
     effect(() => {

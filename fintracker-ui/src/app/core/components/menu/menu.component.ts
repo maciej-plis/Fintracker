@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 import { SubmenuComponent } from '@core/components/submenu/submenu.component';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-menu',

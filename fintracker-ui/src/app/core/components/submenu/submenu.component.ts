@@ -95,7 +95,7 @@ export class SubmenuComponent implements AfterViewChecked {
   };
 
   get submenuAnimation(): ChildrenAnimationState {
-    if (this.layoutService.isDesktop() && (this.layoutService.isSlim() || this.layoutService.isSlimPlus() || this.layoutService.isHorizontal())) {
+    if (this.layoutService.isDesktop() && this.isSlimOrSlimPlusOrHorizontal()) {
       return this.isActive() ? ChildrenAnimationState.VISIBLE : ChildrenAnimationState.HIDDEN;
     } else if (this.isRoot() || this.isActive()) {
       return ChildrenAnimationState.EXPANDED;

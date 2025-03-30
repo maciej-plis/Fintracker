@@ -1,5 +1,6 @@
 import { computed, effect, Injectable, signal } from '@angular/core';
 import { Subject } from 'rxjs';
+import { enableViewTransitions } from 'src/environments/environment';
 
 export type Presets = 'Aura' | 'Lara' | 'Nora';
 export type PrimaryColor = 'emerald' | 'green' | 'lime' | 'orange' | 'amber' | 'yellow' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
@@ -7,7 +8,7 @@ export type SurfaceColor = 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'so
 export type MenuMode = 'static' | 'overlay' | 'slim' | 'slim-plus' | 'reveal' | 'drawer' | 'horizontal';
 export type MenuTheme = 'colorScheme' | 'primaryColor' | 'transparent';
 
-export interface layoutConfig {
+export interface LayoutConfig {
   preset: Presets;
   primary: PrimaryColor;
   surface: SurfaceColor;
@@ -38,7 +39,7 @@ export interface MenuChangeEvent {
 })
 export class LayoutService {
 
-  private readonly initialConfig: layoutConfig = {
+  private readonly initialConfig: LayoutConfig = {
     preset: 'Aura',
     primary: 'indigo',
     surface: 'gray',
@@ -56,10 +57,10 @@ export class LayoutService {
     profileSidebarVisible: false,
     configSidebarVisible: false,
     staticMenuMobileActive: false,
-    menuHoverActive: false,
+    menuHoverActive: false
   };
 
-  public readonly layoutConfig = signal<layoutConfig>(this.initialConfig);
+  public readonly layoutConfig = signal<LayoutConfig>(this.initialConfig);
   public readonly layoutState = signal<LayoutState>(this.initialState);
 
   private overlayOpen = new Subject<void>();
@@ -82,15 +83,20 @@ export class LayoutService {
     effect(() => this.isSlimOrSlimPlusOrHorizontal() && this.reset());
   }
 
-  private handleDarkModeTransition(config: layoutConfig): void {
-    if ('startViewTransition' in document) {
-      document.startViewTransition(() => this.toggleDarkMode(config));
+  private handleDarkModeTransition(config: LayoutConfig): void {
+    console.log(enableViewTransitions);
+    if (enableViewTransitions && 'startViewTransition' in document) {
+      try {
+        document.startViewTransition(() => this.toggleDarkMode(config));
+      } catch (ex) {
+
+      }
     } else {
       this.toggleDarkMode(config);
     }
   }
 
-  public toggleDarkMode(config: layoutConfig): void {
+  public toggleDarkMode(config: LayoutConfig): void {
     if (config.darkTheme) {
       document.documentElement.classList.add('app-dark');
     } else {

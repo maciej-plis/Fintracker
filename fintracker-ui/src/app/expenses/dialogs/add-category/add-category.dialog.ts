@@ -11,6 +11,7 @@ import { MessageModule } from 'primeng/message';
 import { NGX_ERRORS_DECLARATIONS } from '@ngspot/ngx-errors';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AutoFocus } from 'primeng/autofocus';
+import { FloatLabel } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-category-dialog',
@@ -23,7 +24,8 @@ import { AutoFocus } from 'primeng/autofocus';
     AutoFocus,
     ReactiveFormsModule,
     MessageModule,
-    NGX_ERRORS_DECLARATIONS
+    NGX_ERRORS_DECLARATIONS,
+    FloatLabel
   ]
 })
 export class AddCategoryDialog {

@@ -11,6 +11,7 @@ import { ShopsService } from 'src/app/expenses/services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, EMPTY } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { FloatLabel } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-shop-dialog',
@@ -23,7 +24,8 @@ import { HttpErrorResponse } from '@angular/common/http';
     InputTextModule,
     ReactiveFormsModule,
     MessageModule,
-    NGX_ERRORS_DECLARATIONS
+    NGX_ERRORS_DECLARATIONS,
+    FloatLabel
   ]
 })
 export class AddShopDialog {

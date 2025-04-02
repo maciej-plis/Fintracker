@@ -1,10 +1,10 @@
-<form [formGroup]="purchaseControlGroup" (ngSubmit)="onFormSubmit()" class="purchase-form h-full">
-  <div class="row">
+<form [formGroup]="form" (ngSubmit)="formService.submit()" class="h-full flex flex-col gap-6">
+  <div class="flex gap-6">
     <div>
       <p-floatlabel variant="on">
-        <p-autoComplete inputId="shop"
+        <p-autoComplete inputId="purchase-form-shop-input"
                         appendTo="body"
-                        formControlName="shop"
+                        [formControl]="form.controls.shop"
                         optionLabel="name"
                         spellcheck="false"
                         [completeOnFocus]="true"
@@ -16,29 +16,25 @@
                         [suggestions]="filteredShops$()"
                         (completeMethod)="shopFilter$.set($event.query)"
                         (onSelect)="onShopSelection($event)"/>
-        <label for="shop">Purchase Shop</label>
+        <label for="purchase-form-shop-input">Purchase Shop</label>
       </p-floatlabel>
-      @if (shopControl.dirty && !shopControl.valid) {
+      @if (form.controls.shop.dirty && !form.controls.shop.valid) {
         <small class="text-error">Invalid shop value</small>
       }
     </div>
     <div>
       <p-floatlabel variant="on">
-        <app-calendar inputId="date"
-                      formControlName="date"
+        <app-calendar inputId="purchase-form-date-input"
+                      [formControl]="form.controls.date"
                       displayFormat="d MM yy"
                       modelFormat="yyyy-MM-dd'"/>
-        <label for="date">Purchase Date</label>
+        <label for="purchase-form-date-input">Purchase Date</label>
       </p-floatlabel>
-      @if (dateControl.dirty && !dateControl.valid) {
+      @if (form.controls.date.dirty && !form.controls.date.valid) {
         <small class="text-error">Invalid date value</small>
       }
     </div>
   </div>
-  <app-products-input-table id="products" class="grow" [formControl]="productsControl"/>
-  <div class="row controls">
-    <p-button (onClick)="onCancelBtnClick()" label="Cancel" styleClass="p-button-danger"/>
-    <p-button type="submit" label="Save & Exit"/>
-  </div>
+  <app-products-input-table id="purchase-form-products-input" class="grow" [formControl]="form.controls.products"/>
 </form>
 

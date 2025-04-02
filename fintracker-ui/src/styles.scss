@@ -6,6 +6,18 @@
 @use 'assets/layout/layout';
 @use 'node_modules/primeicons/primeicons.css';
 
+.card-full {
+  height: 100%;
+
+  .p-card-body {
+    flex-grow: 1;
+  }
+
+  .p-card-content {
+    height: 100%;
+  }
+}
+
 .ag-theme-alpine-dark, .ag-theme-alpine-light {
   --ag-alpine-active-color: var(--primary-color);
   --ag-header-background-color: var(--surface-ground);

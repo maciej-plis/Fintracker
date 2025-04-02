@@ -1,8 +1,8 @@
-<p-card>
+<p-card styleClass="card-full">
   <ng-template #title>
     <div class="mb-2 flex gap-4">
       Edit Purchase
-      @if (!formPristine()) {
+      @if (!purchaseFormService.form.pristine) {
         <p-tag>
           <i class="pi pi-save p-tag-icon"></i>
           <span>Unsaved Changes</span>
@@ -10,8 +10,11 @@
       }
     </div>
   </ng-template>
-  <app-purchase-form [purchase]="purchase()"
-                     (submitted)="onSubmitted($event)"
-                     (cancelled)="onCancelled()"
-                     (pristine)="formPristine.set($event)"/>
+  <app-purchase-form/>
+  <ng-template #footer>
+    <div class="mt-4 flex gap-6 justify-end">
+      <p-button type="button" (onClick)="onCancel()" label="Cancel" severity="danger"/>
+      <p-button type="button" (onClick)="purchaseFormService.submit()" label="Save & Exit"/>
+    </div>
+  </ng-template>
 </p-card>

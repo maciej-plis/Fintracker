@@ -18,9 +18,9 @@
                         (onSelect)="onShopSelection($event)"/>
         <label for="purchase-form-shop-input">Purchase Shop</label>
       </p-floatlabel>
-      @if (form.controls.shop.dirty && !form.controls.shop.valid) {
-        <small class="text-error">Invalid shop value</small>
-      }
+      <div [ngxErrors]="form.controls.shop">
+        <small *ngxError="'required'" class="text-error block mt-2">Shop cannot be empty.</small>
+      </div>
     </div>
     <div>
       <p-floatlabel variant="on">
@@ -30,9 +30,9 @@
                       modelFormat="yyyy-MM-dd'"/>
         <label for="purchase-form-date-input">Purchase Date</label>
       </p-floatlabel>
-      @if (form.controls.date.dirty && !form.controls.date.valid) {
-        <small class="text-error">Invalid date value</small>
-      }
+      <div [ngxErrors]="form.controls.date">
+        <small *ngxError="'required'" class="text-error block mt-2">Date cannot be empty.</small>
+      </div>
     </div>
   </div>
   <app-products-input-table id="purchase-form-products-input" class="grow" [formControl]="form.controls.products"/>

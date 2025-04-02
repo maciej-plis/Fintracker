@@ -13,9 +13,9 @@
         <label for="categoryName">Category Name</label>
       </p-floatlabel>
       <div [ngxErrors]="form.controls.name">
-        <small *ngxError="'required'" class="p-error block mt-2">Category name cannot be empty.</small>
-        <small *ngxError="'maxlength'; let err" class="p-error block mt-2">Category name can have at most {{ err.requiredLength }} characters.</small>
-        <small *ngxError="'unique'" class="p-error block mt-2">Category with such name already exists.</small>
+        <small *ngxError="'required'" class="text-error block mt-2">Category name cannot be empty.</small>
+        <small *ngxError="'maxlength'; let err" class="text-error block mt-2">Category name can have at most {{ err.requiredLength }} characters.</small>
+        <small *ngxError="'unique'" class="text-error block mt-2">Category with such name already exists.</small>
       </div>
     </div>
   </div>

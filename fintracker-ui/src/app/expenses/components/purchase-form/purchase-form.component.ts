@@ -13,6 +13,7 @@ import { ButtonModule } from 'primeng/button';
 import { FloatLabel } from 'primeng/floatlabel';
 import { PurchaseFormService } from '@expenses/services/purchase-form/purchase-form.service';
 import { Observable } from 'rxjs';
+import { NGX_ERRORS_DECLARATIONS } from '@ngspot/ngx-errors';
 
 @Component({
   selector: 'app-purchase-form',
@@ -25,7 +26,8 @@ import { Observable } from 'rxjs';
     CalendarComponent,
     ProductsInputTableComponent,
     ButtonModule,
-    FloatLabel
+    FloatLabel,
+    NGX_ERRORS_DECLARATIONS
   ]
 })
 export class PurchaseFormComponent {

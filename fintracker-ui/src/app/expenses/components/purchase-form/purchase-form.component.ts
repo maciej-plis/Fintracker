@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { ShopDTO } from '@core/api';
 import { ReactiveFormsModule } from '@angular/forms';
 import { startsWithIgnoreCase } from '@shared/utils/string.utils';
-import { AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete';
+import { AutoComplete, AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { ShopsService } from 'src/app/expenses/services';
 import { DialogService } from '@shared/services';
 import { AddShopDialog } from 'src/app/expenses/dialogs';
@@ -22,10 +22,10 @@ import { NGX_ERRORS_DECLARATIONS } from '@ngspot/ngx-errors';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    AutoCompleteModule,
-    CalendarComponent,
     ProductsInputTableComponent,
+    CalendarComponent,
     ButtonModule,
+    AutoComplete,
     FloatLabel,
     NGX_ERRORS_DECLARATIONS
   ]

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AddPurchaseRequest, ProductDTO, PurchaseDTO, ShopDTO, UpdatePurchaseRequest } from '@core/api';
 import { Subject } from 'rxjs';
 import { markFormAsDirty } from '@shared/utils';
@@ -9,7 +9,7 @@ export class PurchaseFormService {
 
   private readonly fb = inject(FormBuilder);
 
-  public readonly form = new FormGroup<PurchaseForm>({
+  public readonly form = this.fb.group<PurchaseForm>({
     shop: this.fb.control(null, [ Validators.required ]),
     date: this.fb.control(null, [ Validators.required ]),
     products: this.fb.nonNullable.control([], [ Validators.required ])
@@ -41,7 +41,7 @@ export class PurchaseFormService {
     });
   }
 
-  public reset(purchase: PurchaseDTO | undefined = undefined) {
+  public reset(purchase: PurchaseDTO | undefined = undefined): void {
     this.form.reset(purchase);
   }
 }

@@ -32,7 +32,7 @@ export const columnDefs: ColDef[] = [
     cellStyle: {
       'display': 'flex',
       'align-items': 'center'
-    },
+    }
   },
   {
     colId: Columns.CATEGORY,
@@ -72,15 +72,10 @@ export const columnDefs: ColDef[] = [
   },
   {
     colId: Columns.CONTROLS,
-    width: 50,
-    suppressFillHandle: true,
     pinned: 'right',
-    editable: true,
-    sortable: false,
-    filter: false,
+    type: 'button',
     cellEditorSelector: controlsCellEditor.bind(this),
-    cellRendererSelector: controlsCellRenderer.bind(this),
-    cellStyle: { lineHeight: 'normal', padding: '0' }
+    cellRendererSelector: controlsCellRenderer.bind(this)
   }
 ];
 
@@ -251,7 +246,7 @@ function getPinnedRowNodes(api: GridApi): IRowNode[] {
 }
 
 function focusCell(api: GridApi, rowIndex: number, colKey: string | Column, rowPinned?: RowPinnedType) {
-  api.clearRangeSelection();
+  api.clearCellSelection();
   api.setFocusedCell(rowIndex, colKey, rowPinned);
 }
 

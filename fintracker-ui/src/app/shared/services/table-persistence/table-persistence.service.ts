@@ -46,7 +46,8 @@ export class TablePersistenceService {
     const state = this.tableStates.get(key) ?? this.emptyModel();
     const columns = api.getDisplayedCenterColumns();
     const scrollFromLeft = api.getHorizontalPixelRange().left;
-    const colId = columns.find(c => (c.getLeft() || 0) >= scrollFromLeft)?.getColId() ?? '';
+    const colIndex = columns.findIndex(c => (c.getLeft() ?? 0) > scrollFromLeft);
+    const colId = columns[Math.max(colIndex - 1, 0)]?.getColId() ?? '';
     this.tableStates.set(key, { ...state, visibilityModel: { ...state.visibilityModel, colId } });
   }
 
@@ -54,8 +55,8 @@ export class TablePersistenceService {
     const state = this.tableStates.get(key) ?? this.emptyModel();
     const rows = api.getRenderedNodes();
     const scrollFromTop = api.getVerticalPixelRange().top;
-    const rowIndex = rows.find(r => (r.rowTop || 0) >= scrollFromTop)?.rowIndex ?? 0;
-    this.tableStates.set(key, { ...state, visibilityModel: { ...state.visibilityModel, rowIndex } });
+    const rowIndex = rows.find(r => (r.rowTop || 0) > scrollFromTop)?.rowIndex ?? 0;
+    this.tableStates.set(key, { ...state, visibilityModel: { ...state.visibilityModel, rowIndex: Math.max(rowIndex - 1, 0) } });
   }
 
   private updatePaginationModel(key: string, api: GridApi): void {

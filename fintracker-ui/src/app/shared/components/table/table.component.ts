@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { ColDef, GridApi, GridOptions, GridReadyEvent, ITextFilterParams } from 'ag-grid-community';
 import { TableDatePickerComponent } from '@shared/components/table-date-picker/table-date-picker.component';
 import { AutoCompleteCellEditor } from '@shared/components/auto-complete-cell-editor/auto-complete-cell-editor.component';
@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { Tag } from 'primeng/tag';
+import { TablePersistenceService } from '@shared/services/table-persistence/table-persistence.service';
 
 @Component({
   selector: 'app-table',
@@ -65,8 +66,11 @@ export class TableComponent {
     dataTypeDefinitions: { currency }
   };
 
+  private readonly persistenceService = inject(TablePersistenceService);
+
   public readonly header = input.required<string>();
   public readonly gridOptions = input.required<GridOptions>();
+  public readonly persistence = input<string>();
 
   public readonly isReady = signal(false);
   public api?: GridApi;
@@ -85,6 +89,7 @@ export class TableComponent {
       defaultColDef: { ...TableComponent.DEFAULT_COL_DEF, ...gridOptions.defaultColDef },
       onGridReady: (event: GridReadyEvent) => {
         this.api = event.api;
+        this.setupPersistence(event.api);
         this.setupFilterAndSortObservers(event.api);
         this.isReady.set(true);
         gridOptions.onGridReady?.(event);
@@ -99,6 +104,14 @@ export class TableComponent {
 
   protected clearTableFilters(): void {
     this.api?.setFilterModel(null);
+  }
+
+  private setupPersistence(api: GridApi) {
+    const persistenceKey = this.persistence();
+    if (!persistenceKey) return;
+
+    this.persistenceService.restoreTableState(persistenceKey, api);
+    this.persistenceService.watchAndPersistTableState(persistenceKey, api);
   }
 
   private setupFilterAndSortObservers(api: GridApi) {

@@ -2,6 +2,20 @@
   <div class="table__header">
     <div class="table__header-start">
       <h5 class="table__header-title">{{ header() }}</h5>
+      <div class="mx-2 inline-flex gap-4">
+        @if (filterCount() > 0) {
+          <p-tag severity="secondary">
+            <span class="ml-1">{{ filterCount() }} {{ filterLabelForm() }} applied</span>
+            <i class="pi pi-times cursor-pointer text-sm text-surface-400 hover:text-surface-300" (click)="clearTableFilters()"></i>
+          </p-tag>
+        }
+        @if (sortCount() > 0) {
+          <p-tag severity="secondary">
+            <span class="ml-1">{{ sortCount() }} {{ sortLabelForm() }} applied</span>
+            <i class="pi pi-times cursor-pointer text-sm text-surface-400 hover:text-surface-300" (click)="clearTableSorts()"></i>
+          </p-tag>
+        }
+      </div>
     </div>
     <div class="table__header-end">
       <ng-content/>

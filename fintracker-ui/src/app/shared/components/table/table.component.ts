@@ -10,6 +10,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { Tag } from 'primeng/tag';
 
 @Component({
   selector: 'app-table',
@@ -24,7 +25,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     FormsModule,
     AutoFocusModule,
     AutoCompleteModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Tag
   ]
 })
 export class TableComponent {
@@ -69,6 +71,12 @@ export class TableComponent {
   public readonly isReady = signal(false);
   public api?: GridApi;
 
+  public readonly sortCount = signal(0);
+  public readonly sortLabelForm = computed(() => this.sortCount() == 1 ? 'sort' : 'sorts');
+
+  public readonly filterCount = signal(0);
+  public readonly filterLabelForm = computed(() => this.filterCount() == 1 ? 'filter' : 'filters');
+
   protected composedGridOptions = computed(() => {
     const gridOptions = this.gridOptions();
     return {
@@ -77,10 +85,35 @@ export class TableComponent {
       defaultColDef: { ...TableComponent.DEFAULT_COL_DEF, ...gridOptions.defaultColDef },
       onGridReady: (event: GridReadyEvent) => {
         this.api = event.api;
+        this.setupFilterAndSortObservers(event.api);
         this.isReady.set(true);
         gridOptions.onGridReady?.(event);
       }
     };
   });
+
+  protected clearTableSorts(): void {
+    const state = this.api?.getColumnState().map(c => ({ ...c, sort: null }));
+    this.api?.applyColumnState({ state });
+  }
+
+  protected clearTableFilters(): void {
+    this.api?.setFilterModel(null);
+  }
+
+  private setupFilterAndSortObservers(api: GridApi) {
+    this.updateFilterCount(api);
+    api.addEventListener('filterChanged', () => this.updateFilterCount(api));
+    this.updateSortCount(api);
+    api.addEventListener('sortChanged', () => this.updateSortCount(api));
+  }
+
+  private updateFilterCount(api: GridApi): void {
+    this.filterCount.set(Object.keys(api.getFilterModel() ?? {}).length);
+  }
+
+  private updateSortCount(api: GridApi): void {
+    this.sortCount.set(api.getColumnState().filter(c => c.sort).length);
+  }
 }
 

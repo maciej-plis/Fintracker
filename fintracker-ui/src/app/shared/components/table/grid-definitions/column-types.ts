@@ -44,7 +44,7 @@ export const button: ColTypeDef = {
 
 const pinnedRowIconRenderer: CellRendererSelectorResult = {
   component: SvgCellRenderer,
-  params: {src: '/assets/svg/pin.svg'} as SvgCellRendererParams
+  params: { src: '/assets/svg/pin.svg' } as SvgCellRendererParams
 };
 
 function numeratorValueGetter(params: ValueGetterParams): number | null {
@@ -58,9 +58,7 @@ function numeratorCellRenderer(params: ICellRendererParams): CellRendererSelecto
 
 function formValueGetter(params: ValueGetterParams): any | null {
   const formControl = getFormControl(params);
-  if (!formControl) return null;
-
-  return formControl.value;
+  return formControl ? formControl.value : null;
 }
 
 function formValueSetter(params: ValueSetterParams): boolean {

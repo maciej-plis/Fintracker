@@ -39,7 +39,6 @@ export const columnDefs: ColDef[] = [
     type: 'form',
     field: 'category',
     headerName: 'Category',
-    cellDataType: 'object',
     valueFormatter: params => params.value?.name,
     cellEditorSelector: categoryCellEditor.bind(this)
   },

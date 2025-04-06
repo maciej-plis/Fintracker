@@ -54,11 +54,6 @@ export class TableComponent {
   private static readonly DEFAULT_GRID_OPTIONS: GridOptions = {
     components: TableComponent.COMPONENTS,
     defaultColDef: TableComponent.DEFAULT_COL_DEF,
-    rowModelType: 'serverSide',
-    pagination: true,
-    cacheBlockSize: 100,
-    paginationPageSize: 25,
-    paginationPageSizeSelector: [ 10, 25, 50, 100 ],
     suppressHeaderFocus: true,
     suppressCellFocus: true,
     suppressContextMenu: true,
@@ -66,11 +61,22 @@ export class TableComponent {
     dataTypeDefinitions: { currency }
   };
 
+  private static readonly SERVER_SIDE_GRIP_OPTIONS: GridOptions = {
+    rowModelType: 'serverSide',
+    pagination: true,
+    cacheBlockSize: 100,
+    paginationPageSize: 25,
+    paginationPageSizeSelector: [ 10, 25, 50, 100 ]
+  };
+
+  private static readonly CLIENT_SIDE_GRIP_OPTIONS: GridOptions = {};
+
   private readonly persistenceService = inject(TablePersistenceService);
 
   public readonly header = input.required<string>();
   public readonly gridOptions = input.required<GridOptions>();
   public readonly persistence = input<string>();
+  public readonly mode = input<'client' | 'server'>('client');
 
   public readonly isReady = signal(false);
   public api?: GridApi;
@@ -85,6 +91,7 @@ export class TableComponent {
     const gridOptions = this.gridOptions();
     return {
       ...TableComponent.DEFAULT_GRID_OPTIONS,
+      ...(this.mode() === 'client' ? TableComponent.CLIENT_SIDE_GRIP_OPTIONS : TableComponent.SERVER_SIDE_GRIP_OPTIONS),
       ...gridOptions,
       defaultColDef: { ...TableComponent.DEFAULT_COL_DEF, ...gridOptions.defaultColDef },
       onGridReady: (event: GridReadyEvent) => {

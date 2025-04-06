@@ -1,9 +1,6 @@
-<p-datepicker (ngModelChange)="onDateChanged()()"
-               (onClearClick)="onDateChanged()()"
-               (onInput)="onDateChanged()()"
-               (onSelect)="onDateChanged()()"
-               [(ngModel)]="date"
-               [showButtonBar]="true"
-               appendTo="body"
-               [autofocus]="true"
-               panelStyleClass="ag-custom-component-popup"/>
+<p-datepicker appDateInput
+              modelFormat="yyyy-MM-dd"
+              [(ngModel)]="date"
+              [pAutoFocus]="true"
+              appendTo="body"
+              panelStyleClass="ag-custom-component-popup"/>

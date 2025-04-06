@@ -74,6 +74,7 @@ export const columnDefs: ColDef[] = [
     colId: Columns.CONTROLS,
     pinned: 'right',
     type: 'button',
+    editable: true,
     cellEditorSelector: controlsCellEditor.bind(this),
     cellRendererSelector: controlsCellRenderer.bind(this)
   }

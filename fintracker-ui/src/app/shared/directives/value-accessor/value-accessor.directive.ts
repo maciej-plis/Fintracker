@@ -15,8 +15,8 @@ export class ValueAccessorDirective<T> implements ControlValueAccessor {
   protected onChangeFn?: (value: T | null) => {};
   protected onTouchedFn?: () => {};
 
-  public value = signal<T | null>(null);
-  public disabled = signal(false);
+  public readonly value = signal<T | null>(null);
+  public readonly disabled = signal(false);
 
   public valueChanged(value: T | null): void {
     this.onChange(value);

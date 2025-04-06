@@ -2,7 +2,7 @@
                 (keydown)="value() && params?.onKeyDown($event)"
                 (onSelect)="params?.onSelect?.($event, filter(), this.setValue.bind(this))"
                 [(ngModel)]="value"
-                [completeOnFocus]="true"
+                [completeOnFocus]="false"
                 [autoHighlight]="false"
                 [autoOptionFocus]="true"
                 [selectOnFocus]="false"

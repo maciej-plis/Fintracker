@@ -24,10 +24,11 @@
     </div>
     <div>
       <p-floatlabel variant="on">
-        <app-calendar inputId="purchase-form-date-input"
-                      [formControl]="form.controls.date"
-                      displayFormat="d MM yy"
-                      modelFormat="yyyy-MM-dd'"/>
+        <p-datepicker appDateInput
+                      inputId="purchase-form-date-input"
+                      dateFormat="d MM yy"
+                      modelFormat="yyyy-MM-dd"
+                      [formControl]="form.controls.date"/>
         <label for="purchase-form-date-input">Purchase Date</label>
       </p-floatlabel>
       <div [ngxErrors]="form.controls.date">

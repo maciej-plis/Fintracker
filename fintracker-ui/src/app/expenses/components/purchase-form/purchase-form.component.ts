@@ -7,13 +7,14 @@ import { ShopsService } from 'src/app/expenses/services';
 import { DialogService } from '@shared/services';
 import { AddShopDialog } from 'src/app/expenses/dialogs';
 import { AddShopDialogData } from 'src/app/expenses/dialogs/add-shop/add-shop.dialog';
-import { CalendarComponent } from '@shared/components/calendar/calendar.component';
 import { ProductsInputTableComponent } from 'src/app/expenses/components/products-table/products-input-table.component';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabel } from 'primeng/floatlabel';
 import { PurchaseFormService } from '@expenses/services/purchase-form/purchase-form.service';
 import { Observable } from 'rxjs';
 import { NGX_ERRORS_DECLARATIONS } from '@ngspot/ngx-errors';
+import { DatePicker } from 'primeng/datepicker';
+import { DateInputDirective } from '@shared/directives/date-input/date-input.directive';
 
 @Component({
   selector: 'app-purchase-form',
@@ -23,11 +24,12 @@ import { NGX_ERRORS_DECLARATIONS } from '@ngspot/ngx-errors';
   imports: [
     ReactiveFormsModule,
     ProductsInputTableComponent,
-    CalendarComponent,
     ButtonModule,
     AutoComplete,
     FloatLabel,
-    NGX_ERRORS_DECLARATIONS
+    NGX_ERRORS_DECLARATIONS,
+    DatePicker,
+    DateInputDirective
   ]
 })
 export class PurchaseFormComponent {

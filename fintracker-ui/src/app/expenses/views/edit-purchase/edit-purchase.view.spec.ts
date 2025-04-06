@@ -5,24 +5,32 @@ import { ActivatedRoute } from '@angular/router';
 import { PurchasesApi } from '@core/api';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AsyncPipe } from '@angular/common';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
+import { PurchaseFormService } from '@expenses/services/purchase-form/purchase-form.service';
+import createSpy = jasmine.createSpy;
 
 describe('EditPurchaseView', () => {
 
-  const params = {purchaseId: '1'};
+  const params = { purchaseId: '1' };
 
   beforeEach(() => MockBuilder(EditPurchaseView)
     .keep(AsyncPipe)
-    .mock(PurchasesApi)
+    .mock(PurchasesApi, {
+      getPurchase: createSpy().and.returnValue(EMPTY)
+    })
     .mock(MessageService)
     .mock(ConfirmationService)
     .provide({
       provide: ActivatedRoute,
       useValue: {
-        snapshot: {params},
+        snapshot: { params },
         params: of(params)
       }
-    }));
+    })
+    .mock(PurchaseFormService, {
+      submitted$: EMPTY
+    })
+  );
 
   it('Should create', () => {
     const fixture = MockRender(EditPurchaseView);

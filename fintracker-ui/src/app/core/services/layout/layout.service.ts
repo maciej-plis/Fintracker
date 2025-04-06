@@ -84,7 +84,6 @@ export class LayoutService {
   }
 
   private handleDarkModeTransition(config: LayoutConfig): void {
-    console.log(enableViewTransitions);
     if (enableViewTransitions && 'startViewTransition' in document) {
       try {
         document.startViewTransition(() => this.toggleDarkMode(config));

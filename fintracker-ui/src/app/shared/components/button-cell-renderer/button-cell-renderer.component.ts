@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-button-cell-renderer',
   templateUrl: './button-cell-renderer.component.html',
-  styleUrls: [ './button-cell-renderer.component.scss' ],
+  styleUrl: './button-cell-renderer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ButtonModule

@@ -15,9 +15,20 @@ export class ServerSideDatasource<T> implements IServerSideDatasource {
 
   public getRows(params: IServerSideGetRowsParams): void {
     const requestParams = this.getPageRequestParams(params.request);
+    params.api.hideOverlay();
+    params.api.setGridOption('loading', true);
     this.pageRequestCallback(...requestParams).subscribe({
-      next: ({ content, totalItems }) => params.success({ rowData: content, rowCount: totalItems }),
-      error: () => params.fail()
+      next: ({ content, totalItems }) => {
+        params.api.setGridOption('loading', false);
+        content.length === 0 && params.api.showNoRowsOverlay();
+        params.success({ rowData: content, rowCount: totalItems });
+      },
+      error: () => {
+        params.api.setGridOption('loading', false);
+        params.api.setGridOption('noRowsOverlayComponentParams', { error: true });
+        params.api.showNoRowsOverlay();
+        params.fail();
+      }
     });
   }
 

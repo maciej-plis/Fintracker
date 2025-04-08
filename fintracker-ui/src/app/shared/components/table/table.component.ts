@@ -12,6 +12,8 @@ import { AutoFocusModule } from 'primeng/autofocus';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { Tag } from 'primeng/tag';
 import { TablePersistenceService } from '@shared/services/table-persistence/table-persistence.service';
+import { NoRowsTableOverlayComponent } from '@shared/components/no-rows-table-overlay/no-rows-table-overlay.component';
+import { LoadingTableOverlayComponent } from '@shared/components/loading-table-overlay/loading-table-overlay.component';
 
 @Component({
   selector: 'app-table',
@@ -57,6 +59,9 @@ export class TableComponent {
     suppressHeaderFocus: true,
     suppressCellFocus: true,
     suppressContextMenu: true,
+    loadingOverlayComponent: LoadingTableOverlayComponent,
+    noRowsOverlayComponent: NoRowsTableOverlayComponent,
+    getRowStyle: params => params.data ? undefined : { display: 'none' },
     columnTypes: { numerator, form, button },
     dataTypeDefinitions: { currency }
   };

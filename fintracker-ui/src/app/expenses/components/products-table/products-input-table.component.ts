@@ -42,7 +42,7 @@ export interface ProductsInputTableContext {
 @Component({
   selector: 'app-products-input-table',
   templateUrl: './products-input-table.component.html',
-  styleUrls: [ './products-input-table.component.scss' ],
+  styleUrl: './products-input-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ PRODUCTS_INPUT_TABLE_VALUE_ACCESSOR, PRODUCTS_INPUT_TABLE_VALUE_VALIDATOR ],
   imports: [

@@ -54,6 +54,8 @@ export const columnDefs: ColDef<PurchaseSummaryDTO>[] = [
     colId: PurchasesTableColumns.CREATED_AT,
     field: 'createdAt',
     headerName: 'Created At',
+    filter: 'agDateColumnFilter',
+    filterParams: { filterOptions: nonNullableDateFilterOptions },
     valueFormatter: dateValueFormatter('medium', locale),
     sort: 'desc'
   },

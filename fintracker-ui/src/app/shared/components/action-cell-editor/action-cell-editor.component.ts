@@ -5,7 +5,7 @@ import { ICellEditorParams } from 'ag-grid-community';
 @Component({
   selector: 'app-action-cell-editor',
   templateUrl: './action-cell-editor.component.html',
-  styleUrls: [ './action-cell-editor.component.scss' ],
+  styleUrl: './action-cell-editor.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: []
 })

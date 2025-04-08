@@ -4,26 +4,27 @@ import { formatDate } from '@angular/common';
 import { locale } from 'src/app/app.constants';
 
 @Directive({
-    selector: 'p-datepicker[appDateInput]'
+  selector: 'p-datepicker[appDateInput]'
 })
 export class DateInputDirective implements OnInit {
 
-    private readonly datePicker = inject(DatePicker);
+  private readonly datePicker = inject(DatePicker);
 
-    public readonly modelFormat = input.required<string>();
+  public readonly modelFormat = input<string>();
 
-    constructor() {
-        this.datePicker.showButtonBar = true;
-        this.datePicker.firstDayOfWeek = 1;
-    }
+  constructor() {
+    this.datePicker.showButtonBar = true;
+    this.datePicker.firstDayOfWeek = 1;
+  }
 
-    ngOnInit(): void {
-        const originalOnModelChange = this.datePicker.onModelChange;
-        this.datePicker.registerOnChange((value?: Date) =>
-            originalOnModelChange(value ? formatDate(value, this.modelFormat(), locale) : null)
-        );
+  ngOnInit(): void {
+    const modelFormat = this.modelFormat();
+    if (!modelFormat) return;
 
-        const originalWriteValue = this.datePicker.writeValue;
-        this.datePicker.writeValue = (value?: string) => originalWriteValue.bind(this.datePicker)(value ? new Date(value) : null);
-    }
+    const originalOnModelChange = this.datePicker.onModelChange;
+    this.datePicker.registerOnChange((value?: Date) => originalOnModelChange(value ? formatDate(value, modelFormat, locale) : null));
+
+    const originalWriteValue = this.datePicker.writeValue;
+    this.datePicker.writeValue = (value?: string) => originalWriteValue.bind(this.datePicker)(value ? new Date(value) : null);
+  }
 }

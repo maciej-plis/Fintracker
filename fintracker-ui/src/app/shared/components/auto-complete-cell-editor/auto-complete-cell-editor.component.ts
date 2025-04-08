@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-autocomplete-cell-editor',
   templateUrl: './auto-complete-cell-editor.component.html',
-  styleUrls: [ './auto-complete-cell-editor.component.scss' ],
+  styleUrl: './auto-complete-cell-editor.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AutoComplete,

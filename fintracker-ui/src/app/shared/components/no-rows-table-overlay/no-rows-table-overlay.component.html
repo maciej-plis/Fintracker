@@ -1,0 +1,5 @@
+@if (isError()) {
+  <p-message severity="secondary" variant="simple" size="large" icon="pi pi-exclamation-circle" text="Failed to load items"/>
+} @else {
+  <p-message severity="secondary" variant="simple" size="large" icon="pi pi-info-circle" text="No items found for provided search criteria"/>
+}

@@ -13,7 +13,7 @@ val openApiGenerationOutput = "$projectDir/src/app/core/api"
 
 val angularInputDir = "src/"
 val angularInputFiles = listOf("angular.json", "package.json", "package-lock.json", "tsconfig.json", "tsconfig.app.json", "tsconfig.spec.json")
-val angularOutputDir = "${project.buildDir}/fintracker-ui/"
+val angularOutputDir = "${project.buildDir}/fintracker-ui/browser"
 
 val angularBuild by tasks.registering(NpmTask::class) {
   description = "Builds angular application"

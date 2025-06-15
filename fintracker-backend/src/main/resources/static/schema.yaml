@@ -1,0 +1,640 @@
+openapi: 3.0.3
+info:
+  version: 0.3.0
+  title: FinTracker API Contract
+servers:
+  - url: http://localhost:4010
+    description: Mocked server
+  - url: http://localhost:8080
+    description: Local server
+  - url: http://localhost:8081
+    description: Production server
+paths:
+  /api/purchases:
+    post:
+      summary: Create new purchase
+      tags:
+        - purchases
+      operationId: createPurchase
+      requestBody:
+        description: Request with new purchase to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePurchaseRequest'
+      responses:
+        '200':
+          description: Success response with created resource id
+          content:
+            application/json:
+              schema:
+                type: string
+                format: uuid
+        '400':
+          $ref: '#/components/responses/ValidationErrorResponse'
+    delete:
+      summary: Remove multiple purchases
+      tags:
+        - purchases
+      operationId: removePurchases
+      requestBody:
+        description: Request with purchase ids to remove
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeleteRequest'
+      responses:
+        '204':
+          $ref: '#/components/responses/EmptyResponse'
+  /api/purchases/{purchaseId}:
+    get:
+      summary: Get purchase by id
+      tags:
+        - purchases
+      operationId: getPurchase
+      parameters:
+        - $ref: '#/components/parameters/PurchaseId'
+      responses:
+        '200':
+          description: Success response containing purchase
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseDTO'
+        '404':
+          $ref: '#/components/responses/ProblemResponse'
+    put:
+      summary: Update purchase by id
+      tags:
+        - purchases
+      operationId: updatePurchase
+      parameters:
+        - $ref: '#/components/parameters/PurchaseId'
+      requestBody:
+        description: Request with purchase update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePurchaseRequest'
+      responses:
+        '204':
+          $ref: '#/components/responses/EmptyResponse'
+        '400':
+          $ref: '#/components/responses/ValidationErrorResponse'
+        '404':
+          $ref: '#/components/responses/ProblemResponse'
+    delete:
+      summary: Remove purchase by id
+      tags:
+        - purchases
+      operationId: removePurchase
+      parameters:
+        - $ref: '#/components/parameters/PurchaseId'
+      responses:
+        '204':
+          $ref: '#/components/responses/EmptyResponse'
+        '404':
+          $ref: '#/components/responses/ProblemResponse'
+  /api/purchases/grid/search:
+    get:
+      summary: Search for grid purchases
+      tags:
+        - PurchaseGrid
+      operationId: searchPurchases
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Sort'
+        - $ref: '#/components/parameters/Filter'
+      responses:
+        '200':
+          description: Success response containing paged grid purchases
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfPurchaseGridDTO'
+  /api/products/names:
+    get:
+      summary: Get list of distinct product names
+      tags:
+        - products
+      operationId: getProductNames
+      parameters:
+        - in: query
+          required: true
+          name: filter
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success response with distinct product names
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductNames'
+        '400':
+          $ref: '#/components/responses/ValidationErrorResponse'
+  /api/shops:
+    get:
+      summary: Get list of shops
+      tags:
+        - shops
+      operationId: getShops
+      responses:
+        '200':
+          description: Success response containing shops
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShopDTO'
+    post:
+      summary: Create new shop
+      tags:
+        - shops
+      operationId: createShop
+      requestBody:
+        description: Request with shop to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateShopRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CreateResourceResponse'
+        '400':
+          $ref: '#/components/responses/ValidationErrorResponse'
+        '409':
+          $ref: '#/components/responses/ProblemResponse'
+  /api/shops/{shopId}:
+    get:
+      summary: Get shop by id
+      tags:
+        - shops
+      operationId: getShop
+      parameters:
+        - $ref: '#/components/parameters/ShopId'
+      responses:
+        '200':
+          description: Success response containing shop
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShopDTO'
+        '404':
+          $ref: '#/components/responses/ProblemResponse'
+    put:
+      summary: Update shop
+      tags:
+        - shops
+      operationId: updateShop
+      requestBody:
+        description: Request with update for the shop
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateShopRequest'
+      parameters:
+        - $ref: '#/components/parameters/ShopId'
+      responses:
+        '200':
+          $ref: '#/components/responses/EmptyResponse'
+        '404':
+          $ref: '#/components/responses/ProblemResponse'
+        '409':
+          $ref: '#/components/responses/ProblemResponse'
+    delete:
+      summary: Delete shop
+      tags:
+        - shops
+      operationId: deleteShop
+      parameters:
+        - $ref: '#/components/parameters/ShopId'
+      responses:
+        '204':
+          $ref: '#/components/responses/EmptyResponse'
+  /api/categories:
+    get:
+      summary: Get list of categories
+      tags:
+        - categories
+      operationId: getCategories
+      responses:
+        '200':
+          description: Success response containing categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CategoryDTO'
+    post:
+      summary: Create new category
+      tags:
+        - categories
+      operationId: createCategory
+      requestBody:
+        description: Request with new category to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategoryRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CreateResourceResponse'
+        '400':
+          $ref: '#/components/responses/ValidationErrorResponse'
+        '409':
+          $ref: '#/components/responses/ProblemResponse'
+  /api/categories/{categoryId}:
+    get:
+      summary: Get category by id
+      tags:
+        - categories
+      operationId: getCategory
+      parameters:
+        - $ref: '#/components/parameters/CategoryId'
+      responses:
+        '200':
+          description: Success response containing category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDTO'
+        '404':
+          $ref: '#/components/responses/ProblemResponse'
+    put:
+      summary: Update category
+      tags:
+        - categories
+      operationId: updateCategory
+      requestBody:
+        description: Request with update for the category
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCategoryRequest'
+      parameters:
+        - $ref: '#/components/parameters/CategoryId'
+      responses:
+        '200':
+          $ref: '#/components/responses/EmptyResponse'
+        '404':
+          $ref: '#/components/responses/ProblemResponse'
+        '409':
+          $ref: '#/components/responses/ProblemResponse'
+    delete:
+      summary: Delete category
+      tags:
+        - categories
+      operationId: deleteCategory
+      parameters:
+        - $ref: '#/components/parameters/CategoryId'
+      responses:
+        '204':
+          $ref: '#/components/responses/EmptyResponse'
+components:
+  schemas:
+    AddProductRequest:
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 92c58038-3267-4689-bc1c-cd0b1d90cc5f
+        categoryId:
+          type: string
+          format: uuid
+          example: 92c58038-3267-4689-bc1c-cd0b1d90cc5f
+        name:
+          type: string
+          example: iPhone X
+        amount:
+          type: number
+          format: double
+          example: 1
+        price:
+          type: number
+          format: double
+          example: 1999.99
+        description:
+          type: string
+          example: Bought for my 18th birthday
+      required:
+        - categoryId
+        - name
+        - price
+        - amount
+    CreatePurchaseRequest:
+      properties:
+        shopId:
+          type: string
+          format: uuid
+          example: 4a807620-7e35-4824-bbe9-acf4a597c97f
+        date:
+          type: string
+          format: date
+          example: '2020-07-27'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddProductRequest'
+      required:
+        - shopId
+        - date
+        - products
+    BulkDeleteRequest:
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+        - ids
+    ShopDTO:
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        name:
+          type: string
+          example: Walmart
+      required:
+        - id
+        - name
+    CategoryDTO:
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d964b4b3-ba2d-430d-9695-7d5d9c7b9382
+        name:
+          type: string
+          example: Food
+      required:
+        - id
+        - name
+    ProductDTO:
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 92c58038-3267-4689-bc1c-cd0b1d90cc5f
+        category:
+          $ref: '#/components/schemas/CategoryDTO'
+        name:
+          type: string
+          example: iPhone X
+        amount:
+          type: number
+          format: double
+          example: 1
+        price:
+          type: number
+          format: double
+          example: 1999.99
+        description:
+          type: string
+          example: Bought for my 18th birthday
+      required:
+        - id
+        - category
+        - name
+        - price
+        - amount
+    PurchaseDTO:
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 4a807620-7e35-4824-bbe9-acf4a597c97f
+        shop:
+          $ref: '#/components/schemas/ShopDTO'
+        date:
+          type: string
+          format: date
+          example: '2020-07-27'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDTO'
+      required:
+        - id
+        - date
+        - shop
+        - products
+    UpdateProductRequest:
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 92c58038-3267-4689-bc1c-cd0b1d90cc5f
+        categoryId:
+          type: string
+          format: uuid
+          example: 92c58038-3267-4689-bc1c-cd0b1d90cc5f
+        name:
+          type: string
+          example: iPhone X
+        amount:
+          type: number
+          format: double
+          example: 1
+        price:
+          type: number
+          format: double
+          example: 1999.99
+        description:
+          type: string
+          example: Bought for my 18th birthday
+      required:
+        - categoryId
+        - name
+        - price
+        - amount
+    UpdatePurchaseRequest:
+      properties:
+        shopId:
+          type: string
+          format: uuid
+          example: 4a807620-7e35-4824-bbe9-acf4a597c97f
+        date:
+          type: string
+          format: date
+          example: '2020-07-27'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateProductRequest'
+      required:
+        - shopId
+        - date
+        - products
+    PurchaseGridDTO:
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 4a807620-7e35-4824-bbe9-acf4a597c97f
+        shopName:
+          type: string
+          example: Walmart
+        date:
+          type: string
+          format: date
+          example: '2020-07-27'
+        productsCount:
+          type: integer
+          format: int64
+          example: 5
+        totalPrice:
+          type: number
+          format: double
+          example: 199.99
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - date
+        - shopName
+        - productsCount
+        - totalPrice
+        - createdAt
+    PageOfPurchaseGridDTO:
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseGridDTO'
+        totalPages:
+          type: integer
+        totalItems:
+          type: integer
+          format: int64
+      required:
+        - content
+        - totalPages
+        - totalItems
+    ProductNames:
+      type: array
+      items:
+        type: string
+        example: iPhone
+    CreateShopRequest:
+      properties:
+        name:
+          type: string
+          example: Walmart
+      required:
+        - name
+    UpdateShopRequest:
+      properties:
+        name:
+          type: string
+          example: Walmart
+      required:
+        - name
+    CreateCategoryRequest:
+      properties:
+        name:
+          type: string
+          example: Food
+      required:
+        - name
+    UpdateCategoryRequest:
+      properties:
+        name:
+          type: string
+          example: Food
+      required:
+        - name
+    PurchaseSummariesPage:
+      $ref: '#/components/schemas/PageOfPurchaseGridDTO'
+    PurchaseSummaryDTO:
+      $ref: '#/components/schemas/PurchaseGridDTO'
+    AddPurchaseRequest:
+      $ref: '#/components/schemas/CreatePurchaseRequest'
+    AddShopRequest:
+      $ref: '#/components/schemas/CreateShopRequest'
+    AddCategoryRequest:
+      $ref: '#/components/schemas/CreateCategoryRequest'
+  parameters:
+    PurchaseId:
+      in: path
+      name: purchaseId
+      required: true
+      schema:
+        type: string
+        format: uuid
+    Page:
+      in: query
+      name: page
+      schema:
+        type: integer
+    PageSize:
+      in: query
+      name: pageSize
+      schema:
+        type: integer
+    Sort:
+      in: query
+      name: sort
+      schema:
+        type: string
+    Filter:
+      in: query
+      name: filter
+      schema:
+        type: string
+    ShopId:
+      in: path
+      name: shopId
+      required: true
+      schema:
+        type: string
+        format: uuid
+    CategoryId:
+      in: path
+      name: categoryId
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    ValidationErrorResponse:
+      description: Validation error
+    EmptyResponse:
+      description: Empty response
+    ProblemResponse:
+      description: Problem response
+      content:
+        application/problem+json:
+          schema:
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+              status:
+                type: integer
+              detail:
+                type: string
+              instance:
+                type: string
+    CreateResourceResponse:
+      description: Success response with created resource id
+      content:
+        application/json:
+          schema:
+            type: string
+            format: uuid

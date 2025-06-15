@@ -108,13 +108,9 @@ tasks.clean {
     )
 }
 
-tasks.compileKotlin {
-    dependsOn(tasks.openApiGenerate)
-}
-
-tasks.withType<ProcessResources> {
-    dependsOn(tasks.openApiGenerate)
-}
+//tasks.compileKotlin { dependsOn(tasks.openApiGenerate) }
+//tasks.withType<KaptGenerateStubsTask> { dependsOn(tasks.openApiGenerate) }
+//tasks.withType<ProcessResources> { dependsOn(tasks.openApiGenerate) }
 
 tasks.openApiGenerate {
     dependsOn(generateSchema)
@@ -161,7 +157,7 @@ docker {
             listOf(
                 "${rootProject.name}:latest",
                 "${rootProject.name}:${rootProject.version}",
-                "registry.minikube.com/${rootProject.name}:${rootProject.version}",
+                "192.168.101.61:5000/${rootProject.name}:${rootProject.version}",
             )
         )
     }
@@ -170,7 +166,11 @@ docker {
 tasks.dockerPushImage {
     images.set(
         listOf(
-            "registry.minikube.com/${rootProject.name}:${rootProject.version}"
+            "192.168.101.61:5000/${rootProject.name}:${rootProject.version}"
         )
     )
+    registryCredentials {
+        username.set("user")
+        password.set("password")
+    }
 }
